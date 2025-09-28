@@ -1,0 +1,48 @@
+/* SideRun base styles used by js/siderun.js (desktop-focused) */
+.siderun-border {
+  width: 100%;
+  height: 100%;
+}
+.siderun-border rect {
+  vector-effect: non-scaling-stroke;
+}
+.siderun-border .sr-static-outer {
+  stroke: #df6502;
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+}
+.siderun-border .sr-static-inner {
+  stroke: #ffffff;
+  stroke-width: 1;
+  stroke-linecap: round;
+  fill: none;
+}
+.siderun-border .sr-runner {
+  stroke: #df6502;
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+}
+.siderun-border .sr-runner-ghost {
+  stroke: #ffffff;
+  stroke-width: 1;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* Inner blur layer: clipped to the same rounded-rect area as the border */
+.sr-backdrop {
+  position: absolute;
+  left: var(--sr-inset, 3px);
+  top: var(--sr-inset, 3px);
+  width: calc(100% - (var(--sr-inset, 3px) * 2));
+  height: calc(100% - (var(--sr-inset, 3px) * 2));
+  border-radius: var(--sr-radius, 6px);
+  /* Keep interactions unaffected */
+  pointer-events: none;
+  /* Slight tint helps the blur read consistently across browsers */
+  background: var(--sr-tint, rgba(255, 255, 255, 0.12));
+  -webkit-backdrop-filter: blur(var(--sr-blur, 10px)) saturate(var(--sr-saturation, 140%));
+  backdrop-filter: blur(var(--sr-blur, 10px)) saturate(var(--sr-saturation, 140%));
+}

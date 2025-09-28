@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SideRun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/navbar.css" />
+    <link rel="stylesheet" href="./styles/siderun.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+
+  <!-- Left CTA aligned to navbar height (desktop focus) -->
+    <a id="logo" class="nav_button-left siderun" href="#" aria-label="Logo">
+      <div class="site-nav__stroke siderun"></div>
+      <span class="label siderun">SideRun</span>
+    </a>
+
+    <nav class="site-nav text-s-strong glass-bg siderun" aria-label="Primary">
+      <div class="site-nav__stroke siderun"></div>
+      <div class="site-nav__links siderun">
+        <a href="/" class="site-nav__link siderun">Home</a>
+        <a href="/setup" class="site-nav__link siderun">Setup</a>
+        <a href="/plans" class="site-nav__link siderun">Demo</a>
+        <a href="/about" class="site-nav__link siderun">About</a>
+        <a href="/faq" class="site-nav__link siderun">FAQ</a>
+      </div>
+      <a href="/booking" class="site-nav__button siderun">Menu</a>
+    </nav>
+
+  <!-- Mobile bar (hidden in desktop-focused mode) -->
+  <div class="mobile-nav siderun" role="navigation" aria-label="Primary mobile">
+      <div class="site-nav__stroke siderun"></div>
+      <button id="menu-prompt" class="menu-prompt glass-bg siderun" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <div class="menu-prompt__icon siderun" data-icon="burger">
+          <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
+            <rect x="9" y="18" width="19" height="1"></rect>
+            <rect x="9" y="22" width="19" height="1"></rect>
+            <rect x="9" y="14" width="19" height="1"></rect>
+          </svg>
+        </div>
+      </button>
+      <a href="/booking" class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
+    </div>
+
+  <!-- Mobile menu panel and background overlay (hidden unless opened) -->
+  <div id="menu-overlay" class="menu-overlay siderun"></div>
+  <div id="mobile-menu" class="mobile-menu glass-bg siderun" role="dialog" aria-modal="false" aria-labelledby="mobileMenuTitle" aria-hidden="true">
+      <div class="site-nav__stroke siderun"></div>
+      <!-- Dialog title for screen readers only -->
+      <h2 id="mobileMenuTitle" class="sr-visually-hidden">Navigation</h2>
+      <div class="mobile-menu__links text-xl siderun">
+        <a href="/" class="mobile-menu__link siderun">Home</a>
+        <a href="/setup" class="mobile-menu__link siderun">Setup</a>
+        <a href="/plans" class="mobile-menu__link siderun">Demo</a>
+        <a href="/about" class="mobile-menu__link siderun">About</a>
+        <a href="/faq" class="mobile-menu__link siderun">FAQ</a>
+      </div>
+    </div>
+
+    <main>
+  <!-- SideRun container demo (fixed, centered card) -->
+      <section id="sr-container" class="sr-container glass-bg" aria-label="SideRun Container">
+        <div class="site-nav__stroke siderun"></div>
+        <div class="glass-card__content">
+          <h1 class="heading-l">SideRun Container</h1>
+          <p class="text-m">Hover the nav or this card to see the running border.</p>
+        </div>
+      </section>
+  <script defer src="./js/siderun.js"></script>
+  <script defer src="./js/navbar.js"></script>
+    <script>
+  // Initialize SideRun on demo elements when DOM is ready
+      window.addEventListener('DOMContentLoaded', () => {
+        if (!window.SideRun) return;
+  const container = document.getElementById('sr-container');
+  const logo = document.getElementById('logo');
+  // Match navbar behavior: reacts to hover on content/host
+        if (container) SideRun.init(container, { radius: 12, tail: 14 });
+        if (logo) SideRun.init(logo, { radius: 10, tail: 12, margin: 11 });
+      });
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,60 @@
+/* Demo styles for SideRun host elements (desktop-focused) */
+
+/* Hero: center a demo container */
+#sr-container {
+  width: 50vw;
+  height: 50vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  color: var(--text-color);
+}
+
+/* Center text and fine-tune hero typography inside the hero container */
+#sr-container .glass-card__content {
+  text-align: center;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+/* Headline and subline sizing scoped to the hero */
+#sr-container .heading-l {
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+#sr-container .text-m {
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.35;
+  font-weight: 400;
+  opacity: 0.92;
+}
+
+.sr-container {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(92vw, 540px);
+  min-height: 180px;
+  margin: 40px auto;
+  padding: 18px 20px;
+  border-radius: 3px;
+  border: 0 solid rgba(255, 255, 255, 0.3);
+}
+.sr-container .site-nav__stroke.siderun {
+  position: absolute;
+  inset: -10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure hero content sits above the border layer */
+#sr-container > :not(.site-nav__stroke) {
+  position: relative;
+  z-index: 1;
+}
