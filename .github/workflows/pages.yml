@@ -26,29 +26,47 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install deps (siderun-ui)
-        working-directory: packages/siderun-ui
-        run: |
-          npm install --no-audit --no-fund
-
-      - name: Build (siderun-ui)
-        working-directory: packages/siderun-ui
-        run: |
-          npm run build
-
       - name: Prepare site artifact
         run: |
-          mkdir -p _site/cdn
-          cp packages/siderun-ui/dist/siderun.esm.js _site/cdn/siderun.esm.js
-          cp packages/siderun-ui/dist/siderun.cjs.js _site/cdn/siderun.cjs.js
-          cp packages/siderun-ui/styles/siderun.css _site/cdn/siderun.css
-          # Include license
-          cp LICENSE _site/cdn/LICENSE
-          # Starter folder (browseable)
+          # Starter folder (browseable only)
           mkdir -p _site/starter
           cp -R siderun-starter/* _site/starter/
           # Zip starter for download
           (cd siderun-starter && zip -rq ../_site/siderun-starter.zip .)
+          # Minimal index page with download links only
+          cat > _site/index.html << 'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>SideRun Downloads</title>
+            <style>
+              body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:48px;background:#0b0720;color:#fff}
+              .wrap{max-width:760px;margin:0 auto}
+              .card{background:#ffffff10;border:1px solid #ffffff22;border-radius:10px;padding:24px}
+              h1{margin:0 0 12px;font-size:28px}
+              p{opacity:.85}
+              .links{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+              a.btn{display:inline-flex;align-items:center;gap:10px;padding:11px 16px;border-radius:8px;text-decoration:none;color:#0b0720;background:#ffd28a;font-weight:700}
+              a.btn.secondary{background:#ffffffcc}
+              code{background:#ffffff26;padding:2px 6px;border-radius:6px}
+            </style>
+          </head>
+          <body>
+            <div class="wrap">
+              <div class="card">
+                <h1>SideRun Starter Download</h1>
+                <p>Lade das Starter-Paket herunter oder stöbere im Ordner. Enthält <code>siderun.js</code>, <code>siderun.css</code> und eine Mini-Demo.</p>
+                <div class="links">
+                  <a class="btn" href="./siderun-starter.zip">Download ZIP</a>
+                  <a class="btn secondary" href="./starter/">Ordner anzeigen</a>
+                </div>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -4,9 +4,19 @@ SideRun ist ein kleiner Frontend-Effekt: ein animierter „laufender“ Rahmen m
 
 Live-Demo: einfach `index.html` im Browser öffnen.
 
+Hinweis: Die GitHub Pages der Projektseite hosten nur den downloadbaren Starter-Content (`/starter` und `siderun-starter.zip`) sowie die CDN-Dateien unter `/cdn`.
+
 ## Installation
 
-Variante A — ohne npm (CDN/Direct Import): Sie können SideRun direkt über GitHub Pages laden.
+Variante A — Starter (empfohlen, ohne Build):
+
+1) Starter-ZIP von der Projektseite laden (GitHub Pages):
+	- `https://pvuljvcob.github.io/SideRun/siderun-starter.zip`
+	- oder browsebar: `https://pvuljvcob.github.io/SideRun/starter/`
+2) `siderun.js` und `siderun.css` in dein Projekt kopieren
+3) Host-Markup einfügen und initialisieren (siehe unten)
+
+Variante B — ohne npm (CDN/Direct Import): Sie können SideRun direkt über GitHub Pages laden.
 
 ```html
 <!-- CSS -->
@@ -34,7 +44,7 @@ Variante A — ohne npm (CDN/Direct Import): Sie können SideRun direkt über Gi
 </script>
 ```
 
-Variante B — npm (optional):
+Variante C — npm (optional):
 
 ```bash
 npm install siderun
@@ -54,7 +64,7 @@ const host = document.querySelector('.sr-container');
 const cleanup = init(host, { radius: 12, tail: 14, margin: 11 });
 ```
 
-## Script-Tag
+## Script-Tag (CDN ohne npm)
 
 ```html
 <link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
@@ -103,4 +113,5 @@ Beispiel:
 ```
 
 ## Lizenz
-MIT — siehe `LICENSE`.
+MIT — Copyright (c) 2025 Cedric Seidel (SideRun).
+Siehe `LICENSE` für vollständigen Wortlaut.
