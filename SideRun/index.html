@@ -7,7 +7,6 @@
     <style>
       body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin:0; padding:200px; background:#f7f7fb; color:#080232}
       .card{width:min(560px,90vw); margin: auto; background:#fff; border-radius:8px; padding:40px; position:relative}
-      /* Ensure blur+stroke sit above the card background but below text */
       .site-nav__stroke.siderun{position:absolute; inset:-11px; z-index:1}
       .card > :not(.site-nav__stroke){ position:relative; z-index:2 }
       .sr-title{font-weight:700; margin:0 0 8px}
@@ -23,7 +22,6 @@
       
     </div>
     
-    <!-- Second demo: pointer-follow variant -->
     <div class="card sr-container" style="margin-top:100px">
       <div class="site-nav__stroke siderun"></div>
       <h2 class="sr-title" style="font-size:20px">SideRun Follow</h2>
