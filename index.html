@@ -53,6 +53,30 @@
       <a class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
     </div>
 
+  <!-- New Centered Mobile Navbar (only visible on mobile) -->
+  <nav id="centered-mobile-nav" class="centered-mobile-nav siderun" aria-label="Mobile Navigation">
+    <div class="site-nav__stroke siderun"></div>
+    <div class="centered-mobile-nav__container">
+      <!-- Logo on left -->
+      <a href="#hero" class="centered-mobile-nav__logo">SIDERUN</a>
+      
+      <!-- Menu button on right -->
+      <button id="centered-menu-btn" class="centered-mobile-nav__menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    
+    <!-- Expandable menu content (hidden by default) -->
+    <div class="centered-mobile-nav__dropdown" id="centered-mobile-dropdown">
+      <a href="#hero" class="centered-mobile-nav__link">Home</a>
+      <a href="#siderun-demos" class="centered-mobile-nav__link">Demos</a>
+      <a href="#overview" class="centered-mobile-nav__link">Overview</a>
+      <a href="https://github.com/PVULJVCOB/SideRun" class="centered-mobile-nav__link" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
   <!-- Mobile menu panel and background overlay (hidden unless opened) -->
   <div id="menu-overlay" class="menu-overlay siderun"></div>
   <div id="mobile-menu" class="mobile-menu glass-bg siderun" role="dialog" aria-modal="false" aria-labelledby="mobileMenuTitle" aria-hidden="true">
@@ -77,12 +101,12 @@
 
     <!-- Content container -->
     <div class="hero__inner">
-      <div class="hero__eyebrow" data-scroll="fade-up">Siderun</div>
-  <h1 class="hero__title" data-scroll="fade-up">A lightweight flying-border runner</h1>
-  <p class="hero__subtitle" data-scroll="fade-up">A small JS + CSS effect that draws an animated border and blurred backdrop. Attach it to navs, logos and cards; it follows hover or the pointer for a smooth running highlight.</p>
+      <div class="hero__eyebrow" data-scroll="fade-up">SideRun</div>
+  <h1 class="hero__title" data-scroll="fade-up">SideRun Animation System</h1>
+  <p class="hero__subtitle" data-scroll="fade-up">Lightweight JavaScript library for animated hover borders that follow mouse movement. Add interactive flying border effects to any element with smooth animations and performance optimization.</p>
       <div class="hero__actions" data-scroll="fade-up">
-        <a class="hero__cta" href="#siderun-demos">See Demos</a>
-        <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun/archive/refs/heads/main.zip" rel="noopener">Download</a>
+        <a class="hero__cta" href="#siderun-demos">View Features</a>
+        <a class="hero__cta" href="#overview">Documentation</a>
         <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -103,13 +127,13 @@
         <!-- Block: Demos -->
         <div class="block">
           <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="80">
-            <!-- Demo: siderun (hover on host/links, centered within element) -->
+            <!-- Demo: Flying Border Effect -->
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h3 class="hero__eyebrow" data-scroll="fade-up">siderun</h3>
+              <h3 class="hero__eyebrow" data-scroll="fade-up">Flying Border</h3>
               <div id="siderun" class="sr-container glass-bg demo-siderun" style="margin-top:17px">
                 <div class="site-nav__stroke siderun"></div>
                 <div class="glass-card__content">
-                  <p class="text-m" data-scroll="fade-up">Hover inside the box to see the siderun move based on link/host hover. This demo uses the stroke host markup and initializes the front-end effect.</p>
+                  <p class="text-m" data-scroll="fade-up">Hover to see the animated border effect that follows your mouse. The border smoothly animates around the element with customizable speed, color, and radius.</p>
                 </div>
               </div>
               <div class="sr-code" aria-label="Code: init (siderun)" data-scroll="fade-up">
@@ -129,9 +153,9 @@ SideRun.init(document.getElementById('siderun'), {
             </div>
             </div>
 
-            <!-- Demo: siderun-follow (cursor-tracking behavior) -->
+            <!-- Demo: Pointer Tracking -->
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h3 class="hero__eyebrow" data-scroll="fade-up">siderun-follow</h3>
+              <h3 class="hero__eyebrow" data-scroll="fade-up">Pointer Tracking</h3>
               <div id="siderun-follow" class="sr-container glass-bg demo-siderun-follow" style="margin-top:17px">
                 <div class="site-nav__stroke siderun"></div>
                 <div class="glass-card__content">
@@ -188,17 +212,18 @@ SideRun.init(document.getElementById('siderun'), {
               </div>
 
               <p>
-                <a class="sr-cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">View on GitHub</a>
+                <a href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.2s ease;">View on GitHub</a>
               </p>
             </div>
             <div class="glass-card" data-scroll="fade-right" data-stagger-child>
-              <h3 class="sr-title" style="font-size:clamp(22px,3.2vw,32px)">How it works</h3>
+              <h3 class="sr-title" style="font-size:clamp(22px,3.2vw,32px)">Modern Architecture</h3>
               <ul>
-                <li>Runtime injects an SVG frame and a blurred backdrop into a stroke host.</li>
-                <li>Positioning can follow anchors (link hover) or direct pointer tracking.</li>
-                <li>Animation uses stroke-dasharray/offset and per-frame interpolation; respects prefers-reduced-motion.</li>
+                <li><strong>CSS Token System:</strong> Full control through custom properties with responsive scaling.</li>
+                <li><strong>3-Layer Design:</strong> Separates blur effects, border animations, and interactive content.</li>
+                <li><strong>Touch Optimized:</strong> Automatic device detection with proper touch feedback and hover cleanup.</li>
+                <li><strong>Responsive Design:</strong> Seamless desktop-to-mobile transitions with safe-area support.</li>
               </ul>
-              <p class="sr-subtitle">Accessibility: the effect is decorative — keep focus outlines for keyboard users and respect reduced-motion preferences.</p>
+              <p class="sr-subtitle">Accessibility: Full keyboard navigation, screen reader support, and respects reduced-motion preferences. GPU-accelerated for smooth performance.</p>
             </div>
           </div>
         </div>
@@ -207,16 +232,16 @@ SideRun.init(document.getElementById('siderun'), {
         <div class="block">
           <div class="sr-grid three" data-scroll="fade-up" data-stagger-base="70">
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h4 class="sr-title" style="font-size:22px">Purpose</h4>
-              <p>Provide a visually appealing, low-cost animated border/runner for UI elements. Ideal for navs, logos, and content cards.</p>
+              <h4 class="sr-title" style="font-size:22px">Features</h4>
+              <p>Lightweight flying border effects, responsive design, touch optimization, CSS tokens, accessibility features, and GPU-accelerated animations. Perfect for interactive elements.</p>
             </div>
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h4 class="sr-title" style="font-size:22px">Install</h4>
-              <p>Front-end integration: copy <code>SideRun/siderun.js</code> and <code>SideRun/siderun.css</code> into your project, then include and initialize. No server components required.</p>
+              <h4 class="sr-title" style="font-size:22px">Quick Start</h4>
+              <p>Copy <code>siderun.js</code> and <code>siderun.css</code>. Add <code>class="siderun"</code> to elements and initialize with <code>SideRun.init()</code>. Customize via options.</p>
             </div>
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h4 class="sr-title" style="font-size:22px">Contribute</h4>
-              <p>Contributions are welcome: file issues for accessibility, performance, or compatibility bugs; PRs that improve docs, tests or small bug fixes are appreciated.</p>
+              <h4 class="sr-title" style="font-size:22px">Documentation</h4>
+              <p>Complete guides available: <strong>README.md</strong> for setup and usage examples, plus inline JSDoc comments in the source code.</p>
             </div>
           </div>
         </div>

@@ -19,6 +19,8 @@
   const prevPosMap = new WeakMap();
   const pointerHandlersMap = new WeakMap();
   const hostHoverHandlersMap = new WeakMap();
+  // Map host element -> instance API (recalc, cleanup, etc.)
+  const instanceMap = new WeakMap();
   // Guard against concurrent init on the same host's stroke container
   const initInProgress = new WeakSet();
 
@@ -68,22 +70,35 @@
       prevInjected.remove();
     }
 
-    // Default configuration
-    const defaults = {
-      radius: 8,
-      tail: 10,
-      gap: 10,
-      ease: 0.1,
-      hoverAxis: 'x',
-      isBottom: false,
-      isTop: false,
-      trackPointer: false,
-      margin: 11,
+  // Read CSS tokens from computed styles
+  function readCSSTokens() {
+    const style = getComputedStyle(hostEl);
+    return {
+      radius: parseFloat(style.getPropertyValue('--sr-animation-radius')) || 8,
+      tail: parseFloat(style.getPropertyValue('--sr-animation-tail')) || 10,
+      gap: parseFloat(style.getPropertyValue('--sr-animation-gap')) || 10,
+      ease: parseFloat(style.getPropertyValue('--sr-animation-ease')) || 0.1,
+      margin: parseFloat(style.getPropertyValue('--sr-animation-margin')) || 11,
+      scale: parseFloat(style.getPropertyValue('--sr-scale')) || 1,
     };
-    const cfg = Object.assign({}, defaults, options);
-    if (options.hoverHorizontal === false) cfg.hoverAxis = 'y';
+  }
 
-    // Create container to hold the blur layer and the SVG strokes
+  // Default configuration merged with CSS tokens
+  const cssTokens = readCSSTokens();
+  const defaults = {
+    radius: cssTokens.radius,
+    tail: cssTokens.tail,
+    gap: cssTokens.gap,
+    ease: cssTokens.ease,
+    hoverAxis: 'x',
+    isBottom: false,
+    isTop: false,
+    trackPointer: false,
+    margin: cssTokens.margin,
+    scale: cssTokens.scale,
+  };
+  const cfg = Object.assign({}, defaults, options);
+  if (options.hoverHorizontal === false) cfg.hoverAxis = 'y';    // Create container to hold the blur layer and the SVG strokes
   // Create a safe injected container to avoid touching other host content
   const injected = document.createElement('div');
   injected.className = 'sr-injected';
@@ -183,9 +198,15 @@
     function recalc() {
       if (disposed) return;
       hostRect = hostEl.getBoundingClientRect();
+      // Allow CSS to request extra space beyond the host's rect (e.g., dropdowns)
+      const cs = getComputedStyle(hostEl);
+      const extraTop = parseFloat(cs.getPropertyValue('--sr-extra-top') || '0') || 0;
+      const extraRight = parseFloat(cs.getPropertyValue('--sr-extra-right') || '0') || 0;
+      const extraBottom = parseFloat(cs.getPropertyValue('--sr-extra-bottom') || '0') || 0;
+      const extraLeft = parseFloat(cs.getPropertyValue('--sr-extra-left') || '0') || 0;
       const m = Math.max(0, Number(cfg.margin) || 0);
-      const width = Math.max(0, hostRect.width + m * 2);
-      const height = Math.max(0, hostRect.height + m * 2);
+      const width = Math.max(0, hostRect.width + m * 2 + extraLeft + extraRight);
+      const height = Math.max(0, hostRect.height + m * 2 + extraTop + extraBottom);
       svg.setAttribute('width', width);
       svg.setAttribute('height', height);
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -321,57 +342,94 @@
     }
 
   const links = hostEl.querySelectorAll('a');
-    let pointerHandlersAttached = false;
-    let linkHandlersAttached = false;
-    let hostHoverAttached = false;
+  let pointerHandlersAttached = false;
+  let linkHandlersAttached = false;
+  let hostHoverAttached = false;
+  
+  // Mobile and touch detection
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-    // Backwards-compat: accept deprecated `hoverHorizontal` option but prefer `hoverAxis`.
-    if ('hoverHorizontal' in options) {
-      // eslint-disable-next-line no-console
-      console.warn('SideRun: option `hoverHorizontal` is deprecated; use `hoverAxis: "x"|"y"` instead.');
-      cfg.hoverAxis = options.hoverHorizontal === false ? 'y' : 'x';
+  // Backwards-compat: accept deprecated `hoverHorizontal` option but prefer `hoverAxis`.
+  if ('hoverHorizontal' in options) {
+    console.warn('SideRun: option `hoverHorizontal` is deprecated; use `hoverAxis: "x"|"y"` instead.');
+    cfg.hoverAxis = options.hoverHorizontal === false ? 'y' : 'x';
+  }  // Enhanced interaction handling for mobile and desktop
+  if (cfg.trackPointer || isTouchDevice) {
+    const onPointerEnter = (e) => {
+      state.isHover = true;
+      updateHoverFromEvent(e);
+    };
+    const onPointerMove = (e) => {
+      updateHoverFromEvent(e);
+    };
+    const onPointerLeave = () => {
+      state.isHover = false;
+    };
+    
+    // Touch-specific handling
+    const onTouchStart = (e) => {
+      state.isHover = true;
+      updateHoverFromEvent(e.touches[0]);
+    };
+    const onTouchEnd = () => {
+      // Delay hover state removal for better UX
+      setTimeout(() => {
+        state.isHover = false;
+      }, 150);
+    };
+
+    if (isTouchDevice) {
+      hostEl.addEventListener('touchstart', onTouchStart, { passive: true });
+      hostEl.addEventListener('touchend', onTouchEnd, { passive: true });
+    } else {
+      hostEl.addEventListener('pointerenter', onPointerEnter, { passive: true });
+      hostEl.addEventListener('pointermove', onPointerMove, { passive: true });
+      hostEl.addEventListener('pointerleave', onPointerLeave, { passive: true });
     }
-
-  if (cfg.trackPointer) {
-      const onPointerEnter = (e) => {
+    
+    pointerHandlersAttached = true;
+    pointerHandlersMap.set(hostEl, { 
+      onPointerEnter, 
+      onPointerMove, 
+      onPointerLeave,
+      onTouchStart,
+      onTouchEnd
+    });
+  } else {
+    if (links.length > 0 && !isTouchDevice) {
+      links.forEach((link) => {
+        link.addEventListener('mouseenter', handleEnter);
+        link.addEventListener('mouseleave', handleLeave);
+      });
+      hostEl.addEventListener('mouseleave', handleLeave);
+      linkHandlersAttached = true;
+    } else {
+      // Fallback: behave like a single interactive element
+      const onHostEnter = () => {
         state.isHover = true;
-        updateHoverFromEvent(e);
+        updateHoverFromRect(hostEl.getBoundingClientRect());
       };
-      const onPointerMove = (e) => {
-        updateHoverFromEvent(e);
-      };
-      const onPointerLeave = () => {
+      const onHostLeave = () => {
         state.isHover = false;
       };
-  hostEl.addEventListener('pointerenter', onPointerEnter, { passive: true });
-  hostEl.addEventListener('pointermove', onPointerMove, { passive: true });
-  hostEl.addEventListener('pointerleave', onPointerLeave, { passive: true });
-  pointerHandlersAttached = true;
-  // Save for cleanup in WeakMap
-  pointerHandlersMap.set(hostEl, { onPointerEnter, onPointerMove, onPointerLeave });
-    } else {
-      if (links.length > 0) {
-        links.forEach((link) => {
-          link.addEventListener('mouseenter', handleEnter);
-          link.addEventListener('mouseleave', handleLeave);
-        });
-        hostEl.addEventListener('mouseleave', handleLeave);
-        linkHandlersAttached = true;
-      } else {
-        // Fallback: behave like a single interactive element (center-based)
-        const onHostEnter = () => {
+      
+      if (isTouchDevice) {
+        const onTouchStart = (e) => {
           state.isHover = true;
           updateHoverFromRect(hostEl.getBoundingClientRect());
+          setTimeout(() => { state.isHover = false; }, 150);
         };
-        const onHostLeave = () => {
-          state.isHover = false;
-        };
+        hostEl.addEventListener('touchstart', onTouchStart, { passive: true });
+      } else {
         hostEl.addEventListener('mouseenter', onHostEnter);
         hostEl.addEventListener('mouseleave', onHostLeave);
-        hostHoverAttached = true;
-        hostHoverHandlersMap.set(hostEl, { onHostEnter, onHostLeave });
       }
+      
+      hostHoverAttached = true;
+      hostHoverHandlersMap.set(hostEl, { onHostEnter, onHostLeave });
     }
+  }
 
     // Observe host resize and window resize
     const ro = new ResizeObserver(recalc);
@@ -409,10 +467,22 @@
       if (pointerHandlersAttached) {
         const handlers = pointerHandlersMap.get(hostEl);
         if (handlers) {
-          const { onPointerEnter, onPointerMove, onPointerLeave } = handlers;
-          hostEl.removeEventListener('pointerenter', onPointerEnter);
-          hostEl.removeEventListener('pointermove', onPointerMove);
-          hostEl.removeEventListener('pointerleave', onPointerLeave);
+          const { 
+            onPointerEnter, 
+            onPointerMove, 
+            onPointerLeave,
+            onTouchStart,
+            onTouchEnd
+          } = handlers;
+          
+          if (isTouchDevice) {
+            hostEl.removeEventListener('touchstart', onTouchStart);
+            hostEl.removeEventListener('touchend', onTouchEnd);
+          } else {
+            hostEl.removeEventListener('pointerenter', onPointerEnter);
+            hostEl.removeEventListener('pointermove', onPointerMove);
+            hostEl.removeEventListener('pointerleave', onPointerLeave);
+          }
           pointerHandlersMap.delete(hostEl);
         }
       }
@@ -446,11 +516,39 @@
     // save cleanup in WeakMap so future inits can call it without mutating host DOM
     cleanupMap.set(strokeHost, cleanup);
 
+    // Store instance API for external updates
+    instanceMap.set(hostEl, {
+      recalc,
+      cleanup,
+    });
+
     return cleanup;
   }
 
   // Expose API for CommonJS and for browser global (no reassignments)
-  const exported = { init };
+  function update(host) {
+    if (!host) return;
+    // Support selector string or NodeList/Array
+    const toArray = (val) => {
+      if (typeof val === 'string') return Array.from(document.querySelectorAll(val));
+      if (val instanceof Element) return [val];
+      if (val && typeof val.length === 'number') return Array.from(val);
+      return [];
+    };
+    const list = toArray(host);
+    list.forEach((el) => {
+      const inst = instanceMap.get(el);
+      if (inst && typeof inst.recalc === 'function') {
+        // Do an immediate recalc and one more on next frame to catch CSS transitions
+        try { inst.recalc(); } catch {}
+        requestAnimationFrame(() => {
+          try { inst.recalc(); } catch {}
+        });
+      }
+    });
+  }
+
+  const exported = { init, update };
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = exported;
   }
