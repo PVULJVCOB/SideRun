@@ -1,4 +1,4 @@
-name: Deploy CDN (GitHub Pages)
+name: Deploy Downloads (GitHub Pages)
 
 on:
   push:
@@ -29,10 +29,10 @@ jobs:
       - name: Prepare site artifact
         run: |
           # Starter folder (browseable only)
-          mkdir -p _site/starter
-          cp -R siderun-starter/* _site/starter/
+          mkdir -p _site/SideRun
+          cp -R SideRun/* _site/SideRun/
           # Zip starter for download
-          (cd siderun-starter && zip -rq ../_site/siderun-starter.zip .)
+          (cd SideRun && zip -rq ../_site/SideRun.zip .)
           # Minimal index page with download links only
           cat > _site/index.html << 'EOF'
           <!doctype html>
@@ -57,10 +57,10 @@ jobs:
             <div class="wrap">
               <div class="card">
                 <h1>SideRun Starter Download</h1>
-                <p>Lade das Starter-Paket herunter oder stöbere im Ordner. Enthält <code>siderun.js</code>, <code>siderun.css</code> und eine Mini-Demo.</p>
+                <p>Download the starter package or browse the folder. Includes <code>siderun.js</code>, <code>siderun.css</code> and a tiny demo.</p>
                 <div class="links">
-                  <a class="btn" href="./siderun-starter.zip">Download ZIP</a>
-                  <a class="btn secondary" href="./starter/">Ordner anzeigen</a>
+                  <a class="btn" href="./SideRun.zip">Download ZIP</a>
+                  <a class="btn secondary" href="./SideRun/">Browse folder</a>
                 </div>
               </div>
             </div>

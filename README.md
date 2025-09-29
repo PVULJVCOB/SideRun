@@ -1,60 +1,38 @@
 # SideRun — flying-border runner (JS + CSS)
 
-SideRun ist ein kleiner Frontend-Effekt: ein animierter „laufender“ Rahmen mit weichem Blur-Backdrop. Ideal für Navbars, Logos und Karten. Er besteht aus einer kleinen JS-Runtime und einer begleitenden CSS-Datei.
+SideRun is a tiny front‑end effect: an animated “running” frame with a soft blurred backdrop. Ideal for navbars, logos, and cards. It’s just a small JS runtime plus a CSS file.
 
-Live-Demo: einfach `index.html` im Browser öffnen.
+Live demo: open `index.html` in your browser.
 
-Hinweis: Die GitHub Pages der Projektseite hosten nur den downloadbaren Starter-Content (`/starter` und `siderun-starter.zip`) sowie die CDN-Dateien unter `/cdn`.
+Note: The project’s GitHub Pages host only the downloadable starter content (`/SideRun` and `SideRun.zip`).
 
 ## Installation
 
-Variante A — Starter (empfohlen, ohne Build):
+Option A — Starter (recommended, no build):
 
-1) Starter-ZIP von der Projektseite laden (GitHub Pages):
-	- `https://pvuljvcob.github.io/SideRun/siderun-starter.zip`
-	- oder browsebar: `https://pvuljvcob.github.io/SideRun/starter/`
-2) `siderun.js` und `siderun.css` in dein Projekt kopieren
-3) Host-Markup einfügen und initialisieren (siehe unten)
+1) Download the starter ZIP from GitHub Pages:
+	- `https://pvuljvcob.github.io/SideRun/SideRun.zip`
+	- or browseable: `https://pvuljvcob.github.io/SideRun/SideRun/`
+2) Copy `siderun.js` and `siderun.css` into your project
+3) Add the host markup and initialize (see below)
 
-Variante B — ohne npm (CDN/Direct Import): Sie können SideRun direkt über GitHub Pages laden.
+Option B — direct files (no npm): copy `siderun.js` and `siderun.css` from the `SideRun/` folder (or the ZIP) into your project and initialize.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
-<!-- ESM (empfohlen) -->
-<script type="module">
-	import { init } from 'https://pvuljvcob.github.io/SideRun/cdn/siderun.esm.js';
-	// optional: per-Host-Tuning über CSS-Variablen
-	init(document.querySelector('.sr-container'), { radius: 12, tail: 14, margin: 11 });
-	// window.SideRun ist für CJS nicht notwendig; ESM importiert nativ
-	// Lizenz: https://pvuljvcob.github.io/SideRun/cdn/LICENSE
-	// Hinweis: Pfade werden vom Pages-Workflow bereitgestellt
-	// (siehe .github/workflows/pages.yml)
-  
-	// Alternativ können Sie die Dateien auch herunterladen:
-	//  - JS (ESM): https://pvuljvcob.github.io/SideRun/cdn/siderun.esm.js
-	//  - JS (CJS UMD-ähnlich): https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js
-	//  - CSS: https://pvuljvcob.github.io/SideRun/cdn/siderun.css
-	// und lokal hosten.
-  
-	// CJS-Variante per Script-Tag (falls ESM nicht verfügbar):
-	// <link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
-	// <script src="https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js"></script>
-	// <script> SideRun.init(document.querySelector('.sr-container'), { radius: 12 }); </script>
+<link rel="stylesheet" href="./siderun.css">
+<!-- Script (CJS-style global) -->
+<script src="./siderun.js"></script>
+<script>
+  // optional: per-host tuning via CSS variables
+  const host = document.querySelector('.sr-container');
+  if (window.SideRun && host) {
+    SideRun.init(host, { radius: 12, tail: 14, margin: 11 });
+  }
 </script>
 ```
 
-Variante C — npm (optional):
-
-```bash
-npm install siderun
-# oder
-yarn add siderun
-# oder
-pnpm add siderun
-```
-
-## Verwendung (ESM)
+## Usage (ESM)
 
 ```js
 import { init } from 'siderun';
@@ -64,14 +42,16 @@ const host = document.querySelector('.sr-container');
 const cleanup = init(host, { radius: 12, tail: 14, margin: 11 });
 ```
 
-## Script-Tag (CDN ohne npm)
+## Script tag (no build)
 
 ```html
-<link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
-<script src="https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js"></script>
+<link rel="stylesheet" href="./siderun.css">
+<script src="./siderun.js"></script>
 <script>
-	const { init } = window.SideRun;
-	init(document.querySelector('.sr-container'), { radius: 12 });
+	if (window.SideRun) {
+		const { init } = window.SideRun;
+		init(document.querySelector('.sr-container'), { radius: 12 });
+	}
 </script>
 ```
 
@@ -80,30 +60,30 @@ const cleanup = init(host, { radius: 12, tail: 14, margin: 11 });
 ```html
 <div class="sr-container">
 	<div class="site-nav__stroke siderun"></div>
-	<!-- Inhalt -->
+	<!-- content -->
 	...
 </div>
 ```
 
-Der Effekt injiziert seine SVG/Backdrop-Layer in das Kind `.site-nav__stroke.siderun` (Legacy: `.nav_stroke.siderun`).
+The effect injects its SVG/backdrop layers into the child `.site-nav__stroke.siderun` (legacy: `.nav_stroke.siderun`).
 
 ## API
 
 `init(hostEl, options?) -> cleanup()`
 
-Wichtige Optionen:
+Important options:
 - `radius` (px), `tail`, `gap`, `ease`
 - `hoverAxis`: `'x' | 'y'`
-- `trackPointer`: true aktiviert Pointer-Tracking
-- `margin`: Außenabstand für den Effekt-Wrapper
+- `trackPointer`: enable direct pointer tracking
+- `margin`: outer padding around the effect wrapper
 
-Rückgabe ist eine `cleanup()`-Funktion, die Listener und DOM wieder entfernt.
+Returns a `cleanup()` function that removes listeners and DOM.
 
-## Theming (CSS Variablen)
-Wichtige Variablen aus `siderun/styles/siderun.css`:
+## Theming (CSS variables)
+Important variables from `styles/siderun.css`:
 - `--sr-scale`, `--sr-stroke-width`, `--sr-blur`, `--sr-saturation`, `--sr-tint`, `--sr-inset`, `--sr-radius`
 
-Beispiel:
+Example:
 
 ```css
 .sr-container {
@@ -112,6 +92,6 @@ Beispiel:
 }
 ```
 
-## Lizenz
+## License
 MIT — Copyright (c) 2025 Cedric Seidel (SideRun).
-Siehe `LICENSE` für vollständigen Wortlaut.
+See `LICENSE` for the full text.
