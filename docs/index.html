@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIDERUN</title>
+  <meta name="description" content="SIDERUN — a lightweight JS+CSS flying-border 'runner' effect. Animated stroke and blurred backdrop that follows hover or pointer input." />
+  <meta property="og:title" content="SIDERUN — flying border runner (JS + CSS)" />
+  <meta property="og:description" content="A tiny front-end effect that draws an animated border and blurred backdrop. Easy to drop into navs, logos and content cards." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com/siderun" />
+  <meta property="og:image" content="https://example.com/og-siderun.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/navbar.css" />
+  <link rel="stylesheet" href="./styles/siderun.css" />
+  <link rel="stylesheet" href="./styles/hero.css" />
+  <link rel="stylesheet" href="./styles/scrolleffects.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+
+  <!-- Logo -->
+    <a id="logo" class="nav_button-left siderun" href="#hero" aria-label="Logo">
+      <div class="site-nav__stroke siderun"></div>
+      <span class="label siderun sr-eyebrow">SIDERUN</span>
+    </a>
+  <!-- Desktop nav (hidden in mobile-focused mode) -->
+    <nav class="site-nav text-s-strong glass-bg siderun" aria-label="Primary">
+      <div class="site-nav__stroke siderun"></div>
+      <div class="site-nav__links siderun">
+        <a href="#hero" class="site-nav__link siderun">Home</a>
+        <a href="#siderun-demos" class="site-nav__link siderun">Demos</a>
+        <a href="#overview" class="site-nav__link siderun">Overview</a>
+        <a href="https://github.com/PVULJVCOB/SideRun" class="site-nav__link siderun" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <a class="site-nav__button siderun">Menu</a>
+    </nav>
+
+  <!-- Mobile bar (hidden in desktop-focused mode) -->
+  <div class="mobile-nav siderun" role="navigation" aria-label="Primary mobile">
+      <div class="site-nav__stroke siderun"></div>
+      <button id="menu-prompt" class="menu-prompt glass-bg siderun" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <div class="menu-prompt__icon siderun" data-icon="burger">
+          <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
+            <rect x="9" y="18" width="19" height="1"></rect>
+            <rect x="9" y="22" width="19" height="1"></rect>
+            <rect x="9" y="14" width="19" height="1"></rect>
+          </svg>
+        </div>
+      </button>
+      <a class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
+    </div>
+
+  <!-- Mobile menu panel and background overlay (hidden unless opened) -->
+  <div id="menu-overlay" class="menu-overlay siderun"></div>
+  <div id="mobile-menu" class="mobile-menu glass-bg siderun" role="dialog" aria-modal="false" aria-labelledby="mobileMenuTitle" aria-hidden="true">
+      <div class="site-nav__stroke siderun"></div>
+      <!-- Dialog title for screen readers only -->
+      <h2 id="mobileMenuTitle" class="sr-visually-hidden">Navigation</h2>
+      <div class="mobile-menu__links text-xl siderun">
+        <a href="#hero" class="mobile-menu__link siderun">Home</a>
+        <a href="#siderun-demos" class="mobile-menu__link siderun">Demos</a>
+        <a href="#overview" class="mobile-menu__link siderun">Overview</a>
+        <a href="https://github.com/PVULJVCOB/SideRun" class="mobile-menu__link siderun" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+
+  <!-- Hero: spacious, minimal introduction with parallax backdrop -->
+  <header id="hero" class="hero" role="banner" aria-label="Intro">
+    <div class="hero-parallax" aria-hidden="true">
+      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--a" data-depth="0.12"></div>
+      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--b" data-depth="0.18"></div>
+      <div class="hero-parallax__layer hero-parallax__grid" data-depth="0.05"></div>
+    </div>
+
+    <!-- Content container -->
+    <div class="hero__inner">
+      <div class="hero__eyebrow" data-scroll="fade-up">Siderun</div>
+  <h1 class="hero__title" data-scroll="fade-up">A lightweight flying-border runner</h1>
+  <p class="hero__subtitle" data-scroll="fade-up">A small JS + CSS effect that draws an animated border and blurred backdrop. Attach it to navs, logos and cards; it follows hover or the pointer for a smooth running highlight.</p>
+      <div class="hero__actions" data-scroll="fade-up">
+        <a class="hero__cta" href="#siderun-demos">See Demos</a>
+        <a class="hero__cta" href="./SideRun/" rel="noopener">Download</a>
+        <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="hero__scroll-indicator" aria-hidden="true" data-scroll="fade-up" data-scroll-once>
+      <span class="hero__scroll-dot" aria-hidden="true"></span>
+  <span>Scroll for more</span>
+    </div>
+  </header>
+
+  <main>
+  <!-- Hero -->
+
+
+      <!-- Condensed scroll section under the hero (tighter spacing, staggered pacing) -->
+  <section id="siderun-demos" class="scroll-section" aria-label="SideRun Showcase">
+        <!-- Block: Demos -->
+        <div class="block">
+          <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="80">
+            <!-- Demo: siderun (hover on host/links, centered within element) -->
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+              <h3 class="hero__eyebrow" data-scroll="fade-up">siderun</h3>
+              <div id="siderun" class="sr-container glass-bg demo-siderun" style="margin-top:17px">
+                <div class="site-nav__stroke siderun"></div>
+                <div class="glass-card__content">
+                  <p class="text-m" data-scroll="fade-up">Hover inside the box to see the siderun move based on link/host hover. This demo uses the stroke host markup and initializes the front-end effect.</p>
+                </div>
+              </div>
+              <div class="sr-code" aria-label="Code: init (siderun)" data-scroll="fade-up">
+              <pre><code>// HTML host needs a stroke container
+&lt;div id="siderun" class="sr-container glass-bg"&gt;
+  &lt;div class="site-nav__stroke siderun"&gt;&lt;/div&gt;
+  ...
+&lt;/div&gt;
+
+// JS init (siderun: hover-driven, like the logo)
+SideRun.init(document.getElementById('siderun'), {
+  radius: 12,
+  tail: 14,
+  margin: 11
+});
+</code></pre>
+            </div>
+            </div>
+
+            <!-- Demo: siderun-follow (cursor-tracking behavior) -->
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+              <h3 class="hero__eyebrow" data-scroll="fade-up">siderun-follow</h3>
+              <div id="siderun-follow" class="sr-container glass-bg demo-siderun-follow" style="margin-top:17px">
+                <div class="site-nav__stroke siderun"></div>
+                <div class="glass-card__content">
+                  <p class="text-m" data-scroll="fade-up">Move the cursor — the siderun-follow tracks the pointer smoothly. Toggle <code>trackPointer</code> to enable direct pointer tracking.</p>
+                </div>
+              </div>
+              <div class="sr-code" aria-label="Code: init (siderun-follow)" data-scroll="fade-up">
+              <pre><code>// HTML host needs a stroke container
+&lt;div id="siderun-follow" class="sr-container glass-bg"&gt;
+  &lt;div class="site-nav__stroke siderun"&gt;&lt;/div&gt;
+  ...
+&lt;/div&gt;
+
+// JS init (siderun-follow: cursor tracking)
+SideRun.init(document.getElementById('siderun-follow'), {
+  radius: 12,
+  tail: 18,
+  margin: 11,
+  trackPointer: true,
+  ease: 0.08
+});
+</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block: Overview -->
+        <div class="block" id="overview">
+          <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="95">
+            <div class="glass-card" data-scroll="fade-left" data-stagger-child>
+              <div class="sr-eyebrow">SIDERUN</div>
+              <h2 class="sr-title">A lightweight front-end runner effect</h2>
+              <p class="sr-subtitle">A tiny JS runtime plus companion CSS that provides a running border and blurred backdrop. Designed for predictable visuals and easy theming.</p>
+
+              <div class="sr-code" aria-label="Quickstart example">
+              <pre><code>// Front-end quickstart
+// Easiest: copy files from `SideRun/` (siderun.js, siderun.css)
+// or copy these two files directly from the `SideRun/` folder in this repo.
+
+// HTML host needs a stroke container
+&lt;div id="siderun" class="sr-container glass-bg"&gt;
+  &lt;div class="site-nav__stroke siderun"&gt;&lt;/div&gt;
+  &lt;!-- content --&gt;
+&lt;/div&gt;
+
+// JS init (siderun)
+SideRun.init(document.getElementById('siderun'), {
+  radius: 12,
+  tail: 14,
+  margin: 11
+});
+</code></pre>
+              </div>
+
+              <p>
+                <a class="sr-cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">View on GitHub</a>
+              </p>
+            </div>
+            <div class="glass-card" data-scroll="fade-right" data-stagger-child>
+              <h3 class="sr-title" style="font-size:clamp(22px,3.2vw,32px)">How it works</h3>
+              <ul>
+                <li>Runtime injects an SVG frame and a blurred backdrop into a stroke host.</li>
+                <li>Positioning can follow anchors (link hover) or direct pointer tracking.</li>
+                <li>Animation uses stroke-dasharray/offset and per-frame interpolation; respects prefers-reduced-motion.</li>
+              </ul>
+              <p class="sr-subtitle">Accessibility: the effect is decorative — keep focus outlines for keyboard users and respect reduced-motion preferences.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block: Details -->
+        <div class="block">
+          <div class="sr-grid three" data-scroll="fade-up" data-stagger-base="70">
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+              <h4 class="sr-title" style="font-size:22px">Purpose</h4>
+              <p>Provide a visually appealing, low-cost animated border/runner for UI elements. Ideal for navs, logos, and content cards.</p>
+            </div>
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+              <h4 class="sr-title" style="font-size:22px">Install</h4>
+              <p>Front-end integration: copy <code>SideRun/siderun.js</code> and <code>SideRun/siderun.css</code> into your project, then include and initialize. No server components required.</p>
+            </div>
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+              <h4 class="sr-title" style="font-size:22px">Contribute</h4>
+              <p>Contributions are welcome: file issues for accessibility, performance, or compatibility bugs; PRs that improve docs, tests or small bug fixes are appreciated.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  <script defer src="./js/siderun.js"></script>
+  <script defer src="./js/navbar.js"></script>
+  <!-- Parallax for hero (isolated from SideRun logic) -->
+  <script defer src="./js/hero-parallax.js"></script>
+  <!-- Scroll/Parallax effects reused across sections -->
+  <script defer src="./js/scroll-effects.js"></script>
+    <script>
+  // Initialize SideRun on demo elements when DOM is ready
+      window.addEventListener('DOMContentLoaded', () => {
+        if (!window.SideRun) return;
+  const logo = document.getElementById('logo');
+  // Match navbar behavior: reacts to hover on content/host
+        if (logo) SideRun.init(logo, { radius: 10, tail: 12, margin: 11 });
+
+  // Demos
+  const demoSiderun = document.getElementById('siderun');
+  const demoSiderunFollow = document.getElementById('siderun-follow');
+  if (demoSiderun) SideRun.init(demoSiderun, { radius: 12, tail: 14, margin: 11 });
+  if (demoSiderunFollow) SideRun.init(demoSiderunFollow, { radius: 12, tail: 18, margin: 11, trackPointer: true, ease: 0.08 });
+      });
+    </script>
+  </body>
+  </html>
