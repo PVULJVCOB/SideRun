@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SideRun Starter Demo</title>
+    <style>
+      body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin:0; padding:40px; background:#f7f7fb; color:#080232}
+      .card{width:min(560px,90vw); margin:auto; background:#fff; border-radius:8px; padding:24px; position:relative}
+      .site-nav__stroke.siderun{position:absolute; inset:-11px}
+      .sr-title{font-weight:700; margin:0 0 8px}
+      .sr-sub{margin:0; opacity:.7}
+    </style>
+    <link rel="stylesheet" href="./siderun.css" />
+  </head>
+  <body>
+    <div class="card sr-container">
+      <div class="site-nav__stroke siderun"></div>
+      <h1 class="sr-title">SideRun Starter</h1>
+      <p class="sr-sub">Bewege die Maus über die Karte – der Rahmen läuft.</p>
+    </div>
+
+    <script src="./siderun.js"></script>
+    <script>
+      if (window.SideRun) {
+        SideRun.init(document.querySelector('.sr-container'), { radius: 8, tail: 14, margin: 11 });
+      }
+    </script>
+  </body>
+</html>
