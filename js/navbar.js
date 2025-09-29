@@ -43,11 +43,6 @@
   function openMenu() {
     if (!menuPrompt || !clickCatch || !mobileMenu) return;
     lastFocused = document.activeElement;
-    
-    // Store current scroll position for mobile
-    const scrollY = window.scrollY;
-    document.body.style.top = `-${scrollY}px`;
-    
     menuPrompt.setAttribute('aria-expanded', 'true');
     mobileMenu.setAttribute('aria-hidden', 'false');
     mobileMenu.setAttribute('aria-modal', 'true');
@@ -61,17 +56,9 @@
     menuPrompt.innerHTML = closeIcon;
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keydown', onKeyDownTrap);
-    
-    // Prevent touch scrolling on mobile
-    document.addEventListener('touchmove', preventScroll, { passive: false });
   }
   function closeMenu() {
     if (!menuPrompt || !clickCatch || !mobileMenu) return;
-    
-    // Restore scroll position
-    const scrollY = document.body.style.top;
-    document.body.style.top = '';
-    
     menuPrompt.setAttribute('aria-expanded', 'false');
     mobileMenu.setAttribute('aria-hidden', 'true');
     mobileMenu.setAttribute('aria-modal', 'false');
@@ -82,13 +69,6 @@
     menuPrompt.innerHTML = burgerIcon;
     document.removeEventListener('keydown', onKeyDown);
     document.removeEventListener('keydown', onKeyDownTrap);
-    document.removeEventListener('touchmove', preventScroll);
-    
-    // Restore scroll position
-    if (scrollY) {
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    }
-    
     if (lastFocused && typeof lastFocused.focus === 'function') {
       try {
         lastFocused.focus();
@@ -105,14 +85,6 @@
   function onKeyDownTrap(e) {
     if (e.key !== 'Tab') return;
     trapFocus(mobileMenu, e);
-  }
-  
-  function preventScroll(e) {
-    // Allow scrolling within the mobile menu if it overflows
-    if (e.target.closest('#mobile-menu')) {
-      return;
-    }
-    e.preventDefault();
   }
 
   if (menuPrompt && clickCatch && mobileMenu) {

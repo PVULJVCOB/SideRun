@@ -41,20 +41,16 @@
   <!-- Mobile bar (hidden in desktop-focused mode) -->
   <div class="mobile-nav siderun" role="navigation" aria-label="Primary mobile">
       <div class="site-nav__stroke siderun"></div>
-      <!-- Left side: SIDERUN logo is added via CSS ::before -->
-      <!-- Right side: Navigation buttons -->
-      <div class="nav-buttons">
-        <button id="menu-prompt" class="menu-prompt glass-bg siderun" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-          <div class="menu-prompt__icon siderun" data-icon="burger">
-            <svg width="24" height="24" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
-              <rect x="9" y="18" width="19" height="1"></rect>
-              <rect x="9" y="22" width="19" height="1"></rect>
-              <rect x="9" y="14" width="19" height="1"></rect>
-            </svg>
-          </div>
-        </button>
-        <a class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
-      </div>
+      <button id="menu-prompt" class="menu-prompt glass-bg siderun" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <div class="menu-prompt__icon siderun" data-icon="burger">
+          <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
+            <rect x="9" y="18" width="19" height="1"></rect>
+            <rect x="9" y="22" width="19" height="1"></rect>
+            <rect x="9" y="14" width="19" height="1"></rect>
+          </svg>
+        </div>
+      </button>
+      <a class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
     </div>
 
   <!-- Mobile menu panel and background overlay (hidden unless opened) -->
@@ -74,9 +70,9 @@
   <!-- Hero: spacious, minimal introduction with parallax backdrop -->
   <header id="hero" class="hero" role="banner" aria-label="Intro">
     <div class="hero-parallax" aria-hidden="true">
-      <div class="hero-parallax__layer" data-depth="0.12"></div>
-      <div class="hero-parallax__layer" data-depth="0.18"></div>
-      <div class="hero-parallax__layer" data-depth="0.05"></div>
+      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--a" data-depth="0.12"></div>
+      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--b" data-depth="0.18"></div>
+      <div class="hero-parallax__layer hero-parallax__grid" data-depth="0.05"></div>
     </div>
 
     <!-- Content container -->

@@ -82,7 +82,7 @@ textarea {
 
 /* Visually hidden (screen-reader-only) utility */
 .sr-visually-hidden {
-  position: absolute;
+  position: absolute !important;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -117,24 +117,25 @@ textarea {
   font-weight: 400;
 }
 
-/* Desktop nav - responsive positioning */
+/* Logo */
+/* .logo.siderun removed (unused) */
+
+/* Desktop nav */
 .site-nav.siderun {
   position: fixed;
   top: var(--pad);
-  right: max(20px, calc((100vw - 1300px) / 2 + 20px)); /* Stay within max-width bounds */
+  right: var(--pad);
   display: flex;
-  height: 40px;
-  margin-top: 20px;
-  margin-right: 0px;
-  padding: 20px;
+  height: 47px;
+  margin: 8px;
   border-radius: var(--radius-sm, 3px);
   z-index: 5;
   font-size: 20px;
   font-weight: 700;
   align-items: center; /* center content vertically */
-  justify-content: center;
   overflow: visible;
   justify-content: center; /* center contents horizontally in collapsed state */
+  --nav-text-shift-y: -10px;
 }
 .site-nav__stroke.siderun {
   position: absolute;
@@ -161,7 +162,6 @@ textarea {
 .site-nav__links.siderun {
   display: flex;
   align-items: center;
-  justify-content: center;
   max-width: 0; /* collapsed by default */
   overflow: hidden;
   opacity: 0;
@@ -171,7 +171,7 @@ textarea {
   transition:
     max-width 0.6s ease-out,
     opacity 0.25s ease-out;
-  height: 40px; /* match navbar height for consistent vertical centering */
+  height: 47px; /* match navbar height for consistent vertical centering */
 }
 .site-nav.siderun.is-expanded .site-nav__links.siderun {
   max-width: var(--nav-links-max, 600px);
@@ -196,9 +196,9 @@ textarea {
   transition: 0.3s opacity;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   height: 100%;
   line-height: 1;
+  transform: translateY(var(--nav-text-shift-y, 0));
 }
 .site-nav__link.siderun:first-of-type {
   padding-left: 30px;
@@ -215,7 +215,6 @@ textarea {
 .site-nav__button.siderun {
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 0 30px;
   border-radius: 0 3px 3px 0;
   color: var(--cta-text-color);
@@ -223,26 +222,29 @@ textarea {
   transition:
     0.3s background-color,
     0.3s color;
-  height: 40px; /* match navbar height */
+  height: 47px; /* match navbar height */
   line-height: 1;
+  justify-content: center;
+  transform: translate(
+    var(--menu-text-shift-x, -10px),
+    var(--nav-text-shift-y, -10px)
+  );
 }
 .site-nav__button.siderun:hover {
   background: var(--cta-hover-color);
 }
 
-/* Logo (left badge) aligned with navbar height; responsive positioning */
+/* Logo (left badge) aligned with navbar height; center its label */
 #logo.nav_button-left.siderun {
   position: fixed;
-  justify-content: center;
-  align-items: center;
   top: var(--pad);
-  left: max(20px, calc((100vw - 1300px) / 2 + 20px)); /* Stay within max-width bounds */
+  left: var(--pad);
   font-size: 30px;
   font-weight: 00;
   display: grid;
   place-items: center;
-  height: 50px;
-  margin: 20px;
+  height: 47px;
+  margin: 8px;
   padding: 0 20px;
   border-radius: var(--radius-sm, 3px);
   z-index: 5;
@@ -266,14 +268,16 @@ textarea {
 #logo.nav_button-left.siderun .label {
   position: relative;
   z-index: 2;
+  transform: translate(
+    var(--logo-text-shift-x, -10px),
+    var(--nav-text-shift-y, -10px)
+  );
 }
 
 /* Mobile nav */
 .mobile-nav.siderun {
   display: none;
   position: fixed;
-  justify-content: center;
-  align-items: center;
   top: var(--pad);
   right: var(--pad);
   margin: 8px;
@@ -286,8 +290,6 @@ textarea {
   margin-right: 4px;
   display: grid;
   place-items: center;
-  justify-content: center;
-  align-items: center;
 }
 .menu-prompt__icon.siderun svg {
   fill: var(--text-color);
@@ -350,189 +352,3 @@ main {
   min-height: 140vh;
 }
 
-/* ========== MOBILE OPTIMIZATIONS ========== */
-@media (max-width: 768px) {
-  /* Container for consistent width - no horizontal sliding */
-  body {
-    width: 100vw;
-    overflow-x: hidden;
-    position: relative;
-  }
-  
-  /* Hide desktop nav on mobile */
-  .site-nav.siderun {
-    display: none;
-  }
-  
-  /* Unified mobile navbar - centered with responsive width */
-  .mobile-nav.siderun {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    top: var(--pad);
-    right: var(--pad);
-    margin: 8px;
-    z-index: 6;
-    background: var(--glass-color);
-    border-radius: var(--radius-sm, 3px);
-    box-sizing: border-box;
-  }
-  
-  /* Hide the separate logo element on mobile since it's now part of navbar */
-  #logo.nav_button-left.siderun {
-    position: fixed;
-    top: var(--pad);
-    left: var(--pad);
-    height: 45px;
-    margin: 8px;
-    padding: 0 16px;
-    font-size: 26px;
-    z-index: 6;
-  }
-  
-  /* Mobile menu opens DOWNWARD from the centered nav button */
-  .mobile-menu.siderun {
-    position: fixed;
-    top: calc(var(--pad) + 75px); /* Below the mobile nav button */
-    left: 50%;
-    width: 95%;
-    max-width: 1300px;
-    min-width: 450px;
-    margin: 8px 0;
-    border-radius: var(--radius-md, 6px);
-    padding: 15px 0;
-    box-sizing: border-box;
-    background: var(--glass-color);
-    border: 1px solid var(--glass-stroke-color);
-    z-index: 15; /* Higher z-index to be above blur */
-    
-    /* Animation for slide down with proper centering */
-    transform: translate(-50%, -20px);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.2s ease-out;
-    z-index: 1;
-  }
-  
-  .mobile-menu.siderun.is-open {
-    transform: translate(-50%, 0);
-    opacity: 1;
-  }
-  
-  /* Ensure menu content is above any blur effects */
-  .mobile-menu.siderun * {
-    position: relative;
-    z-index: 16;
-  }
-  
-  /* Mobile menu links with better spacing */
-  .mobile-menu__link.siderun {
-    padding: 16px 24px;
-    font-size: 18px;
-    color: var(--color-text);
-    border-bottom: 1px solid rgba(8, 2, 50, 0.08);
-    background: rgba(255, 255, 255, 0.9); /* Solid background for readability */
-    
-    /* Touch optimizations */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  
-  .mobile-menu__link.siderun:first-of-type {
-    border-top-left-radius: var(--radius-md, 6px);
-    border-top-right-radius: var(--radius-md, 6px);
-  }
-  
-  .mobile-menu__link.siderun:last-of-type {
-    border-bottom: none;
-    border-bottom-left-radius: var(--radius-md, 6px);
-    border-bottom-right-radius: var(--radius-md, 6px);
-  }
-  
-  .mobile-menu__link.siderun:active {
-    background-color: rgba(8, 2, 50, 0.1);
-  }
-  
-  /* Prevent text selection and improve touch behavior for SideRun elements */
-  .siderun {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  /* Prevent scrolling when menu is open */
-  body.no-scroll {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  /* Menu prompt button - consistent sizing with other elements */
-  .menu-prompt.siderun {
-    width: 40px;
-    height: 40px;
-    margin: 0;
-    padding: 0;
-    border-radius: var(--radius-sm, 3px);
-    background: var(--cta-color);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  /* Menu prompt icon sizing */
-  .menu-prompt.siderun .menu-prompt__icon.siderun {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .menu-prompt.siderun .menu-prompt__icon.siderun svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  /* Menu button - same height as burger button */
-  .mobile-nav.siderun .site-nav__button.siderun {
-    padding: 0 16px;
-    height: 40px;
-    min-width: 80px;
-    margin: 0;
-    background: var(--cta-color);
-    border-radius: var(--radius-sm, 3px);
-    touch-action: manipulation;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  
-  /* Content spacing adjustments for mobile */
-  :root {
-    --pad: 20px;
-  }
-  
-  /* Hero section mobile adjustments */
-  #hero {
-    padding-top: 100px; /* Space for fixed navigation */
-  }
-  
-  /* Backdrop overlay z-index adjustment */
-  .menu-overlay.siderun {
-    z-index: 12; /* Below mobile menu but above content */
-  }
-}

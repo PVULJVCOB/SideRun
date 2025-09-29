@@ -70,15 +70,12 @@ body {
   z-index: 2;
 }
 
-/* Siderun marketing section styles with standardized constraints */
+/* Siderun marketing section styles */
 
 .sr-section {
   padding: clamp(40px, 8vw, 120px) 25px;
-  width: 95%;
-  max-width: 1300px;
-  min-width: 450px;
+  max-width: 1400px;
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .sr-grid {
@@ -120,16 +117,13 @@ body {
 }
 /* Parallax and fade-in are handled by scrolleffects.css */
 
-/* Condensed scroll section under hero with standardized constraints */
+/* Condensed scroll section under hero */
 .scroll-section {
   padding: clamp(24px, 4.5vw, 56px) 22px;
-  width: 95%;
-  max-width: 1300px;
-  min-width: 450px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   gap: clamp(18px, 4vw, 36px);
-  box-sizing: border-box;
 }
 
 .scroll-section .block {
@@ -180,136 +174,4 @@ body {
 }
 .sr-cta:hover {
   background: var(--cta-bg-hover);
-}
-
-/* ========== MOBILE OPTIMIZATIONS FOR MAIN CONTENT ========== */
-@media (max-width: 768px) {
-  /* Standardized container widths: 95% width, max 1300px, min 450px */
-  .sr-grid,
-  .block,
-  .scroll-section {
-    width: 95%;
-    max-width: 1300px;
-    min-width: 450px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding: 20px 2.5%; /* 2.5% on each side = 5% total margin */
-  }
-  
-  /* Hero section adjustments with same constraints */
-  .hero__inner {
-    width: 95%;
-    max-width: 1300px;
-    min-width: 450px;
-    margin: 0 auto;
-    padding: 20px 2.5%;
-    box-sizing: border-box;
-  }
-  
-  /* Grid adjustments for mobile */
-  .sr-grid.two,
-  .sr-grid.three {
-    grid-template-columns: 1fr;
-    gap: 24px; /* Increased gap for better separation */
-  }
-  
-  /* Card adjustments with proper depth */
-  .glass-card {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 0 24px 0; /* Bottom margin for card separation */
-    padding: 24px 20px; /* More generous padding */
-    box-sizing: border-box;
-    box-shadow: 0 4px 20px rgba(8, 2, 50, 0.1), 0 1px 4px rgba(8, 2, 50, 0.05);
-  }
-  
-  /* Demo containers on mobile - use full card width */
-  .sr-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 16px 0;
-    padding: 20px;
-    box-sizing: border-box;
-    
-    /* Touch optimizations for SideRun */
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  /* Code blocks with proper line breaking */
-  .sr-code {
-    font-size: 13px;
-    padding: 16px;
-    max-height: 300px;
-    min-height: auto; /* Remove fixed min-height */
-    overflow-x: auto;
-    white-space: pre-wrap; /* Allow line wrapping */
-    word-wrap: break-word; /* Break long words */
-    line-height: 1.5;
-    border-radius: 8px;
-  }
-  
-  /* Code blocks inside cards need extra margin */
-  .glass-card .sr-code {
-    margin: 16px 0;
-    font-size: 12px;
-  }
-  
-  /* CTAs mobile friendly */
-  .sr-cta {
-    padding: 14px 24px;
-    font-size: 16px;
-    margin: 8px 0;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Typography adjustments with better spacing */
-  .sr-title {
-    font-size: clamp(20px, 5.5vw, 28px);
-    margin: 0 0 16px 0;
-    line-height: 1.2;
-  }
-  
-  .sr-subtitle {
-    font-size: clamp(15px, 4vw, 18px);
-    line-height: 1.4;
-    margin: 0 0 20px 0;
-  }
-  
-  .text-xl {
-    font-size: clamp(24px, 6vw, 32px);
-    line-height: 1.2;
-  }
-  
-  /* Eyebrow text */
-  .sr-eyebrow,
-  .hero__eyebrow {
-    font-size: 14px;
-    margin-bottom: 12px;
-  }
-  
-  /* Better spacing between sections */
-  .scroll-section .block {
-    margin-bottom: 40px;
-  }
-  
-  /* Prevent body movement during touch interactions */
-  body {
-    position: relative;
-    overflow-x: hidden;
-    width: 100vw;
-  }
-  
-  /* When menu is open, lock scroll completely */
-  body.no-scroll {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
 }
