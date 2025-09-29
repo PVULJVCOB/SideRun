@@ -117,11 +117,11 @@ textarea {
   font-weight: 400;
 }
 
-/* Desktop nav */
+/* Desktop nav - responsive positioning */
 .site-nav.siderun {
   position: fixed;
   top: var(--pad);
-  right: var(--pad);
+  right: max(20px, calc((100vw - 1300px) / 2 + 20px)); /* Stay within max-width bounds */
   display: flex;
   height: 40px;
   margin-top: 20px;
@@ -230,13 +230,13 @@ textarea {
   background: var(--cta-hover-color);
 }
 
-/* Logo (left badge) aligned with navbar height; center its label */
+/* Logo (left badge) aligned with navbar height; responsive positioning */
 #logo.nav_button-left.siderun {
   position: fixed;
   justify-content: center;
   align-items: center;
   top: var(--pad);
-  left: var(--pad);
+  left: max(20px, calc((100vw - 1300px) / 2 + 20px)); /* Stay within max-width bounds */
   font-size: 30px;
   font-weight: 00;
   display: grid;
@@ -364,21 +364,27 @@ main {
     display: none;
   }
   
-  /* Show mobile nav */
+  /* Unified mobile navbar - centered with responsive width */
   .mobile-nav.siderun {
     display: flex;
     justify-content: center;
     align-items: center;
+    justify-content: space-between;
     position: fixed;
+    top: var(--pad);
+    right: var(--pad);
     margin: 8px;
     z-index: 6;
+    background: var(--glass-color);
+    border-radius: var(--radius-sm, 3px);
+    box-sizing: border-box;
   }
   
-  /* Logo adjustments for mobile */
+  /* Hide the separate logo element on mobile since it's now part of navbar */
   #logo.nav_button-left.siderun {
     position: fixed;
-    justify-content: center;
-    align-items: center;
+    top: var(--pad);
+    left: var(--pad);
     height: 45px;
     margin: 8px;
     padding: 0 16px;
@@ -386,37 +392,47 @@ main {
     z-index: 6;
   }
   
-  /* Mobile menu opens DOWNWARD from the nav button */
+  /* Mobile menu opens DOWNWARD from the centered nav button */
   .mobile-menu.siderun {
     position: fixed;
-    top: calc(var(--pad) + 65px); /* Below the mobile nav button */
-    right: var(--pad);
-    left: auto; /* Remove centering */
-    width: 280px;
-    max-width: calc(100vw - 2 * var(--pad));
-    margin: 8px;
+    top: calc(var(--pad) + 75px); /* Below the mobile nav button */
+    left: 50%;
+    width: 95%;
+    max-width: 1300px;
+    min-width: 450px;
+    margin: 8px 0;
     border-radius: var(--radius-md, 6px);
-    padding: 10px 0;
+    padding: 15px 0;
     box-sizing: border-box;
+    background: var(--glass-color);
+    border: 1px solid var(--glass-stroke-color);
+    z-index: 15; /* Higher z-index to be above blur */
     
-    /* Animation for slide down */
-    transform: translateY(-20px);
+    /* Animation for slide down with proper centering */
+    transform: translate(-50%, -20px);
     opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.2s ease-out;
     z-index: 1;
   }
   
   .mobile-menu.siderun.is-open {
-    transform: translateY(0);
+    transform: translate(-50%, 0);
     opacity: 1;
+  }
+  
+  /* Ensure menu content is above any blur effects */
+  .mobile-menu.siderun * {
+    position: relative;
+    z-index: 16;
   }
   
   /* Mobile menu links with better spacing */
   .mobile-menu__link.siderun {
-    padding: 14px 24px;
+    padding: 16px 24px;
     font-size: 18px;
     color: var(--color-text);
     border-bottom: 1px solid rgba(8, 2, 50, 0.08);
+    background: rgba(255, 255, 255, 0.9); /* Solid background for readability */
     
     /* Touch optimizations */
     touch-action: manipulation;
@@ -425,12 +441,19 @@ main {
     -webkit-user-select: none;
   }
   
+  .mobile-menu__link.siderun:first-of-type {
+    border-top-left-radius: var(--radius-md, 6px);
+    border-top-right-radius: var(--radius-md, 6px);
+  }
+  
   .mobile-menu__link.siderun:last-of-type {
     border-bottom: none;
+    border-bottom-left-radius: var(--radius-md, 6px);
+    border-bottom-right-radius: var(--radius-md, 6px);
   }
   
   .mobile-menu__link.siderun:active {
-    background-color: rgba(8, 2, 50, 0.05);
+    background-color: rgba(8, 2, 50, 0.1);
   }
   
   /* Prevent text selection and improve touch behavior for SideRun elements */
@@ -451,20 +474,51 @@ main {
     overflow: hidden;
   }
   
-  /* Menu prompt button with better touch target */
+  /* Menu prompt button - consistent sizing with other elements */
   .menu-prompt.siderun {
-    width: 44px;
-    height: 44px;
-    margin-right: 8px;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-sm, 3px);
+    background: var(--cta-color);
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
   
+  /* Menu prompt icon sizing */
+  .menu-prompt.siderun .menu-prompt__icon.siderun {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-prompt.siderun .menu-prompt__icon.siderun svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Menu button - same height as burger button */
   .mobile-nav.siderun .site-nav__button.siderun {
     padding: 0 16px;
-    height: 44px;
+    height: 40px;
     min-width: 80px;
+    margin: 0;
+    background: var(--cta-color);
+    border-radius: var(--radius-sm, 3px);
     touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
   }
   
   /* Content spacing adjustments for mobile */
@@ -474,8 +528,11 @@ main {
   
   /* Hero section mobile adjustments */
   #hero {
-    padding-top: 120px; /* Space for fixed navigation */
+    padding-top: 100px; /* Space for fixed navigation */
+  }
+  
+  /* Backdrop overlay z-index adjustment */
+  .menu-overlay.siderun {
+    z-index: 12; /* Below mobile menu but above content */
   }
 }
-
-/* Mobile optimizations applied */
