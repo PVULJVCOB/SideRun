@@ -173,9 +173,10 @@
         rect.setAttribute('rx', radius);
       });
       // Sync blur layer size and corner radius via CSS vars
-      const inset = 3; // keep blur inside, away from strokes
-      blurLayer.style.setProperty('--sr-inset', `${inset}px`);
-      blurLayer.style.setProperty('--sr-radius', `${Math.max(0, radius - inset)}px`);
+  const inset = 1; // reduce inset so blur reaches closer to the strokes (avoid visible gap)
+  blurLayer.style.setProperty('--sr-inset', `${inset}px`);
+  // Match blur corner radius exactly to the stroke radius
+  blurLayer.style.setProperty('--sr-radius', `${Math.max(0, radius)}px`);
     }
 
     // Recalculate sizes on host/viewport changes

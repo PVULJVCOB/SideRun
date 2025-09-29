@@ -1,5 +1,5 @@
 // Vitest coverage-friendly entry: import the repo runtime and re-export init
-// Ensures Vite instruments the dependency and coverage thresholds apply.
+// Ensures bundlers instrument the dependency and consumers get a named export.
 import mod from '../../../js/siderun.js';
 
 // Support both CJS (module.exports = { init }) and direct function export fallback
