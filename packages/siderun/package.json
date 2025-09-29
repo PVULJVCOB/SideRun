@@ -1,0 +1,39 @@
+{
+  "name": "@yourorg/siderun",
+  "version": "0.1.0",
+  "description": "Lightweight, reproducible runner for local/CI batch jobs (MVP)",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "siderun": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "dev": "tsx src/cli.ts --help",
+    "test": "vitest run",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "colorette": "^2.0.20",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "eslint": "^9.13.0",
+    "@eslint/js": "^9.13.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "eslint-config-prettier": "^9.1.0",
+  "globals": "^15.9.0",
+  "typescript": "^5.6.3",
+  "prettier": "^3.3.3",
+    "vitest": "^2.1.2",
+    "tsx": "^4.19.1",
+    "rimraf": "^6.0.1"
+  }
+}

@@ -3,11 +3,11 @@
   /* CSS custom properties (alphabetical) */
   --cta-color: none;
   --cta-hover-color: none;
-  --cta-text-color: #eeeeee;
+  --cta-text-color: #080232;
   --glass-color: none;
   --glass-stroke-color: none;
   --pad: 30px;
-  --text-color: #eeeeee;
+  --text-color: #080232;
 }
 
 /* Minimal reset + backdrop */
@@ -34,12 +34,7 @@ html {
     'Helvetica Neue',
     sans-serif;
 }
-body {
-  font-family: inherit;
-  color: #1d1d1d;
-  background: linear-gradient(0deg, #b29fa3, #d2cacc);
-  overflow-x: hidden;
-}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -96,11 +91,6 @@ textarea {
   line-height: 2em;
   font-weight: 600;
 }
-.heading-l {
-  font-size: 24px;
-  line-height: 1.2em;
-  font-weight: 400;
-}
 .text-m {
   font-size: 14px;
   line-height: 1.2em;
@@ -117,14 +107,14 @@ textarea {
 
 /* Desktop nav */
 .site-nav.siderun {
-  position: absolute;
+  position: fixed;
   top: var(--pad);
   right: var(--pad);
   display: flex;
   height: 47px;
   margin: 8px;
   border-radius: 3px;
-  z-index: 1;
+  z-index: 5;
   font-size: 20px;
   font-weight: 700;
   align-items: center; /* center content vertically */
@@ -231,7 +221,7 @@ textarea {
 
 /* Logo (left badge) aligned with navbar height; center its label */
 #logo.nav_button-left.siderun {
-  position: absolute;
+  position: fixed;
   top: var(--pad);
   left: var(--pad);
   font-size: 30px;
@@ -242,7 +232,7 @@ textarea {
   margin: 8px;
   padding: 0 20px;
   border-radius: 3px;
-  z-index: 1;
+  z-index: 5;
   color: var(--cta-text-color, #111);
   background: var(--cta-color, #fff);
 }
@@ -272,11 +262,11 @@ textarea {
 /* Mobile nav */
 .mobile-nav.siderun {
   display: none;
-  position: absolute;
+  position: fixed;
   top: var(--pad);
   right: var(--pad);
   margin: 8px;
-  z-index: 2;
+  z-index: 6;
 }
 .menu-prompt.siderun {
   width: 37px;
@@ -300,7 +290,7 @@ textarea {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   background: rgba(13, 17, 19, 0.325);
 }
 .menu-overlay.siderun.is-open {
@@ -314,7 +304,7 @@ textarea {
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 3;
+  z-index: 11;
   max-width: 400px;
   width: calc(100% - 2 * var(--pad) - 16px);
   box-sizing: border-box;

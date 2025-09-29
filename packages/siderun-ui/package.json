@@ -1,0 +1,53 @@
+{
+  "name": "@yourorg/siderun-ui",
+  "version": "1.0.0",
+  "description": "Siderun front-end flying-border runner (JS + CSS)",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/siderun.cjs.js",
+  "module": "dist/siderun.esm.js",
+  "files": [
+    "dist/",
+    "styles/siderun.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist styles && esbuild ../../js/siderun.js --bundle --minify --format=esm --outfile=dist/siderun.esm.js && esbuild ../../js/siderun.js --bundle --minify --format=cjs --outfile=dist/siderun.cjs.js && cp ../../styles/siderun.css styles/ && cp ../../LICENSE LICENSE",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "siderun",
+    "ui",
+    "border",
+    "runner",
+    "css",
+    "js"
+  ],
+  "author": "Cedric Seidel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedricseidel/SideRun.git"
+  },
+  "homepage": "https://github.com/cedricseidel/SideRun#readme",
+  "bugs": {
+    "url": "https://github.com/cedricseidel/SideRun/issues"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "esbuild": "^0.18.0",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vitest": "^0.5.4",
+    "jsdom": "^24.0.0",
+    "vitest": "^3.2.4"
+  },
+  "types": "index.d.ts"
+}

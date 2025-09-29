@@ -1,0 +1,10 @@
+{
+  "jobs": {
+    "demo": {
+      "steps": [
+        { "name": "echo hello", "command": "node -e \"console.log('hello')\"" },
+        { "name": "sleep", "command": "node -e \"setTimeout(()=>console.log('done'),200)\"" }
+      ]
+    }
+  }
+}

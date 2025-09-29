@@ -14,13 +14,59 @@
     return a * (1 - t) + b * t;
   }
 
+  // internal maps for instance state (avoid mutating host DOM)
+  const cleanupMap = new WeakMap();
+  const prevPosMap = new WeakMap();
+  const pointerHandlersMap = new WeakMap();
+  const hostHoverHandlersMap = new WeakMap();
+  // Guard against concurrent init on the same host's stroke container
+  const initInProgress = new WeakSet();
+
+  // Shared RAF manager to drive all instances with a single loop
+  const RafPool = (() => {
+    let rafId = null;
+    const callbacks = new Set();
+    function tick() {
+      callbacks.forEach((cb) => {
+        try { cb(); } catch (e) {}
+      });
+      rafId = requestAnimationFrame(tick);
+    }
+    return {
+      add(cb) {
+        callbacks.add(cb);
+        if (callbacks.size === 1 && rafId == null) {
+          rafId = requestAnimationFrame(tick);
+        }
+        return () => {
+          callbacks.delete(cb);
+          if (callbacks.size === 0 && rafId != null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        };
+      },
+    };
+  })();
+
   // Initialize the effect on a host element
   function init(hostEl, options = {}) {
     if (!hostEl) return () => {};
   const strokeHost = hostEl.querySelector('.site-nav__stroke.siderun, .nav_stroke.siderun');
     if (!strokeHost) return () => {};
 
-    strokeHost.innerHTML = '';
+    // Prevent concurrent initialization on the same stroke host
+    if (initInProgress.has(strokeHost)) return () => {};
+    initInProgress.add(strokeHost);
+
+    // Avoid destructively clearing host content. If a previous injection exists, cleanup first.
+    const prevInjected = strokeHost.querySelector('.sr-injected');
+    const existingCleanup = cleanupMap.get(strokeHost);
+    if (existingCleanup) {
+      try { existingCleanup(); } catch (e) { /* swallow cleanup errors */ }
+    } else if (prevInjected) {
+      prevInjected.remove();
+    }
 
     // Default configuration
     const defaults = {
@@ -38,10 +84,18 @@
     if (options.hoverHorizontal === false) cfg.hoverAxis = 'y';
 
     // Create container to hold the blur layer and the SVG strokes
-    const wrapper = document.createElement('div');
-    wrapper.style.position = 'absolute';
-    wrapper.style.inset = `-${cfg.margin}px`;
-    wrapper.style.pointerEvents = 'none';
+  // Create a safe injected container to avoid touching other host content
+  const injected = document.createElement('div');
+  injected.className = 'sr-injected';
+  // mark injected UI as purely decorative for assistive tech
+  injected.setAttribute('aria-hidden', 'true');
+  injected.setAttribute('role', 'presentation');
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'sr-wrapper';
+  wrapper.style.position = 'absolute';
+  wrapper.style.inset = `-${cfg.margin}px`;
+  wrapper.style.pointerEvents = 'none';
 
     const blurLayer = document.createElement('div');
     blurLayer.className = 'sr-backdrop';
@@ -64,7 +118,20 @@
     svg.appendChild(srGhost);
     wrapper.appendChild(blurLayer);
     wrapper.appendChild(svg);
-    strokeHost.appendChild(wrapper);
+
+    // If host is not positioned (computed), temporarily set inline position so absolute wrapper positions correctly.
+    const prevInlinePos = strokeHost.style.position;
+    const computedPos = (typeof window !== 'undefined' && window.getComputedStyle) ? window.getComputedStyle(strokeHost).position : '';
+    if (!prevInlinePos && computedPos === 'static') {
+      strokeHost.style.position = 'relative';
+      // use null as marker that we set an inline position that should be cleared
+      prevPosMap.set(strokeHost, null);
+    } else {
+      prevPosMap.set(strokeHost, prevInlinePos);
+    }
+
+    injected.appendChild(wrapper);
+    strokeHost.appendChild(injected);
 
     const metrics = {
       perimeter: 0,
@@ -81,15 +148,18 @@
       },
     };
 
-    const state = { hoverX: 0.5, hoverY: 0.5, isHover: false };
+  const state = { hoverX: 0.5, hoverY: 0.5, isHover: false };
     const primary = { target: 0, eased: 0 };
     const secondary = { target: 0, eased: 0 };
 
     let hostRect = hostEl.getBoundingClientRect();
-    let rafId;
+  // per-instance unregister function from the shared RAF
+  let unregisterFromPool = null;
     let pmRaf = null; // throttle pointermove updates
     const prefersReducedMotion =
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Disposed flag to guard async callbacks after cleanup
+    let disposed = false;
 
     // Update rectangles geometry and blur layer CSS vars
     function setGeometry(width, height, radius) {
@@ -110,6 +180,7 @@
 
     // Recalculate sizes on host/viewport changes
     function recalc() {
+      if (disposed) return;
       hostRect = hostEl.getBoundingClientRect();
       const m = Math.max(0, Number(cfg.margin) || 0);
       const width = Math.max(0, hostRect.width + m * 2);
@@ -126,7 +197,14 @@
       const radius = Math.min(cfg.radius, Math.max(0, Math.min(innerW, innerH) / 2));
       setGeometry(width, height, radius);
 
-      const perimeter = srRunner.getTotalLength ? srRunner.getTotalLength() : 2 * (innerW + innerH);
+      // Compute perimeter of rounded rect deterministically to avoid reliance on getTotalLength
+      // Perimeter = 2*(w + h) - 8*r + 2*pi*r  (straight segments plus 4 quarter-circle arcs)
+      const r = radius;
+      let perimeter = 2 * (innerW + innerH) - 8 * r + 2 * Math.PI * r;
+      if (!isFinite(perimeter) || perimeter <= 0) {
+        // fallback to a safe estimate
+        perimeter = Math.max(1, 2 * (innerW + innerH));
+      }
       metrics.perimeter = perimeter;
       metrics.arcQuarter = 2 * Math.PI * radius * 0.25;
       metrics.runnerSegment = metrics.arcQuarter + cfg.tail * 2;
@@ -195,10 +273,10 @@
     }
 
     // RAF loop easing toward targets
-    function animate() {
+    function step() {
+      if (disposed) return;
       updateTargets();
       if (prefersReducedMotion) {
-        // Snap to targets to minimize motion
         primary.eased = primary.target;
         secondary.eased = secondary.target;
       } else {
@@ -206,7 +284,6 @@
         secondary.eased += (secondary.target - secondary.eased) * cfg.ease;
       }
       applyDashes();
-      rafId = requestAnimationFrame(animate);
     }
 
     // Calculate hover position (normalized) from a rect center
@@ -242,12 +319,19 @@
       state.isHover = false;
     }
 
-    const links = hostEl.querySelectorAll('a');
+  const links = hostEl.querySelectorAll('a');
     let pointerHandlersAttached = false;
     let linkHandlersAttached = false;
     let hostHoverAttached = false;
 
-    if (cfg.trackPointer) {
+    // Backwards-compat: accept deprecated `hoverHorizontal` option but prefer `hoverAxis`.
+    if ('hoverHorizontal' in options) {
+      // eslint-disable-next-line no-console
+      console.warn('SideRun: option `hoverHorizontal` is deprecated; use `hoverAxis: "x"|"y"` instead.');
+      cfg.hoverAxis = options.hoverHorizontal === false ? 'y' : 'x';
+    }
+
+  if (cfg.trackPointer) {
       const onPointerEnter = (e) => {
         state.isHover = true;
         updateHoverFromEvent(e);
@@ -258,12 +342,12 @@
       const onPointerLeave = () => {
         state.isHover = false;
       };
-      hostEl.addEventListener('pointerenter', onPointerEnter);
-      hostEl.addEventListener('pointermove', onPointerMove);
-      hostEl.addEventListener('pointerleave', onPointerLeave);
-      pointerHandlersAttached = true;
-      // Save for cleanup
-      hostEl.__srPointerHandlers = { onPointerEnter, onPointerMove, onPointerLeave };
+  hostEl.addEventListener('pointerenter', onPointerEnter, { passive: true });
+  hostEl.addEventListener('pointermove', onPointerMove, { passive: true });
+  hostEl.addEventListener('pointerleave', onPointerLeave, { passive: true });
+  pointerHandlersAttached = true;
+  // Save for cleanup in WeakMap
+  pointerHandlersMap.set(hostEl, { onPointerEnter, onPointerMove, onPointerLeave });
     } else {
       if (links.length > 0) {
         links.forEach((link) => {
@@ -284,7 +368,7 @@
         hostEl.addEventListener('mouseenter', onHostEnter);
         hostEl.addEventListener('mouseleave', onHostLeave);
         hostHoverAttached = true;
-        hostEl.__srHostHoverHandlers = { onHostEnter, onHostLeave };
+        hostHoverHandlersMap.set(hostEl, { onHostEnter, onHostLeave });
       }
     }
 
@@ -293,12 +377,21 @@
     ro.observe(hostEl);
     window.addEventListener('resize', recalc);
 
-    recalc();
-    animate();
+  try {
+      recalc();
+      unregisterFromPool = RafPool.add(step);
+    } finally {
+      // Allow future init calls on this strokeHost
+      initInProgress.delete(strokeHost);
+    }
 
-    // Return cleanup function to remove listeners/observers
-    return () => {
-      cancelAnimationFrame(rafId);
+    // cleanup function to remove listeners/observers
+    const cleanup = () => {
+      disposed = true;
+      if (typeof unregisterFromPool === 'function') {
+        try { unregisterFromPool(); } catch (e) {}
+        unregisterFromPool = null;
+      }
       if (pmRaf != null) {
         cancelAnimationFrame(pmRaf);
         pmRaf = null;
@@ -312,22 +405,55 @@
         });
         hostEl.removeEventListener('mouseleave', handleLeave);
       }
-      if (pointerHandlersAttached && hostEl.__srPointerHandlers) {
-        const { onPointerEnter, onPointerMove, onPointerLeave } = hostEl.__srPointerHandlers;
-        hostEl.removeEventListener('pointerenter', onPointerEnter);
-        hostEl.removeEventListener('pointermove', onPointerMove);
-        hostEl.removeEventListener('pointerleave', onPointerLeave);
-        delete hostEl.__srPointerHandlers;
+      if (pointerHandlersAttached) {
+        const handlers = pointerHandlersMap.get(hostEl);
+        if (handlers) {
+          const { onPointerEnter, onPointerMove, onPointerLeave } = handlers;
+          hostEl.removeEventListener('pointerenter', onPointerEnter);
+          hostEl.removeEventListener('pointermove', onPointerMove);
+          hostEl.removeEventListener('pointerleave', onPointerLeave);
+          pointerHandlersMap.delete(hostEl);
+        }
       }
-      if (hostHoverAttached && hostEl.__srHostHoverHandlers) {
-        const { onHostEnter, onHostLeave } = hostEl.__srHostHoverHandlers;
-        hostEl.removeEventListener('mouseenter', onHostEnter);
-        hostEl.removeEventListener('mouseleave', onHostLeave);
-        delete hostEl.__srHostHoverHandlers;
+      if (hostHoverAttached) {
+        const handlers = hostHoverHandlersMap.get(hostEl);
+        if (handlers) {
+          const { onHostEnter, onHostLeave } = handlers;
+          hostEl.removeEventListener('mouseenter', onHostEnter);
+          hostEl.removeEventListener('mouseleave', onHostLeave);
+          hostHoverHandlersMap.delete(hostEl);
+        }
       }
+      // remove injected DOM and restore previous inline position if we set it
+      try {
+        injected.remove();
+      } catch (e) {}
+      const prev = prevPosMap.get(strokeHost);
+      if (typeof prev !== 'undefined') {
+        if (prev === null) {
+          // we set an inline pos before; clear it
+          strokeHost.style.position = '';
+        } else if (typeof prev === 'string') {
+          strokeHost.style.position = prev;
+        }
+        prevPosMap.delete(strokeHost);
+      }
+      // remove stored cleanup reference
+      cleanupMap.delete(strokeHost);
     };
+
+    // save cleanup in WeakMap so future inits can call it without mutating host DOM
+    cleanupMap.set(strokeHost, cleanup);
+
+    return cleanup;
   }
 
-  // Expose API as global
-  window.SideRun = { init };
+  // Expose API for CommonJS and for browser global (no reassignments)
+  const exported = { init };
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = exported;
+  }
+  if (typeof window !== 'undefined') {
+    window.SideRun = exported;
+  }
 })();
