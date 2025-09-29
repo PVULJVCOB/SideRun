@@ -126,8 +126,10 @@ textarea {
   top: var(--pad);
   right: var(--pad);
   display: flex;
-  height: 47px;
-  margin: 8px;
+  height: 50px;
+  margin-top: 20px;
+  margin-right: 0px;
+  padding: 20px;
   border-radius: var(--radius-sm, 3px);
   z-index: 5;
   font-size: 20px;
@@ -243,8 +245,8 @@ textarea {
   font-weight: 00;
   display: grid;
   place-items: center;
-  height: 47px;
-  margin: 8px;
+  height: 50px;
+  margin: 20px;
   padding: 0 20px;
   border-radius: var(--radius-sm, 3px);
   z-index: 5;
@@ -350,5 +352,133 @@ body.no-scroll {
 
 main {
   min-height: 140vh;
+}
+
+/* ========== MOBILE OPTIMIZATIONS ========== */
+@media (max-width: 768px) {
+  /* Container for consistent width - no horizontal sliding */
+  body {
+    width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Hide desktop nav on mobile */
+  .site-nav.siderun {
+    display: none;
+  }
+  
+  /* Show mobile nav */
+  .mobile-nav.siderun {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: var(--pad);
+    right: var(--pad);
+    margin: 8px;
+    z-index: 6;
+  }
+  
+  /* Logo adjustments for mobile */
+  #logo.nav_button-left.siderun {
+    position: fixed;
+    top: var(--pad);
+    left: var(--pad);
+    height: 45px;
+    margin: 8px;
+    padding: 0 16px;
+    font-size: 26px;
+    z-index: 6;
+  }
+  
+  /* Mobile menu opens DOWNWARD from the nav button */
+  .mobile-menu.siderun {
+    position: fixed;
+    top: calc(var(--pad) + 65px); /* Below the mobile nav button */
+    right: var(--pad);
+    left: auto; /* Remove centering */
+    width: 280px;
+    max-width: calc(100vw - 2 * var(--pad));
+    margin: 8px;
+    border-radius: var(--radius-md, 6px);
+    padding: 10px 0;
+    box-sizing: border-box;
+    
+    /* Animation for slide down */
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.2s ease-out;
+  }
+  
+  .mobile-menu.siderun.is-open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  /* Mobile menu links with better spacing */
+  .mobile-menu__link.siderun {
+    padding: 14px 24px;
+    font-size: 18px;
+    color: var(--color-text);
+    border-bottom: 1px solid rgba(8, 2, 50, 0.08);
+    
+    /* Touch optimizations */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .mobile-menu__link.siderun:last-of-type {
+    border-bottom: none;
+  }
+  
+  .mobile-menu__link.siderun:active {
+    background-color: rgba(8, 2, 50, 0.05);
+  }
+  
+  /* Prevent text selection and improve touch behavior for SideRun elements */
+  .siderun {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Prevent scrolling when menu is open */
+  body.no-scroll {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Menu prompt button with better touch target */
+  .menu-prompt.siderun {
+    width: 44px;
+    height: 44px;
+    margin-right: 8px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-nav.siderun .site-nav__button.siderun {
+    padding: 0 16px;
+    height: 44px;
+    min-width: 80px;
+    touch-action: manipulation;
+  }
+  
+  /* Content spacing adjustments for mobile */
+  :root {
+    --pad: 20px;
+  }
+  
+  /* Hero section mobile adjustments */
+  #hero {
+    padding-top: 120px; /* Space for fixed navigation */
+  }
 }
 
