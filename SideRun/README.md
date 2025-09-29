@@ -1,4 +1,4 @@
-# SideRun Starter
+# SideRun
 
 This folder contains everything you need without a build tool:
 
@@ -31,14 +31,6 @@ This folder contains everything you need without a build tool:
     margin: 11
   });
   </script>
-```
-
-## Optional: npm
-
-If you prefer a package manager:
-
-```bash
-npm install siderun
 ```
 
 Example (ESM):
