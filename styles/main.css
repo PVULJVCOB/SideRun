@@ -1,5 +1,18 @@
 /* Demo styles for SideRun host elements (desktop-focused) */
 
+:root {
+  /* Global tokens for demo/content sections */
+  --page-bg-start: #b2a99f;
+  --page-bg-end: #d2ceca;
+  --content-fg: #080232;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(8, 2, 50, 0.08);
+  --card-shadow: 0 10px 24px rgba(8, 2, 50, 0.06);
+  --cta-bg: #cb690e;
+  --cta-bg-hover: #ee8b13;
+  --cta-fg: #e5eeff;
+}
+
 /* Smooth scroll for in-page anchors */
 html {
   scroll-behavior: smooth;
@@ -15,8 +28,8 @@ html {
 
 body {
   font-family: inherit;
-  color: #080232;
-  background: linear-gradient(0deg, #b2a99f, #d2ceca) no-repeat center / cover;
+  color: var(--content-fg);
+  background: linear-gradient(0deg, var(--page-bg-start), var(--page-bg-end)) no-repeat center / cover;
   background-attachment: fixed;
   overflow-x: hidden;
 }
@@ -97,9 +110,9 @@ body {
 .glass-card {
   border-radius: 12px;
   padding: clamp(18px, 2.4vw, 28px);
-  background: rgba(255, 255, 255, 0.70);
-  border: 1px solid rgba(8, 2, 50, 0.08);
-  box-shadow: 0 10px 24px rgba(8, 2, 50, 0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
   min-width: 0; 
 }
 /* Parallax and fade-in are handled by scrolleffects.css */
@@ -155,10 +168,10 @@ body {
   gap: 10px;
   padding: 10px 16px;
   border-radius: 8px;
-  background: #cb690e;
-  color: #e5eeff;
+  background: var(--cta-bg);
+  color: var(--cta-fg);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .sr-cta:hover {
-  background: #ee8b13;
+  background: var(--cta-bg-hover);
 }

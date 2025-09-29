@@ -1,0 +1,58 @@
+name: Deploy CDN (GitHub Pages)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps (siderun-ui)
+        working-directory: packages/siderun-ui
+        run: |
+          npm install --no-audit --no-fund
+
+      - name: Build (siderun-ui)
+        working-directory: packages/siderun-ui
+        run: |
+          npm run build
+
+      - name: Prepare site artifact
+        run: |
+          mkdir -p _site/cdn
+          cp packages/siderun-ui/dist/siderun.esm.js _site/cdn/siderun.esm.js
+          cp packages/siderun-ui/dist/siderun.cjs.js _site/cdn/siderun.cjs.js
+          cp packages/siderun-ui/styles/siderun.css _site/cdn/siderun.css
+          # Include license
+          cp LICENSE _site/cdn/LICENSE
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

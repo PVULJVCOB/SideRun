@@ -15,9 +15,9 @@
   --hero-content-gap: clamp(16px, 2.6vh, 28px);
   --hero-title-size: clamp(40px, 8vw, 96px);
   --hero-sub-size: clamp(16px, 2.2vw, 22px);
-  --hero-muted: rgba(8, 2, 50, 0.52); /* matches site palette #080232 with alpha */
-  --hero-fg: #080232; /* primary text color used across site */
-  --hero-bg: #ffffff; /* page background */
+  --hero-fg: var(--color-text, #080232);
+  --hero-bg: var(--color-page-bg, #ffffff);
+  --hero-muted: color-mix(in srgb, var(--hero-fg) 52%, transparent);
   --hero-accent: #10085d; /* subtle accent for gradients/indicators */
 }
 

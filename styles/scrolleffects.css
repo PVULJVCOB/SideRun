@@ -5,11 +5,18 @@
   - Reduced-motion support disables animations and parallax
 */
 
+:root {
+  /* Timing tokens for scroll effects */
+  --scroll-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --scroll-ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
+  --scroll-duration: 0.9s;
+}
+
 /* Use a smooth timing curve similar to the reference, but scope to animated elements only */
 .scroll-init,
 .visible,
 [data-scroll] {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: var(--scroll-ease-ui);
 }
 
 /* Initial hidden state applied via JS */
@@ -17,15 +24,15 @@
   opacity: 0;
   transform: translateY(40px);
   transition:
-    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity var(--scroll-duration) var(--scroll-ease),
+    transform var(--scroll-duration) var(--scroll-ease);
 }
 
 /* Always have transition present on scroll-annotated elements */
 [data-scroll] {
   transition:
-    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity var(--scroll-duration) var(--scroll-ease),
+    transform var(--scroll-duration) var(--scroll-ease);
 }
 
 /* Visible state toggled by IntersectionObserver */
@@ -44,20 +51,20 @@
 .scroll-init[data-scroll='fade-left'] {
   transform: translateX(-60px);
   transition:
-    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity var(--scroll-duration) var(--scroll-ease),
+    transform var(--scroll-duration) var(--scroll-ease);
 }
 .scroll-init[data-scroll='fade-right'] {
   transform: translateX(60px);
   transition:
-    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity var(--scroll-duration) var(--scroll-ease),
+    transform var(--scroll-duration) var(--scroll-ease);
 }
 .scroll-init[data-scroll='fade-up'] {
   transform: translateY(40px);
   transition:
-    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity var(--scroll-duration) var(--scroll-ease),
+    transform var(--scroll-duration) var(--scroll-ease);
 }
 
 /* Parallax base: allow 3D transforms */

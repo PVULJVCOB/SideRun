@@ -12,7 +12,24 @@
      stroke widths, blur radius, inset and corner radius together so the effect stays
      visually consistent across sizes. Default: 1 */
   --sr-scale: 1;
+  /* Stroke and border tokens */
   --sr-stroke-width: calc(var(--sr-scale) * 3px); /* default stroke width (px) */
+  --sr-stroke-width-outer: var(--sr-stroke-width);
+  --sr-stroke-width-inner: var(--sr-stroke-width);
+  --sr-stroke-width-runner: var(--sr-stroke-width);
+  --sr-stroke-width-ghost: var(--sr-stroke-width);
+  --sr-stroke-linecap: round; /* round | square | butt */
+
+  /* Colors (inherit accent from global theme when available) */
+  --sr-color-outer: var(--color-accent, #df6502);
+  --sr-color-inner: #ffffff;
+  --sr-color-runner: var(--color-accent, #df6502);
+  --sr-color-ghost: #ffffff;
+  --sr-opacity-outer: 1;
+  --sr-opacity-inner: 1;
+  --sr-opacity-runner: 1;
+  --sr-opacity-ghost: 1;
+
   --sr-blur: calc(var(--sr-scale) * 10px); /* blur amount for backdrop */
   --sr-saturation: 140%;
   --sr-tint: rgba(255, 255, 255, 0.12);
@@ -32,27 +49,31 @@
   vector-effect: non-scaling-stroke;
 }
 .siderun-border .sr-static-outer {
-  stroke: #df6502;
-  stroke-width: var(--sr-stroke-width);
-  stroke-linecap: round;
+  stroke: var(--sr-color-outer, var(--color-accent, #df6502));
+  stroke-opacity: var(--sr-opacity-outer, 1);
+  stroke-width: var(--sr-stroke-width-outer, var(--sr-stroke-width, 3px));
+  stroke-linecap: var(--sr-stroke-linecap, round);
   fill: none;
 }
 .siderun-border .sr-static-inner {
-  stroke: #ffffff;
-  stroke-width: var(--sr-stroke-width);
-  stroke-linecap: round;
+  stroke: var(--sr-color-inner, #ffffff);
+  stroke-opacity: var(--sr-opacity-inner, 1);
+  stroke-width: var(--sr-stroke-width-inner, var(--sr-stroke-width, 3px));
+  stroke-linecap: var(--sr-stroke-linecap, round);
   fill: none;
 }
 .siderun-border .sr-runner {
-  stroke: #df6502;
-  stroke-width: var(--sr-stroke-width);
-  stroke-linecap: round;
+  stroke: var(--sr-color-runner, var(--color-accent, #df6502));
+  stroke-opacity: var(--sr-opacity-runner, 1);
+  stroke-width: var(--sr-stroke-width-runner, var(--sr-stroke-width, 3px));
+  stroke-linecap: var(--sr-stroke-linecap, round);
   fill: none;
 }
 .siderun-border .sr-runner-ghost {
-  stroke: #ffffff;
-  stroke-width: var(--sr-stroke-width);
-  stroke-linecap: round;
+  stroke: var(--sr-color-ghost, #ffffff);
+  stroke-opacity: var(--sr-opacity-ghost, 1);
+  stroke-width: var(--sr-stroke-width-ghost, var(--sr-stroke-width, 3px));
+  stroke-linecap: var(--sr-stroke-linecap, round);
   fill: none;
 }
 
@@ -87,6 +108,10 @@
 @media (max-width: 880px) {
   .sr-container {
     --sr-stroke-width: 3px;
+    --sr-stroke-width-outer: var(--sr-stroke-width);
+    --sr-stroke-width-inner: var(--sr-stroke-width);
+    --sr-stroke-width-runner: var(--sr-stroke-width);
+    --sr-stroke-width-ghost: var(--sr-stroke-width);
     --sr-blur: 8px;
     --sr-inset: 1px;
     --sr-radius: 6px;
@@ -96,6 +121,10 @@
 @media (max-width: 420px) {
   .sr-container {
     --sr-stroke-width: 3px;
+    --sr-stroke-width-outer: var(--sr-stroke-width);
+    --sr-stroke-width-inner: var(--sr-stroke-width);
+    --sr-stroke-width-runner: var(--sr-stroke-width);
+    --sr-stroke-width-ghost: var(--sr-stroke-width);
     --sr-blur: 5px;
     --sr-inset: 1px;
     --sr-radius: 5px;

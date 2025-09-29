@@ -6,6 +6,36 @@ Live-Demo: einfach `index.html` im Browser öffnen.
 
 ## Installation
 
+Variante A — ohne npm (CDN/Direct Import): Sie können SideRun direkt über GitHub Pages laden.
+
+```html
+<!-- CSS -->
+<link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
+<!-- ESM (empfohlen) -->
+<script type="module">
+	import { init } from 'https://pvuljvcob.github.io/SideRun/cdn/siderun.esm.js';
+	// optional: per-Host-Tuning über CSS-Variablen
+	init(document.querySelector('.sr-container'), { radius: 12, tail: 14, margin: 11 });
+	// window.SideRun ist für CJS nicht notwendig; ESM importiert nativ
+	// Lizenz: https://pvuljvcob.github.io/SideRun/cdn/LICENSE
+	// Hinweis: Pfade werden vom Pages-Workflow bereitgestellt
+	// (siehe .github/workflows/pages.yml)
+  
+	// Alternativ können Sie die Dateien auch herunterladen:
+	//  - JS (ESM): https://pvuljvcob.github.io/SideRun/cdn/siderun.esm.js
+	//  - JS (CJS UMD-ähnlich): https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js
+	//  - CSS: https://pvuljvcob.github.io/SideRun/cdn/siderun.css
+	// und lokal hosten.
+  
+	// CJS-Variante per Script-Tag (falls ESM nicht verfügbar):
+	// <link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
+	// <script src="https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js"></script>
+	// <script> SideRun.init(document.querySelector('.sr-container'), { radius: 12 }); </script>
+</script>
+```
+
+Variante B — npm (optional):
+
 ```bash
 npm install siderun
 # oder
@@ -27,8 +57,8 @@ const cleanup = init(host, { radius: 12, tail: 14, margin: 11 });
 ## Script-Tag
 
 ```html
-<link rel="stylesheet" href="/node_modules/siderun/styles/siderun.css">
-<script src="/node_modules/siderun/dist/siderun.cjs.js"></script>
+<link rel="stylesheet" href="https://pvuljvcob.github.io/SideRun/cdn/siderun.css">
+<script src="https://pvuljvcob.github.io/SideRun/cdn/siderun.cjs.js"></script>
 <script>
 	const { init } = window.SideRun;
 	init(document.querySelector('.sr-container'), { radius: 12 });

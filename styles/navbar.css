@@ -1,13 +1,28 @@
 /* Navbar and desktop layout styles (desktop-first) */
 :root {
-  /* CSS custom properties (alphabetical) */
-  --cta-color: none;
-  --cta-hover-color: none;
-  --cta-text-color: #080232;
-  --glass-color: none;
-  --glass-stroke-color: none;
-  --pad: 30px;
-  --text-color: #080232;
+  /* Global theme tokens (edit here to re-skin the site) */
+  /* Colors */
+  --color-text: #080232;
+  --color-page-bg: #ffffff;
+  --color-accent: #df6502;
+  --color-cta: #ffffff00;
+  --color-cta-hover: #f4f4f400;
+  --color-glass: rgba(255, 255, 255, 0);
+  --color-glass-stroke: rgba(8, 2, 50, 0.12);
+
+  /* Layout & geometry */
+  --pad: 30px; /* site edge padding */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  /* Mappings for legacy variables used in this file */
+  --cta-color: var(--color-cta);
+  --cta-hover-color: var(--color-cta-hover);
+  --cta-text-color: var(--color-text);
+  --glass-color: var(--color-glass);
+  --glass-stroke-color: var(--color-glass-stroke);
+  --text-color: var(--color-text);
 }
 
 /* Minimal reset + backdrop */
@@ -113,7 +128,7 @@ textarea {
   display: flex;
   height: 47px;
   margin: 8px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm, 3px);
   z-index: 5;
   font-size: 20px;
   font-weight: 700;
@@ -132,17 +147,17 @@ textarea {
 }
 /* Keep SideRun border under the navbar content */
 .site-nav.siderun .site-nav__stroke.siderun {
-  z-index: 0;
+  z-index: 1;
 }
 .mobile-nav.siderun .site-nav__stroke.siderun {
-  z-index: 0;
+  z-index: 1;
 }
 /* Lift nav contents above the border layer */
 .site-nav__links.siderun,
 .site-nav__button.siderun,
 .menu-prompt.siderun {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 .site-nav__links.siderun {
   display: flex;
@@ -231,7 +246,7 @@ textarea {
   height: 47px;
   margin: 8px;
   padding: 0 20px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm, 3px);
   z-index: 5;
   color: var(--cta-text-color, #111);
   background: var(--cta-color, #fff);
@@ -244,7 +259,7 @@ textarea {
   position: absolute;
   inset: -11px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 #logo.nav_button-left.siderun > :not(.site-nav__stroke) {
   position: relative;
@@ -271,7 +286,7 @@ textarea {
 .menu-prompt.siderun {
   width: 37px;
   height: 37px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm, 3px);
   margin-right: 4px;
   display: grid;
   place-items: center;
@@ -281,7 +296,7 @@ textarea {
   display: block;
 }
 .mobile-nav.siderun .site-nav__button.siderun {
-  border-radius: 3px;
+  border-radius: var(--radius-sm, 3px);
   padding: 0 20px;
 }
 
@@ -291,7 +306,7 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: rgba(13, 17, 19, 0.325);
+  background: rgba(19, 16, 13, 0.325);
 }
 .menu-overlay.siderun.is-open {
   display: block;
@@ -309,7 +324,7 @@ textarea {
   width: calc(100% - 2 * var(--pad) - 16px);
   box-sizing: border-box;
   padding: 5px 20px 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-md, 6px);
 }
 .mobile-menu.siderun.is-open {
   display: flex;
