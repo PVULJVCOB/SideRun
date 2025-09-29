@@ -14,22 +14,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install deps
+      - name: Install deps (packages/siderun)
+        if: ${{ hashFiles('packages/siderun/package.json') != '' }}
         working-directory: packages/siderun
-        run: |
-          npm ci --no-audit --no-fund
-      - name: Lint
+        run: npm ci --no-audit --no-fund
+      - name: Lint (packages/siderun)
+        if: ${{ hashFiles('packages/siderun/package.json') != '' }}
         working-directory: packages/siderun
-        run: |
-          npm run lint --if-present
-      - name: Test
+        run: npm run lint --if-present
+      - name: Test (packages/siderun)
+        if: ${{ hashFiles('packages/siderun/package.json') != '' }}
         working-directory: packages/siderun
-        run: |
-          npm test --if-present
-      - name: Build
+        run: npm test --if-present
+      - name: Build (packages/siderun)
+        if: ${{ hashFiles('packages/siderun/package.json') != '' }}
         working-directory: packages/siderun
-        run: |
-          npm run build --if-present
+        run: npm run build --if-present
 
   frontend:
     runs-on: ubuntu-latest
@@ -39,19 +39,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install deps (siderun-ui)
+      - name: Install deps (packages/siderun-ui)
+        if: ${{ hashFiles('packages/siderun-ui/package.json') != '' }}
         working-directory: packages/siderun-ui
-        run: |
-          npm ci --no-audit --no-fund
-      - name: Lint (siderun-ui)
+        run: npm ci --no-audit --no-fund
+      - name: Lint (packages/siderun-ui)
+        if: ${{ hashFiles('packages/siderun-ui/package.json') != '' }}
         working-directory: packages/siderun-ui
-        run: |
-          npm run lint --if-present
-      - name: Build (siderun-ui)
+        run: npm run lint --if-present
+      - name: Build (packages/siderun-ui)
+        if: ${{ hashFiles('packages/siderun-ui/package.json') != '' }}
         working-directory: packages/siderun-ui
-        run: |
-          npm run build
-      - name: Test (siderun-ui)
+        run: npm run build --if-present
+      - name: Test (packages/siderun-ui)
+        if: ${{ hashFiles('packages/siderun-ui/package.json') != '' }}
         working-directory: packages/siderun-ui
-        run: |
-          npm test --if-present
+        run: npm test --if-present
