@@ -44,6 +44,11 @@ jobs:
           cp packages/siderun-ui/styles/siderun.css _site/cdn/siderun.css
           # Include license
           cp LICENSE _site/cdn/LICENSE
+          # Starter folder (browseable)
+          mkdir -p _site/starter
+          cp -R siderun-starter/* _site/starter/
+          # Zip starter for download
+          (cd siderun-starter && zip -rq ../_site/siderun-starter.zip .)
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
