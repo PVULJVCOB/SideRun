@@ -82,7 +82,7 @@ textarea {
 
 /* Visually hidden (screen-reader-only) utility */
 .sr-visually-hidden {
-  position: absolute !important;
+  position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -117,16 +117,13 @@ textarea {
   font-weight: 400;
 }
 
-/* Logo */
-/* .logo.siderun removed (unused) */
-
 /* Desktop nav */
 .site-nav.siderun {
   position: fixed;
   top: var(--pad);
   right: var(--pad);
   display: flex;
-  height: 50px;
+  height: 40px;
   margin-top: 20px;
   margin-right: 0px;
   padding: 20px;
@@ -135,9 +132,9 @@ textarea {
   font-size: 20px;
   font-weight: 700;
   align-items: center; /* center content vertically */
+  justify-content: center;
   overflow: visible;
   justify-content: center; /* center contents horizontally in collapsed state */
-  --nav-text-shift-y: -10px;
 }
 .site-nav__stroke.siderun {
   position: absolute;
@@ -164,6 +161,7 @@ textarea {
 .site-nav__links.siderun {
   display: flex;
   align-items: center;
+  justify-content: center;
   max-width: 0; /* collapsed by default */
   overflow: hidden;
   opacity: 0;
@@ -173,7 +171,7 @@ textarea {
   transition:
     max-width 0.6s ease-out,
     opacity 0.25s ease-out;
-  height: 47px; /* match navbar height for consistent vertical centering */
+  height: 40px; /* match navbar height for consistent vertical centering */
 }
 .site-nav.siderun.is-expanded .site-nav__links.siderun {
   max-width: var(--nav-links-max, 600px);
@@ -198,9 +196,9 @@ textarea {
   transition: 0.3s opacity;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
   line-height: 1;
-  transform: translateY(var(--nav-text-shift-y, 0));
 }
 .site-nav__link.siderun:first-of-type {
   padding-left: 30px;
@@ -217,6 +215,7 @@ textarea {
 .site-nav__button.siderun {
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 30px;
   border-radius: 0 3px 3px 0;
   color: var(--cta-text-color);
@@ -224,13 +223,8 @@ textarea {
   transition:
     0.3s background-color,
     0.3s color;
-  height: 47px; /* match navbar height */
+  height: 40px; /* match navbar height */
   line-height: 1;
-  justify-content: center;
-  transform: translate(
-    var(--menu-text-shift-x, -10px),
-    var(--nav-text-shift-y, -10px)
-  );
 }
 .site-nav__button.siderun:hover {
   background: var(--cta-hover-color);
@@ -239,6 +233,8 @@ textarea {
 /* Logo (left badge) aligned with navbar height; center its label */
 #logo.nav_button-left.siderun {
   position: fixed;
+  justify-content: center;
+  align-items: center;
   top: var(--pad);
   left: var(--pad);
   font-size: 30px;
@@ -270,16 +266,14 @@ textarea {
 #logo.nav_button-left.siderun .label {
   position: relative;
   z-index: 2;
-  transform: translate(
-    var(--logo-text-shift-x, -10px),
-    var(--nav-text-shift-y, -10px)
-  );
 }
 
 /* Mobile nav */
 .mobile-nav.siderun {
   display: none;
   position: fixed;
+  justify-content: center;
+  align-items: center;
   top: var(--pad);
   right: var(--pad);
   margin: 8px;
@@ -292,6 +286,8 @@ textarea {
   margin-right: 4px;
   display: grid;
   place-items: center;
+  justify-content: center;
+  align-items: center;
 }
 .menu-prompt__icon.siderun svg {
   fill: var(--text-color);
@@ -371,10 +367,9 @@ main {
   /* Show mobile nav */
   .mobile-nav.siderun {
     display: flex;
+    justify-content: center;
     align-items: center;
     position: fixed;
-    top: var(--pad);
-    right: var(--pad);
     margin: 8px;
     z-index: 6;
   }
@@ -382,8 +377,8 @@ main {
   /* Logo adjustments for mobile */
   #logo.nav_button-left.siderun {
     position: fixed;
-    top: var(--pad);
-    left: var(--pad);
+    justify-content: center;
+    align-items: center;
     height: 45px;
     margin: 8px;
     padding: 0 16px;
@@ -408,6 +403,7 @@ main {
     transform: translateY(-20px);
     opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.2s ease-out;
+    z-index: 1;
   }
   
   .mobile-menu.siderun.is-open {
