@@ -27,7 +27,8 @@
       <span class="label siderun sr-eyebrow">SIDERUN</span>
     </a>
   <!-- Desktop nav (hidden in mobile-focused mode) -->
-    <nav class="site-nav text-s-strong glass-bg siderun" aria-label="Primary">
+    <nav class="site-nav text-s-strong siderun" aria-label="Primary">
+      <div class="sr-navbar__blur"></div>
       <div class="site-nav__stroke siderun"></div>
       <div class="site-nav__links siderun">
         <a href="#hero" class="site-nav__link siderun">Home</a>
@@ -38,64 +39,11 @@
       <a class="site-nav__button siderun">Menu</a>
     </nav>
 
-  <!-- Mobile bar (hidden in desktop-focused mode) -->
-  <div class="mobile-nav siderun" role="navigation" aria-label="Primary mobile">
-      <div class="site-nav__stroke siderun"></div>
-      <button id="menu-prompt" class="menu-prompt glass-bg siderun" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-        <div class="menu-prompt__icon siderun" data-icon="burger">
-          <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
-            <rect x="9" y="18" width="19" height="1"></rect>
-            <rect x="9" y="22" width="19" height="1"></rect>
-            <rect x="9" y="14" width="19" height="1"></rect>
-          </svg>
-        </div>
-      </button>
-      <a class="site-nav__button glass-bg text-s-strong siderun">Menu</a>
-    </div>
-
-  <!-- New Centered Mobile Navbar (only visible on mobile) -->
-  <nav id="centered-mobile-nav" class="centered-mobile-nav siderun" aria-label="Mobile Navigation">
-    <div class="site-nav__stroke siderun"></div>
-    <div class="centered-mobile-nav__container">
-      <!-- Logo on left -->
-      <a href="#hero" class="centered-mobile-nav__logo">SIDERUN</a>
-      
-      <!-- Menu button on right -->
-      <button id="centered-menu-btn" class="centered-mobile-nav__menu-btn" aria-label="Open menu" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-    </div>
-    
-    <!-- Expandable menu content (hidden by default) -->
-    <div class="centered-mobile-nav__dropdown" id="centered-mobile-dropdown">
-      <a href="#hero" class="centered-mobile-nav__link">Home</a>
-      <a href="#siderun-demos" class="centered-mobile-nav__link">Demos</a>
-      <a href="#overview" class="centered-mobile-nav__link">Overview</a>
-      <a href="https://github.com/PVULJVCOB/SideRun" class="centered-mobile-nav__link" target="_blank">GitHub</a>
-    </div>
-  </nav>
-
-  <!-- Mobile menu panel and background overlay (hidden unless opened) -->
-  <div id="menu-overlay" class="menu-overlay siderun"></div>
-  <div id="mobile-menu" class="mobile-menu glass-bg siderun" role="dialog" aria-modal="false" aria-labelledby="mobileMenuTitle" aria-hidden="true">
-      <div class="site-nav__stroke siderun"></div>
-      <!-- Dialog title for screen readers only -->
-      <h2 id="mobileMenuTitle" class="sr-visually-hidden">Navigation</h2>
-      <div class="mobile-menu__links text-xl siderun">
-        <a href="#hero" class="mobile-menu__link siderun">Home</a>
-        <a href="#siderun-demos" class="mobile-menu__link siderun">Demos</a>
-        <a href="#overview" class="mobile-menu__link siderun">Overview</a>
-        <a href="https://github.com/PVULJVCOB/SideRun" class="mobile-menu__link siderun" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </div>
-
   <!-- Hero: spacious, minimal introduction with parallax backdrop -->
   <header id="hero" class="hero" role="banner" aria-label="Intro">
     <div class="hero-parallax" aria-hidden="true">
-      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--a" data-depth="0.12"></div>
-      <div class="hero-parallax__layer hero-parallax__blob hero-parallax__blob--b" data-depth="0.18"></div>
+      <div class="hero-parallax__layer" data-depth="0.12"></div>
+      <div class="hero-parallax__layer" data-depth="0.18"></div>
       <div class="hero-parallax__layer hero-parallax__grid" data-depth="0.05"></div>
     </div>
 
@@ -129,7 +77,7 @@
           <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="80">
             <!-- Demo: Flying Border Effect -->
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
-              <h3 class="hero__eyebrow" data-scroll="fade-up">Flying Border</h3>
+              <h3 class="hero__eyebrow" data-scroll="fade-up">SideRun</h3>
               <div id="siderun" class="sr-container glass-bg demo-siderun" style="margin-top:17px">
                 <div class="site-nav__stroke siderun"></div>
                 <div class="glass-card__content">
@@ -212,7 +160,7 @@ SideRun.init(document.getElementById('siderun'), {
               </div>
 
               <p>
-                <a href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.2s ease;">View on GitHub</a>
+                <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">View on GitHub</a>
               </p>
             </div>
             <div class="glass-card" data-scroll="fade-right" data-stagger-child>
@@ -237,7 +185,7 @@ SideRun.init(document.getElementById('siderun'), {
             </div>
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
               <h4 class="sr-title" style="font-size:22px">Quick Start</h4>
-              <p>Copy <code>siderun.js</code> and <code>siderun.css</code>. Add <code>class="siderun"</code> to elements and initialize with <code>SideRun.init()</code>. Customize via options.</p>
+              <p>Copy <code>siderun.js</code> and <code>siderun.css</code>. Add a host container (e.g., <code>div.sr-container</code>) with a child <code>.site-nav__stroke.siderun</code>, then initialize the host with <code>SideRun.init(host)</code>. Customize via options.</p>
             </div>
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
               <h4 class="sr-title" style="font-size:22px">Documentation</h4>
