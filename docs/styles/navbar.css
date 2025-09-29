@@ -1,4 +1,8 @@
 /* Navbar and desktop layout styles (desktop-first) */
+
+/* ---------------------------
+   Root tokens (global)
+   --------------------------- */
 :root {
   /* Global theme tokens (edit here to re-skin the site) */
   /* Colors */
@@ -23,9 +27,30 @@
   --glass-color: var(--color-glass);
   --glass-stroke-color: var(--color-glass-stroke);
   --text-color: var(--color-text);
+
+  /* ---------------------------
+     Siderun: responsive sizing tokens
+     --------------------------- */
+  /* Dynamische Höhen: passt sich der Browsergröße an.
+     Min 40px, bevorzugt 5vh, Max 64px. */
+  --siderun-nav-height: clamp(40px, 5vh, 64px);
+  --siderun-item-height: var(--siderun-nav-height);
+  --siderun-logo-height: var(--siderun-nav-height);
+
+  /* Logo Breite (falls du fixe Breite willst, hier setzen) */
+  --siderun-logo-width: auto;
+
+  /* Z-index baseline (falls du zentral steuern willst) */
+  --z-blur-layer: 1;
+  --z-border-stroke: 1;
+  --z-nav-base: 1000;
+  --z-nav-content: 1001;
+  --z-sr-container: 1100;
 }
 
-/* Minimal reset + backdrop */
+/* ---------------------------
+   Minimal reset + backdrop
+   --------------------------- */
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -34,6 +59,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  background: var(--color-page-bg);
 }
 html {
   font-family:
@@ -100,9 +126,13 @@ textarea {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-/* Typography tokens (kebab-case) */
+
+/* ---------------------------
+   Typography tokens (kebab-case)
+   --------------------------- */
 .text-s-strong {
   font-size: 15px;
+  /* reduced line-height to avoid vertical shift inside nav */
   line-height: 1.4em;
   font-weight: 600;
 }
@@ -117,25 +147,32 @@ textarea {
   font-weight: 400;
 }
 
-/* Desktop nav */
+/* ---------------------------
+   Desktop nav (Siderun)
+   --------------------------- */
+/* Main nav wrapper */
 .site-nav.siderun {
   position: fixed;
   top: var(--pad);
   right: var(--pad);
   display: flex;
-  height: 40px;
+  /* center children vertically inside this nav height */
+  align-items: center;
+  justify-content: center;
+  height: var(--siderun-nav-height);
   margin-top: 20px;
   margin-right: 0px;
   padding: 20px;
   border-radius: var(--radius-sm, 3px);
-  z-index: 5;
+  z-index: var(--z-nav-base); /* base nav level */
+  /* visual and typographic */
   font-size: 20px;
   font-weight: 700;
-  align-items: center; /* center content vertically */
-  justify-content: center;
   overflow: visible;
-  justify-content: center; /* center contents horizontally in collapsed state */
+  background: transparent; /* keep transparent by default */
 }
+
+/* stroke/border layer — keep under content */
 .site-nav__stroke.siderun {
   position: absolute;
   top: -10px;
@@ -143,21 +180,26 @@ textarea {
   bottom: -10px;
   left: -10px;
   pointer-events: none;
+  z-index: var(--z-border-stroke);
 }
+
 /* Keep SideRun border under the navbar content */
 .site-nav.siderun .site-nav__stroke.siderun {
-  z-index: 1;
+  z-index: var(--z-border-stroke);
 }
 .mobile-nav.siderun .site-nav__stroke.siderun {
-  z-index: 1;
+  z-index: var(--z-border-stroke);
 }
+
 /* Lift nav contents above the border layer */
 .site-nav__links.siderun,
 .site-nav__button.siderun,
 .menu-prompt.siderun {
   position: relative;
-  z-index: 2;
+  z-index: var(--z-nav-content);
 }
+
+/* Links container (collapsed/expanded controlled by JS) */
 .site-nav__links.siderun {
   display: flex;
   align-items: center; /* ensure links are centered vertically */
@@ -171,7 +213,7 @@ textarea {
   transition:
     max-width 0.6s ease-out,
     opacity 0.25s ease-out;
-  height: 40px; /* match navbar height for consistent vertical centering */
+  height: var(--siderun-item-height); /* match navbar height for consistent vertical centering */
 }
 .site-nav.siderun.is-expanded .site-nav__links.siderun {
   max-width: var(--nav-links-max, 600px);
@@ -188,16 +230,20 @@ textarea {
   max-width: var(--nav-links-max, 600px);
   opacity: 1;
 }
+
+/* Individual link */
 .site-nav__link.siderun {
   color: var(--text-color);
   text-decoration: none;
   padding: 0 15px;
-  display: flex;              /* flex für Zentrierung */
-  align-items: center;        /* vertikal mittig */
-  justify-content: center;    /* horizontal mittig */
-  height: 100%;               /* nimmt volle Höhe der Nav ein */
-  line-height: 1;             /* kein extra Zeilenabstand */
+  display: flex;              /* flex for vertical centering */
+  align-items: center;        /* vertical center */
+  justify-content: center;    /* horizontal center */
+  height: var(--siderun-item-height); /* fills nav height */
+  line-height: 1;             /* prevent inherited larger line-heights */
   transition: 0.3s opacity;
+  position: relative;
+  z-index: calc(var(--z-nav-content) + 1); /* ensure text is above blur layers */
 }
 .site-nav__link.siderun:first-of-type {
   padding-left: 30px;
@@ -211,9 +257,11 @@ textarea {
 .site-nav__links.siderun:hover .site-nav__link.siderun:hover {
   opacity: 1;
 }
+
+/* CTA / button */
 .site-nav__button.siderun {
   display: flex;
-  align-items: center;       /* vertikal mittig */
+  align-items: center;       /* vertically centered */
   justify-content: center;
   padding: 0 30px;
   border-radius: 0 3px 3px 0;
@@ -222,8 +270,10 @@ textarea {
   transition:
     0.3s background-color,
     0.3s color;
-  height: 40px;              /* match navbar height */
-  line-height: 1;            /* Text mittig */
+  height: var(--siderun-item-height); /* match navbar height */
+  line-height: 1;            /* text vertically centered */
+  position: relative;
+  z-index: calc(var(--z-nav-content) + 1);
 }
 .site-nav__button.siderun:hover {
   background: var(--cta-hover-color);
@@ -232,21 +282,22 @@ textarea {
 /* Logo (left badge) aligned with navbar height; center its label */
 #logo.nav_button-left.siderun {
   position: fixed;
-  justify-content: center;
-  align-items: center;
-  display: flex;              /* für Flex-Zentrierung */
   top: var(--pad);
   left: var(--pad);
+  display: flex;              /* for flex centering */
+  justify-content: center;
+  align-items: center;
   font-size: 30px;
   font-weight: 400;
-  height: 50px;
+  height: var(--siderun-logo-height); /* use token */
+  width: var(--siderun-logo-width);
   margin: 20px;
   padding: 0 20px;
   border-radius: var(--radius-sm, 3px);
-  z-index: 5;
+  z-index: calc(var(--z-nav-content) + 1);
   color: var(--cta-text-color, #111);
   background: var(--cta-color, #fff);
-  line-height: 1;             /* Text vertikal mittig */
+  line-height: 1;             /* text vertically centered */
 }
 #logo.nav_button-left.siderun:hover {
   background: var(--cta-hover-color);
@@ -256,18 +307,20 @@ textarea {
   position: absolute;
   inset: -11px;
   pointer-events: none;
-  z-index: 1;
+  z-index: var(--z-border-stroke);
 }
 #logo.nav_button-left.siderun > :not(.site-nav__stroke) {
   position: relative;
-  z-index: 1;
+  z-index: calc(var(--z-nav-content) + 1);
 }
 #logo.nav_button-left.siderun .label {
   position: relative;
-  z-index: 2;
+  z-index: calc(var(--z-nav-content) + 2);
 }
 
-/* Mobile nav */
+/* ---------------------------
+   Mobile nav
+   --------------------------- */
 .mobile-nav.siderun {
   display: none;
   position: fixed;
@@ -276,7 +329,7 @@ textarea {
   top: var(--pad);
   right: var(--pad);
   margin: 8px;
-  z-index: 6;
+  z-index: calc(var(--z-nav-base) + 2);
 }
 .menu-prompt.siderun {
   width: 37px;
@@ -302,7 +355,7 @@ textarea {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: calc(var(--z-nav-base) + 10);
   background: rgba(19, 16, 13, 0.325);
 }
 .menu-overlay.siderun.is-open {
@@ -316,7 +369,7 @@ textarea {
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 11;
+  z-index: calc(var(--z-nav-base) + 11);
   max-width: 400px;
   width: calc(100% - 2 * var(--pad) - 16px);
   box-sizing: border-box;
@@ -345,59 +398,76 @@ body.no-scroll {
   overflow: hidden;
 }
 
+/* Ensure main has enough height for scrolling demos */
 main {
   min-height: 140vh;
 }
 
+/* ---------------------------
+   Accessibility container (sr-container)
+   must be above blur-layers and above nav if needed
+   --------------------------- */
+.sr-container {
+  position: relative;
+  z-index: var(--z-sr-container); /* above blur and above most nav content */
+}
+
 /* ========== MOBILE OPTIMIZATIONS ========== */
 @media (max-width: 768px) {
+  /* Container for consistent width - no horizontal sliding */
   body {
     width: 100vw;
     overflow-x: hidden;
     position: relative;
   }
   
+  /* Hide desktop nav on mobile */
   .site-nav.siderun {
     display: none;
   }
   
+  /* Show mobile nav */
   .mobile-nav.siderun {
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
     margin: 8px;
-    z-index: 6;
+    z-index: calc(var(--z-nav-base) + 2);
   }
   
+  /* Logo adjustments for mobile */
   #logo.nav_button-left.siderun {
     position: fixed;
     justify-content: center;
     align-items: center;
     display: flex;
-    height: 45px;
+    height: calc(var(--siderun-logo-height) * 0.9); /* slightly reduced on mobile */
     margin: 8px;
     padding: 0 16px;
     font-size: 26px;
-    z-index: 6;
+    z-index: calc(var(--z-nav-content) + 1);
     line-height: 1;
   }
   
+  /* Mobile menu opens DOWNWARD from the nav button */
   .mobile-menu.siderun {
     position: fixed;
-    top: calc(var(--pad) + 65px);
+    top: calc(var(--pad) + 65px); /* Below the mobile nav button */
     right: var(--pad);
-    left: auto;
+    left: auto; /* Remove centering */
     width: 280px;
     max-width: calc(100vw - 2 * var(--pad));
     margin: 8px;
     border-radius: var(--radius-md, 6px);
     padding: 10px 0;
     box-sizing: border-box;
+    
+    /* Animation for slide down */
     transform: translateY(-20px);
     opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.2s ease-out;
-    z-index: 1;
+    z-index: calc(var(--z-nav-base) + 11);
   }
   
   .mobile-menu.siderun.is-open {
@@ -405,16 +475,21 @@ main {
     opacity: 1;
   }
   
+  /* Mobile menu links with better spacing */
   .mobile-menu__link.siderun {
     padding: 14px 24px;
     font-size: 18px;
     color: var(--color-text);
     border-bottom: 1px solid rgba(8, 2, 50, 0.08);
+    
+    /* Touch optimizations */
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     user-select: none;
     -webkit-user-select: none;
-    line-height: 1; /* vertikal mittig */
+    
+    /* ensure vertical centering */
+    line-height: 1; 
     display: flex;
     align-items: center;
   }
@@ -427,6 +502,7 @@ main {
     background-color: rgba(8, 2, 50, 0.05);
   }
   
+  /* Prevent text selection and improve touch behavior for SideRun elements */
   .siderun {
     user-select: none;
     -webkit-user-select: none;
@@ -436,6 +512,7 @@ main {
     -webkit-tap-highlight-color: transparent;
   }
   
+  /* Prevent scrolling when menu is open */
   body.no-scroll {
     position: fixed;
     width: 100%;
@@ -443,6 +520,7 @@ main {
     overflow: hidden;
   }
   
+  /* Menu prompt button with better touch target */
   .menu-prompt.siderun {
     width: 44px;
     height: 44px;
@@ -466,8 +544,10 @@ main {
     --pad: 20px;
   }
   
+  /* Hero section mobile adjustments */
   #hero {
-    padding-top: 120px;
+    padding-top: 120px; /* Space for fixed navigation */
   }
 }
+
 /* Mobile optimizations applied */
