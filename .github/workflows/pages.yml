@@ -1,4 +1,4 @@
-name: Deploy Downloads (GitHub Pages)
+name: Deploy Site (GitHub Pages)
 
 on:
   push:
@@ -28,45 +28,12 @@ jobs:
 
       - name: Prepare site artifact
         run: |
-          # Starter folder (browseable only)
-          mkdir -p _site/SideRun
-          cp -R SideRun/* _site/SideRun/
-          # Zip starter for download
-          (cd SideRun && zip -rq ../_site/SideRun.zip .)
-          # Minimal index page with download links only
-          cat > _site/index.html << 'EOF'
-          <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>SideRun Downloads</title>
-            <style>
-              body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:48px;background:#0b0720;color:#fff}
-              .wrap{max-width:760px;margin:0 auto}
-              .card{background:#ffffff10;border:1px solid #ffffff22;border-radius:10px;padding:24px}
-              h1{margin:0 0 12px;font-size:28px}
-              p{opacity:.85}
-              .links{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-              a.btn{display:inline-flex;align-items:center;gap:10px;padding:11px 16px;border-radius:8px;text-decoration:none;color:#0b0720;background:#ffd28a;font-weight:700}
-              a.btn.secondary{background:#ffffffcc}
-              code{background:#ffffff26;padding:2px 6px;border-radius:6px}
-            </style>
-          </head>
-          <body>
-            <div class="wrap">
-              <div class="card">
-                <h1>SideRun Starter Download</h1>
-                <p>Download the starter package or browse the folder. Includes <code>siderun.js</code>, <code>siderun.css</code> and a tiny demo.</p>
-                <div class="links">
-                  <a class="btn" href="./SideRun.zip">Download ZIP</a>
-                  <a class="btn secondary" href="./SideRun/">Browse folder</a>
-                </div>
-              </div>
-            </div>
-          </body>
-          </html>
-          EOF
+          # Publish the actual site and the starter folder only
+          mkdir -p _site
+          # Copy root site
+          cp -R index.html styles js _site/
+          # Copy starter folder (browseable only)
+          cp -R SideRun _site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -2,17 +2,15 @@
 
 SideRun is a tiny front‑end effect: an animated “running” frame with a soft blurred backdrop. Ideal for navbars, logos, and cards. It’s just a small JS runtime plus a CSS file.
 
-Live demo: open `index.html` in your browser.
+Live demo: open `index.html` locally or visit the hosted demo: https://pvuljvcob.github.io/SideRun/
 
-Note: The project’s GitHub Pages host only the downloadable starter content (`/SideRun` and `SideRun.zip`).
+Note: GitHub Pages hosts the main site and the starter folder at `/SideRun/` (no ZIP archive). Download by browsing the folder and saving `siderun.js` and `siderun.css`.
 
 ## Installation
 
 Option A — Starter (recommended, no build):
 
-1) Download the starter ZIP from GitHub Pages:
-	- `https://pvuljvcob.github.io/SideRun/SideRun.zip`
-	- or browseable: `https://pvuljvcob.github.io/SideRun/SideRun/`
+1) Browse the starter folder on GitHub Pages: `https://pvuljvcob.github.io/SideRun/SideRun/`
 2) Copy `siderun.js` and `siderun.css` into your project
 3) Add the host markup and initialize (see below)
 
