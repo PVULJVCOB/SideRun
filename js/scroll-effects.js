@@ -46,6 +46,11 @@
 
     const els = document.querySelectorAll('[data-scroll]');
     els.forEach((el) => {
+      // If element is a SideRun host or contains one, avoid opacity transitions (transform-only)
+      const hasSRHost = el.classList.contains('sr-container') || !!el.querySelector('.sr-container');
+      if (hasSRHost) {
+        el.classList.add('scroll-transform-only');
+      }
       observer.observe(el);
       el.classList.add('scroll-init');
     });

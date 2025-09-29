@@ -97,3 +97,14 @@
     will-change: auto !important;
   }
 }
+
+/* SideRun host flicker fix (clean variant):
+   Elements flagged by JS with .scroll-transform-only skip opacity transitions. */
+.scroll-transform-only.scroll-init,
+.scroll-transform-only.visible {
+  opacity: 1;
+}
+
+.scroll-transform-only {
+  transition: transform var(--scroll-duration) var(--scroll-ease);
+}
