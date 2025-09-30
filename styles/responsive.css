@@ -3,6 +3,25 @@
 /* === siderun scaling === */
 @media (max-width: 1024px) and (min-width: 769px) {
 	.sr-container,
+/* Hide the mobile/compact nav toggle when the page or a container is in fullscreen mode. */
+/* Covers standard and vendor-prefixed fullscreen pseudo-classes. */
+:fullscreen .site-nav-toggle,
+:-webkit-full-screen .site-nav-toggle,
+:-moz-full-screen .site-nav-toggle,
+:-ms-fullscreen .site-nav-toggle,
+::backdrop .site-nav-toggle {
+	display: none !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+/* Also hide if the toggle itself is made fullscreen (edge cases) */
+.site-nav-toggle:fullscreen,
+.site-nav-toggle:-webkit-full-screen,
+.site-nav-toggle:-moz-full-screen {
+	display: none !important;
+}
+
 	.siderun {
 		--sr-scale: 0.9;
 	}
