@@ -65,4 +65,10 @@
 body {
 	background: linear-gradient(#111, #333); /* Beispiel-Hintergrund */
 	background-attachment: fixed;            /* fixiert, läuft hinter Leisten */
+
+	/* Hintergrund nach oben/unten hinter Safari-Bar ziehen */
+	padding-top: env(safe-area-inset-top);
+	padding-bottom: env(safe-area-inset-bottom);
+	margin-top: -env(safe-area-inset-top);
+	margin-bottom: -env(safe-area-inset-bottom);
 }
