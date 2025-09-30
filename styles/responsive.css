@@ -119,7 +119,16 @@
 }
 
 /* === show toggle and hide desktop navbar at <=1400px (but keep mobile <768px rules) === */
-@media (max-width: 1400px) and (min-width: 769px) {
+/* By default the compact nav toggle is hidden. It should only appear when the
+   viewport is at most 1400px wide. This prevents the toggle from ever showing
+   in fullscreen or large-window modes. */
+
+/* hide toggle by default */
+.site-nav-toggle {
+	display: none !important;
+}
+
+@media (max-width: 1400px) {
 	/* keep the desktop nav present but off-screen so we can animate it in/out smoothly */
 	.site-nav.siderun {
 		/* positioned near the right edge; initially moved off-screen */
@@ -137,15 +146,16 @@
 		z-index: calc(var(--sr-z-content, 50) + 5);
 		transition: transform 300ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease, visibility 0s linear 300ms;
 	}
-	/* show the toggle button */
- 	.site-nav-toggle {
+	/* show the toggle button for viewports <= 1400px */
+	/* use !important to override the default hidden state */
+	.site-nav-toggle {
  		position: fixed;
  		top: calc(var(--sr-viewport-padding, 20px));
  		right: 8px;
  		z-index: calc(var(--sr-z-content, 50) + 20);
 		width: 44px;
 		height: 44px;
-		display: flex;
+		display: flex !important;
 		align-items: center;
 		justify-content: center;
 		background: var(--color-cta, rgba(255,255,255,0.04));
