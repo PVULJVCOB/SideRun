@@ -8,11 +8,13 @@
 
 :root {
   /* Hero-specific tokens with safe fallbacks */
-  /* Full viewport height for the hero */
-  --hero-height: 100svh;
-  --hero-padding-block: clamp(48px, 8vh, 120px);
+  /* Use dynamic viewport units with fallback: svh/dvh preferred where available */
+  --hero-height: 100svh; /* modern browsers */
+  /* Fallback for browsers that don't support svh: let CSS calc use 100vh */
+  --hero-height-fallback: 100vh;
+  --hero-padding-block: clamp(48px, 8dvh, 120px);
   --hero-max-width: 1200px;
-  --hero-content-gap: clamp(16px, 2.6vh, 28px);
+  --hero-content-gap: clamp(16px, 2.6dvh, 28px);
   --hero-title-size: clamp(40px, 8vw, 96px);
   --hero-sub-size: clamp(16px, 2.2vw, 22px);
   --hero-fg: var(--color-text, #080232);
@@ -26,12 +28,16 @@
   position: relative;
   display: grid;
   place-items: center start; 
-  min-height: var(--hero-height);
-  padding-block: var(--hero-padding-block);
+  /* Ensure hero always fills the viewport vertically without creating white bars on mobile.
+     Use the modern unit if available; otherwise fallback to standard vh. */
+  min-height: var(--hero-height, var(--hero-height-fallback));
+  padding-top: calc(var(--hero-padding-block) + env(safe-area-inset-top));
+  padding-bottom: calc(var(--hero-padding-block) + env(safe-area-inset-bottom));
   padding-inline: clamp(16px, 4vw, 48px);
   background: var(--hero-bg);
-  --bg-overscan: -10% -10% 0 -10%;
-  overflow: clip; 
+  /* Overscan: extend background beyond viewport to cover transparent browser UI (iOS bottom/toolbar) */
+  --bg-overscan-scale: 1.12;
+  overflow: clip;
   isolation: isolate;
 }
 
@@ -105,6 +111,23 @@
   position: absolute;
   inset: 0;
   z-index: 1; 
+  pointer-events: none;
+}
+
+/* Ensure the background visually bleeds under device chrome (iOS) by scaling the background layer */
+.hero::before {
+  /* Keep a simple, reliable background for the hero that defaults to the
+     hero token (usually white). The full-page gradient remains on the
+     document-level background (body::before) so the hero can intentionally
+     appear as a white card-like band. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--hero-bg, #ffffff);
+  background-size: cover;
+  transform-origin: center center;
+  transform: scale(var(--bg-overscan-scale));
   pointer-events: none;
 }
 

@@ -58,6 +58,19 @@
   --sr-transition-fast: 0.25s ease-out;
   --sr-transition-medium: 0.6s ease-out;
   --sr-transition-slow: 0.3s ease;
+
+  /* Responsive / Fluid typography and spacing (mobile-first) */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.25rem;
+
+  /* Fluid base font-size: clamp(min, preferred, max) */
+  --fluid-base: clamp(14px, 1.8vw, 18px);
+  --fluid-scale-1: clamp(16px, 2.6vw, 20px);
+  --fluid-scale-2: clamp(20px, 4.6vw, 28px);
+  --fluid-scale-3: clamp(28px, 6.6vw, 40px);
   
   /* Content positioning offsets (for SideRun effect) */
   --sr-text-shift-x: -10px;
@@ -103,6 +116,19 @@ html {
     'Helvetica Neue',
     sans-serif;
 }
+
+/* Use fluid base font size (mobile-first). Use rem throughout the project. */
+html { font-size: var(--fluid-base); }
+body { font-size: 1rem; }
+
+/* Touch optimizations: larger hit targets, disable double-tap to zoom on interactive controls where appropriate */
+button, a { touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0.06); }
+
+/* Make images and videos fluid */
+img, picture, video, svg { max-width: 100%; height: auto; display: block; }
+
+/* Prevent layout shifts: prefer intrinsic sizes (useful when images are added later) */
+img[width][height] { aspect-ratio: attr(width) / attr(height); }
 
 /* Smooth scroll for in-page anchors */
 html {

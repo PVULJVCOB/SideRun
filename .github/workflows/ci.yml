@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Start static server
+        run: |
+          # start a lightweight HTTP server (background)
+          npx http-server ./ -p 8000 --silent &
+          echo $! > server.pid
+
+      - name: Wait for server
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://localhost:8000 >/dev/null 2>&1; then
+              echo "server ready"; exit 0
+            fi
+            sleep 1
+          done
+          echo "server did not start"; exit 1
+
+      - name: Run Playwright tests
+        run: npm run test:playwright
+
+      - name: Run Lighthouse
+        run: node ./tools/run-lighthouse.js
+
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f server.pid ]; then kill "$(cat server.pid)" || true; fi

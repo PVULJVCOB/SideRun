@@ -1,0 +1,20 @@
+{
+  "name": "siderun-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:playwright": "playwright test --config=playwright.config.js",
+    "test:playwright:headed": "playwright test --config=playwright.config.js --headed",
+    "lighthouse": "node ./tools/run-lighthouse.js",
+  "start": "python3 -m http.server 8000",
+    "build:js": "esbuild js/siderun.js js/navbar.js js/scroll-effects.js js/hero-parallax.js --bundle --minify --sourcemap --outdir=dist/js",
+  "build:css": "esbuild styles/main.css styles/responsive.css styles/navbar.css --bundle --minify --outdir=dist/styles --loader:.css=css",
+  "build": "npm run build:js && npm run build:css"
+  },
+  "devDependencies": {
+    "playwright": "^1.46.0",
+    "lighthouse": "*",
+    "@playwright/test": "^1.46.0",
+  "esbuild": "^0.19.0"
+  }
+}

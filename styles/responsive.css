@@ -1,5 +1,16 @@
 /* Consolidated responsive rules extracted from component CSS files */
+/* Mobile-first breakpoints: min-width queries for larger devices */
 
+/* Global container constraints using clamp for fluidity */
+:root {
+	--container-max: clamp(640px, 86vw, 1200px);
+}
+
+/* Apply safe-area-aware horizontal padding on small screens */
+@media (max-width: 768px) {
+	:root { --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right)); }
+	.sr-section, .hero { padding-inline: calc(16px + env(safe-area-inset-left)); padding-inline-end: calc(16px + env(safe-area-inset-right)); }
+}
 /* === siderun scaling === */
 @media (max-width: 1024px) and (min-width: 769px) {
 	.sr-container,
@@ -116,6 +127,11 @@
 	.sr-navbar,
 	.sr-logo,
 	.centered-mobile-nav { display: none !important; }
+}
+
+/* Ensure toggle visible on small/mobile screens with adequate tap area */
+@media (max-width: 1400px) {
+  .site-nav-toggle { display: flex !important; width: 48px; height: 48px; }
 }
 
 /* === show toggle and hide desktop navbar at <=1400px (but keep mobile <768px rules) === */
