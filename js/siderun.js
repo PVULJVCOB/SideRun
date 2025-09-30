@@ -533,29 +533,8 @@
   }
 
   // Expose API for CommonJS and for browser global (no reassignments)
-  function update(host) {
-    if (!host) return;
-    // Support selector string or NodeList/Array
-    const toArray = (val) => {
-      if (typeof val === 'string') return Array.from(document.querySelectorAll(val));
-      if (val instanceof Element) return [val];
-      if (val && typeof val.length === 'number') return Array.from(val);
-      return [];
-    };
-    const list = toArray(host);
-    list.forEach((el) => {
-      const inst = instanceMap.get(el);
-      if (inst && typeof inst.recalc === 'function') {
-        // Do an immediate recalc and one more on next frame to catch CSS transitions
-        try { inst.recalc(); } catch {}
-        requestAnimationFrame(() => {
-          try { inst.recalc(); } catch {}
-        });
-      }
-    });
-  }
-
-  const exported = { init, update };
+  // `update` was removed from the site bundle because it's unused within this repo.
+  const exported = { init };
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = exported;
   }

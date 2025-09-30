@@ -9,11 +9,10 @@
 :root {
   /* Hero-specific tokens with safe fallbacks */
   /* Use dynamic viewport units with fallback: svh/dvh preferred where available */
-  --hero-height: 100svh; /* modern browsers */
-  /* Fallback for browsers that don't support svh: let CSS calc use 100vh */
+  --hero-height: 100svh;
   --hero-height-fallback: 100vh;
   --hero-padding-block: clamp(48px, 8dvh, 120px);
-  --hero-max-width: 1200px;
+  --hero-max-width: 1400px;
   --hero-content-gap: clamp(16px, 2.6dvh, 28px);
   --hero-title-size: clamp(40px, 8vw, 96px);
   --hero-sub-size: clamp(16px, 2.2vw, 22px);
@@ -28,14 +27,11 @@
   position: relative;
   display: grid;
   place-items: center start; 
-  /* Ensure hero always fills the viewport vertically without creating white bars on mobile.
-     Use the modern unit if available; otherwise fallback to standard vh. */
   min-height: var(--hero-height, var(--hero-height-fallback));
   padding-top: calc(var(--hero-padding-block) + env(safe-area-inset-top));
   padding-bottom: calc(var(--hero-padding-block) + env(safe-area-inset-bottom));
   padding-inline: clamp(16px, 4vw, 48px);
   background: var(--hero-bg);
-  /* Overscan: extend background beyond viewport to cover transparent browser UI (iOS bottom/toolbar) */
   --bg-overscan-scale: 1.12;
   overflow: clip;
   isolation: isolate;
@@ -114,12 +110,31 @@
   pointer-events: none;
 }
 
-/* Ensure the background visually bleeds under device chrome (iOS) by scaling the background layer */
+.hero-parallax__layer {
+  position: absolute;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-parallax__grid {
+  position: absolute;
+  inset: -6% -6% 0 -6%;
+  border-radius: 24px;
+  background-image:
+    linear-gradient(to right, rgba(50, 20, 2, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(50, 20, 2, 0.1) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-repeat: repeat;
+  /* remove masking which was hiding the grid; keep it subtle but visible */
+  opacity: 0.55;
+  /* sit above the background but below main content */
+  z-index: 1;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Background bleed layer so hero appears white independent of page background */
 .hero::before {
-  /* Keep a simple, reliable background for the hero that defaults to the
-     hero token (usually white). The full-page gradient remains on the
-     document-level background (body::before) so the hero can intentionally
-     appear as a white card-like band. */
   content: "";
   position: absolute;
   inset: 0;
@@ -129,24 +144,6 @@
   transform-origin: center center;
   transform: scale(var(--bg-overscan-scale));
   pointer-events: none;
-}
-
-.hero-parallax__layer {
-  position: absolute;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-}
-
-.hero-parallax__grid {
-  inset: -10% -10%;
-  border-radius: 24px;
-  background-image:
-    linear-gradient(to right, rgba(8,2,50,0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(8,2,50,0.1) 1px, transparent 1px);
-  background-size: 40px 40px;
-   --bg-overscan: -10% -10% 0 -10%;
-  mask-image: radial-gradient(70% 70% at 40% 40%, black 0%, black 60%, transparent 100%);
-  opacity: 0.35;
 }
 
 .hero__scroll-indicator {

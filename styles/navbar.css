@@ -40,6 +40,18 @@
     background-color var(--sr-transition-slow),
     color var(--sr-transition-slow);
 }
+/* Ensure the inline hamburger SVG keeps a fixed visual size and doesn't scale down
+   due to global img/svg max-width rules. Adjust the size as needed. */
+.site-nav__button.siderun svg {
+  width: 28px;
+  height: 28px;
+  max-width: none;
+  flex: 0 0 auto;
+  display: inline-block;
+}
+.site-nav__button.siderun svg rect {
+  fill: currentColor;
+}
 /* Navigation links container */
 .site-nav__links.siderun {
   display: flex;
