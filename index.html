@@ -4,53 +4,6 @@
     <meta charset="utf-8" />
   <!-- Mobile-first viewport + allow content to extend under iOS browser chrome (for background bleed) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <!-- Ensure a stable --vh CSS variable early to avoid white bars on mobile when the browser chrome changes -->
-  <script>
-    (function(){
-      function setVh(){
-        try{
-          var vh = window.innerHeight * 0.01;
-          document.documentElement.style.setProperty('--vh', vh + 'px');
-        }catch(e){}
-      }
-      setVh();
-      if (window.visualViewport) {
-        visualViewport.addEventListener('resize', setVh);
-      }
-      window.addEventListener('resize', setVh);
-      window.addEventListener('orientationchange', setVh);
-    })();
-  </script>
-  <!-- DEBUG TOOL: outlines elements wider than viewport to identify overflow issues on mobile -->
-  <script>
-    (function(){
-      function findWideElements(){
-        try{
-          const vw = document.documentElement.clientWidth || window.innerWidth;
-          const all = Array.from(document.querySelectorAll('body *'));
-          const wide = all.filter(el => {
-            try{
-              const rect = el.getBoundingClientRect();
-              // only visible elements
-              if (rect.width === 0 || rect.height === 0) return false;
-              return rect.left < 0 || rect.right > vw;
-            }catch(e){return false}
-          });
-          if (wide.length) console.warn('Wide elements detected:', wide);
-          wide.forEach((el)=>{
-            el.style.outline = '3px solid rgba(255,0,0,0.85)';
-            el.style.zIndex = '9999';
-          });
-          return wide;
-        }catch(e){ console.error(e); return [] }
-      }
-      // run after a short delay to allow layout to settle
-      setTimeout(findWideElements, 350);
-      // re-run when orientation/resize
-      window.addEventListener('resize', () => setTimeout(findWideElements, 200));
-      window.addEventListener('orientationchange', () => setTimeout(findWideElements, 200));
-    })();
-  </script>
     <title>SideRun Animation System</title>
   <meta name="description" content="SideRun — a lightweight JavaScript + CSS flying-border 'runner' effect with an animated stroke and blurred backdrop that follows hover or pointer input." />
   <meta property="og:title" content="SideRun — flying border runner (JS + CSS)" />
@@ -131,9 +84,9 @@
         <!-- Block: Demos -->
         <div class="block">
           <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="80">
-        <div class="glass-card" data-scroll="fade-up" data-stagger-child>
+            <div class="glass-card" data-scroll="fade-up" data-stagger-child>
               <h3 class="hero__eyebrow" data-scroll="fade-up">SideRun</h3>
-              <div id="siderun" class="sr-container glass-bg demo-siderun">
+              <div id="siderun" class="sr-container glass-bg demo-siderun" style="margin-top:17px">
                 <div class="site-nav__stroke siderun"></div>
                 <div class="glass-card__content">
                   <p class="text-m" data-scroll="fade-up">Hover to see the animated border effect that follows your mouse. The border smoothly animates around the element with customizable speed, color, and radius.</p>
@@ -159,7 +112,7 @@ SideRun.init(document.getElementById('siderun'), {
             <!-- Demo: Pointer Tracking -->
             <div class="glass-card" data-scroll="fade-up" data-stagger-child>
               <h3 class="hero__eyebrow" data-scroll="fade-up">Pointer Tracking</h3>
-              <div id="siderun-follow" class="sr-container glass-bg demo-siderun-follow">
+              <div id="siderun-follow" class="sr-container glass-bg demo-siderun-follow" style="margin-top:17px">
                 <div class="site-nav__stroke siderun"></div>
                 <div class="glass-card__content">
                   <p class="text-m" data-scroll="fade-up">Move the cursor — the siderun-follow tracks the pointer smoothly. Toggle <code>trackPointer</code> to enable direct pointer tracking.</p>
@@ -252,8 +205,7 @@ SideRun.init(document.getElementById('siderun'), {
       </section>
 
       <!-- React root for Mobile Navigation (mounted only on small screens via CSS) -->
-  <!-- Mobile nav root (React mounts here on small screens if present). -->
-  <div id="mobile-nav-root" class="md:hidden"></div>
+      <div id="mobile-nav-root" class="md:hidden"></div>
 
   <script defer src="./js/siderun.js"></script>
   <script defer src="./js/navbar.js"></script>
@@ -291,7 +243,7 @@ SideRun.init(document.getElementById('siderun'), {
     </script>
 
   <!-- Footer -->
-  <footer class="site-footer" role="contentinfo" style="text-align:center; opacity:.8">
+  <footer class="site-footer" role="contentinfo" style="padding:24px 22px 40px; text-align:center; opacity:.8">
   <div class="hero__eyebrow">© 2025 SideRun — All rights reserved.</div>
   </footer>
   </body>

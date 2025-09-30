@@ -88,101 +88,41 @@
 
   function initParallax() {
     if (prefersReducedMotion) return;
-
-    // helper: small viewport / touch devices should avoid heavy parallax
-    const isSmallViewport = () => (window.matchMedia && window.matchMedia('(max-width: 767px)').matches) || ('ontouchstart' in window && window.innerWidth < 900);
-
     let ticking = false;
-    let resizeTimer = null;
-
-    const getEls = () => document.querySelectorAll('[data-scroll*="parallax"]');
-
-    function clearTransforms() {
-      getEls().forEach((el) => {
-        el.style.transform = '';
-        el.style.willChange = '';
-      });
-    }
-
-    // smoothing helpers
-    function lerp(a, b, t) { return a + (b - a) * t; }
-
-    // store state per element to animate smoothly
-    const elemState = new WeakMap();
 
     function updateParallax() {
-      // If on a small device, clear transforms and skip heavy updates
-      if (isSmallViewport()) {
-        clearTransforms();
-        ticking = false;
-        return;
-      }
-
-      const els = getEls();
-      const vh = window.innerHeight;
-      const viewportCenter = vh / 2;
-      const buffer = 240;
+      const els = document.querySelectorAll('[data-scroll*="parallax"]');
       els.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.bottom <= -buffer || rect.top >= vh + buffer) return;
+  const buffer = 240;
+  if (rect.bottom <= -buffer || rect.top >= window.innerHeight + buffer) return;
         const elCenter = rect.top + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
         const distance = elCenter - viewportCenter;
-        const type = el.getAttribute('data-scroll') || '';
+        const type = el.getAttribute('data-scroll');
+  if (rect.bottom < -buffer || rect.top > window.innerHeight + buffer) return;
 
-        // Reduce strength on medium-sized touch/tablet devices
-        let rawRate = computeRate(type, distance);
-        if (window.innerWidth >= 600 && window.innerWidth <= 1100 && ('ontouchstart' in window)) {
-          rawRate *= 0.6; // dampen for tablets
-        }
-
-        // Smoothly interpolate from previous transform to target
-        const prev = elemState.get(el) || 0;
-        // choose a small lerp factor; lower = smoother/slower
-        const t = 0.18; // smoothing factor
-        const next = lerp(prev, rawRate, t);
-        elemState.set(el, next);
-        el.style.willChange = 'transform';
-        el.style.transform = `translate3d(0, ${next}px, 0)`;
+        const rate = computeRate(type, distance);
+        el.style.transform = `translate3d(0, ${rate}px, 0)`;
       });
       ticking = false;
     }
 
     function onScroll() {
-      // On mobile, do nothing (other than ensure transforms are cleared)
-      if (isSmallViewport()) {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(() => { clearTransforms(); ticking = false; });
-        }
-        return;
-      }
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(updateParallax);
       }
     }
 
-    function onResize() {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (isSmallViewport()) {
-          clearTransforms();
-        } else {
-          updateParallax();
-        }
-      }, 120);
-    }
-
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('resize', updateParallax, { passive: true });
 
     // initial
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      if (isSmallViewport()) clearTransforms(); else updateParallax();
+      updateParallax();
     } else {
-      document.addEventListener('DOMContentLoaded', () => {
-        if (isSmallViewport()) clearTransforms(); else updateParallax();
-      }, { once: true });
+      document.addEventListener('DOMContentLoaded', updateParallax, { once: true });
     }
   }
   if (document.readyState === 'complete' || document.readyState === 'interactive') {

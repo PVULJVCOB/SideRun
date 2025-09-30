@@ -8,98 +8,93 @@
  * @author SideRun Team
  * Copyright (c) 2025 Cedric Seidel
  */
-/* Mobile-first navbar (touch optimized)
-   - Default: compact hamburger visible for small screens
-   - Larger screens: expanded links + desktop hover behavior
-*/
+/* Legacy class mapping for existing HTML */
+/* main SideRun container */
 .site-nav.siderun {
   position: fixed;
-  top: env(safe-area-inset-top, 12px);
-  right: env(safe-area-inset-right, 12px);
+  top: 2.7%;
+  left: 97%;
+  transform: translateX(-100%);
+  display: flex;
+  height: var(--sr-navbar-height);
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
+  border-radius: var(--sr-radius-sm);
+  z-index: var(--sr-z-content);
+  font-size: var(--sr-font-size-nav);
+  font-weight: var(--sr-font-weight-nav);
+}
+/* Navigation CTA button */
+.site-nav__button.siderun {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px;
-  border-radius: 999px;
-  z-index: var(--sr-z-nav);
-  font-size: 0.95rem;
-  font-weight: var(--sr-font-weight-nav);
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(6px) saturate(120%);
-  box-shadow: var(--sr-shadow-light);
-}
-
-/* Hamburger button: larger touch target for mobile */
-.site-nav__button.siderun {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  padding: 8px;
-  border-radius: 12px;
+  padding: 0 20px;
+  border-radius: 0 var(--sr-radius-sm) var(--sr-radius-sm) 0;
   color: var(--color-text);
-  background: transparent;
-  border: 1px solid var(--sr-border-color);
+  background: var(--color-cta);
+  height: var(--sr-navbar-height);
+  line-height: 1;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  border: none;
+  font: inherit;
+  transition:
+    background-color var(--sr-transition-slow),
+    color var(--sr-transition-slow);
 }
-
-/* Keep svg size consistent */
-.site-nav__button.siderun svg { width: 28px; height: 28px; display: block; }
-.site-nav__button.siderun svg rect { fill: currentColor; }
-
-/* Links container (hidden by default on mobile) */
+/* Ensure the inline hamburger SVG keeps a fixed visual size and doesn't scale down
+   due to global img/svg max-width rules. Adjust the size as needed. */
+.site-nav__button.siderun svg {
+  width: 28px;
+  height: 28px;
+  max-width: none;
+  flex: 0 0 auto;
+  display: inline-block;
+}
+.site-nav__button.siderun svg rect {
+  fill: currentColor;
+}
+/* Navigation links container */
 .site-nav__links.siderun {
-  display: none; /* toggled open via JS */
+  display: flex;
   align-items: center;
-  gap: 8px;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
   white-space: nowrap;
+  flex: 0 0 auto;
+  will-change: max-width, opacity;
+  transition:
+    max-width var(--sr-transition-medium),
+    opacity var(--sr-transition-fast);
+  height: var(--sr-navbar-height);
 }
-
-/* Individual link styles with large hit area */
+/* Individual navigation links effects + padding */
 .site-nav__link.siderun {
   color: var(--color-text);
   text-decoration: none;
-  padding: 14px 18px;
-  border-radius: 10px;
+  padding: 12px 18px;
   display: inline-flex;
   align-items: center;
+  height: 100%;
   line-height: 1;
-  background: transparent;
+  transition: opacity var(--sr-transition-slow);
 }
-
-/* When menu is expanded (mobile overlay) */
-.site-nav.siderun.is-open .site-nav__links.siderun {
-  display: flex;
+/* Content layers above border effect */
+.site-nav__links.siderun,
+.site-nav__button.siderun,
+.menu-prompt.siderun {
+  position: relative;
+  z-index: var(--sr-z-content);
 }
-
-/* Desktop: show inline links and preserve existing expand-on-hover behavior */
-@media (min-width: 880px) {
-  .site-nav.siderun {
-    top: 2.7%;
-    right: auto;
-    left: 97%;
-    transform: translateX(-100%);
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-  .site-nav__button.siderun { width: auto; height: var(--sr-navbar-height); padding: 0 18px; border-radius: 0 var(--sr-radius-sm) var(--sr-radius-sm) 0; }
-  .site-nav__links.siderun { display: flex; max-width: 0; overflow: hidden; opacity: 0; flex: 0 0 auto; height: var(--sr-navbar-height); transition: max-width var(--sr-transition-medium), opacity var(--sr-transition-fast); }
-  .site-nav.siderun.is-expanded .site-nav__links.siderun, .site-nav.siderun:hover .site-nav__links.siderun { max-width: var(--sr-navbar-expanded-width); opacity: 1; }
-  .site-nav__link.siderun { padding: 12px 18px; height: 100%; }
+/* Expanded state */
+.site-nav.siderun.is-expanded .site-nav__links.siderun,
+.site-nav.siderun:hover .site-nav__links.siderun {
+  max-width: var(--sr-navbar-expanded-width);
+  opacity: 1;
 }
-
-/* Accessibility: focus outline for keyboard users */
-.site-nav__button.siderun:focus, .site-nav__link.siderun:focus { outline: 3px solid rgba(16,8,93,0.14); outline-offset: 2px; }
-
-/* Overlay menu (full-screen mobile) — optional enhancement when `is-open` + `data-overlay` */
-.site-nav.siderun[data-overlay="true"].is-open::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: calc(var(--sr-z-nav) - 1);
-  backdrop-filter: blur(2px);
+/* Hover effects */
+.site-nav__links.siderun:hover .site-nav__link.siderun {
+  opacity: 0.6;
+}
+.site-nav__links.siderun:hover .site-nav__link.siderun:hover {
+  opacity: 1;
 }

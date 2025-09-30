@@ -9,8 +9,7 @@
 :root {
   /* Hero-specific tokens with safe fallbacks */
   /* Use dynamic viewport units with fallback: svh/dvh preferred where available */
-  /* Prefer JS-updated --vh for buggy mobile browsers, then svh/dvh, then vh fallback */
-  --hero-height: calc(var(--vh, 1vh) * 100);
+  --hero-height: 100svh;
   --hero-height-fallback: 100vh;
   --hero-padding-block: clamp(48px, 8dvh, 120px);
   --hero-max-width: 1400px;
