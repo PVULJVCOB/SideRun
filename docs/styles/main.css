@@ -31,6 +31,7 @@ body {
   color: var(--content-fg);
   background: transparent;
   overflow-x: hidden;
+  /* Keep content away from fixed logo (left) and navbar (right) */
   padding-left: var(--sr-safe-left, 0);
   padding-right: var(--sr-safe-right, 0);
 }
@@ -51,10 +52,6 @@ body::-webkit-scrollbar {
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
   background: transparent;
-}
-
-@media (max-width: 768px) {
-  body { padding-left: 0; padding-right: 0; }
 }
 
 /* Fixed overscan background: 110% scale, no scrollbars, cover + no-repeat + fixed */
@@ -200,4 +197,9 @@ body::before {
   min-height: 320px;
   width: 100%;
   overflow: auto;
+}
+
+/* On small screens we hide the fixed logo/nav, so we can release side paddings */
+@media (max-width: 768px) {
+  body { padding-left: 0; padding-right: 0; }
 }
