@@ -28,9 +28,9 @@
   /* Component dimensions */
   --sr-navbar-height: 47px;
   --sr-logo-height: 47px;
-  --sr-logo-max-width: 120px;
-  --sr-navbar-max-width: 120px;
-  --sr-side-padding: max(20px, env(safe-area-inset-left),
+  --sr-logo-min-width: 120px;
+  /* Single source of truth: navbar collapsed width follows logo width */
+  --sr-navbar-min-width: var(--sr-logo-min-width);
   --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
@@ -45,6 +45,13 @@
   --sr-z-mobile-overlay: 10;
   --sr-z-mobile-menu: 11;
   --sr-z-nav: 100;
+  
+  /* Color tokens for mobile navbar */
+  --sr-bg-primary: rgba(255, 255, 255, 0.95);
+  --sr-border-color: rgba(8, 2, 50, 0.12);
+  --sr-border-width: 1px;
+  --sr-border-radius: 12px;
+  --sr-shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
   
   /* Typography */
   --sr-font-weight-nav: 700;
@@ -121,7 +128,17 @@ textarea {
   font: inherit;
 }
 
-/* Honor reduced motion preference for general transitions/animations (moved to styles/responsive.css) */
+/* Honor reduced motion preference for general transitions/animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 /* Visually hidden (screen-reader-only) utility */
 .sr-visually-hidden {
@@ -428,7 +445,8 @@ textarea {
   transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y));
 }
 
-/* Responsive rules were moved to styles/responsive.css to keep media queries centralized */
+  /* responsive rules moved to styles/responsive.css */
+
 main {
   min-height: 120vh; /* allow hero bleed to visually fill on tall screens while keeping content long */
 }

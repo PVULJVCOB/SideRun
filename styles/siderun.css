@@ -149,9 +149,7 @@
   overflow: visible;
 }
 
-/* Responsive scaling moved to styles/responsive.css */
-
-/* === PERFORMANCE OPTIMIZATIONS === */
+/* responsive rules moved to styles/responsive.css */
 .siderun-border,
 .sr-backdrop,
 .sr-wrapper {
@@ -159,4 +157,12 @@
   backface-visibility: hidden;
 }
 
-/* Reduced-motion rules moved to styles/responsive.css */
+/* Honor reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .siderun-border,
+  .sr-backdrop,
+  .sr-wrapper {
+    transition: none;
+    animation: none;
+  }
+}

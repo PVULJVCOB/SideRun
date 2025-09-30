@@ -84,7 +84,7 @@
 .location-info .info-block[data-scroll='fade-up']:nth-of-type(2) { transition-delay: 0.12s; }
 .location-info .info-block[data-scroll='fade-up']:nth-of-type(3) { transition-delay: 0.24s; }
 
-/* Reduced-motion rules consolidated in styles/responsive.css */
+/* reduced-motion rules moved to styles/responsive.css */
 
 /* SideRun host flicker fix (clean variant):
    Elements flagged by JS with .scroll-transform-only skip opacity transitions. */
