@@ -32,10 +32,13 @@ body {
   background: transparent;
   overflow-x: hidden;
 }
+
 /* Always hide scrollbars (preserve scrolling) */
 html,
 body {
+  /* Firefox */
   scrollbar-width: none;
+  /* IE/Edge legacy */
   -ms-overflow-style: none;
 }
 html::-webkit-scrollbar,

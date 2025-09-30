@@ -187,6 +187,7 @@ textarea {
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
+  /* keep top/left/bottom gap but no right gap so it's flush */
   margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   font-size: var(--sr-font-size-nav);
@@ -236,6 +237,7 @@ textarea {
   right: 0; /* flush right edge */
   display: flex;
   height: var(--sr-navbar-height);
+  /* remove right margin for flush alignment */
   margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   z-index: var(--sr-z-content);

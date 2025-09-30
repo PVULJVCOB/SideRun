@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  // Removed scrollbar-compensation logic: scrollbars hidden via CSS and navbar is flush right
+  // Removed scrollbar-compensation logic: scrollbars are hidden via CSS and navbar is flush right
 
   // Desktop nav expand/collapse and SideRun init
   function initDesktopNav() {
