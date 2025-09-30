@@ -29,7 +29,8 @@
   --sr-navbar-height: 47px;
   --sr-logo-height: 47px;
   --sr-logo-min-width: 120px;
-  --sr-navbar-min-width: 200px;
+  /* Unify collapsed widths: default navbar min width derives from logo min width for consistent visuals */
+  --sr-navbar-min-width: var(--sr-logo-min-width);
   --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
@@ -93,11 +94,11 @@ html,
 body {
   height: 100%;
   margin: 0;
-}
-html {
-  font-family:
-    'Host Grotesk',
-    -apple-system,
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
+    --sr-navbar-height: 52px;
+    --sr-logo-height: 52px;
+    --sr-logo-min-width: 220px;
+    --sr-navbar-min-width: var(--sr-logo-min-width);
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,

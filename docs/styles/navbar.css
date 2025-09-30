@@ -22,16 +22,15 @@
   /* === SIDERUN EFFECT CONFIGURATION === */
   /* Spacing and positioning tokens */
   --sr-viewport-padding: max(30px, env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left));
-  --sr-safe-left: max(30px, env(safe-area-inset-left));
-  --sr-safe-right: max(30px, env(safe-area-inset-right));
   --sr-component-margin: 11px;
   --sr-component-gap: 8px;
   
   /* Component dimensions */
   --sr-navbar-height: 47px;
-  --sr-logo-height: var(--sr-navbar-height);
-  --sr-logo-min-width: var(--sr-navbar-min-width);
-  --sr-navbar-min-width: 200px;
+  --sr-logo-height: 47px;
+  --sr-logo-min-width: 120px;
+  /* Unify collapsed widths: default navbar min width derives from logo min width for consistent visuals */
+  --sr-navbar-min-width: var(--sr-logo-min-width);
   --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
@@ -183,14 +182,12 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-safe-right);
+  right: 0; /* flush right edge */
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
-  box-sizing: border-box;
-  width: var(--sr-navbar-min-width);
   /* keep top/left/bottom gap but no right gap so it's flush */
   margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
@@ -238,7 +235,7 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-safe-right);
+  right: 0; /* flush right edge */
   display: flex;
   height: var(--sr-navbar-height);
   /* remove right margin for flush alignment */
@@ -357,13 +354,11 @@ textarea {
 .sr-logo {
   position: fixed;
   top: var(--sr-viewport-padding);
-  left: var(--sr-safe-left);
+  left: var(--sr-viewport-padding);
   display: grid;
   place-items: center;
   height: var(--sr-logo-height);
   min-width: var(--sr-logo-min-width);
-  box-sizing: border-box;
-  width: var(--sr-logo-min-width);
   margin: var(--sr-component-gap);
   padding: 0 20px;
   border-radius: var(--sr-radius-sm);
@@ -457,10 +452,9 @@ textarea {
   :root {
     --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
     --sr-navbar-height: 52px;
-    /* logo derives from navbar tokens so they remain equal */
-    --sr-logo-height: var(--sr-navbar-height);
-    --sr-logo-min-width: var(--sr-navbar-min-width);
-    --sr-navbar-min-width: 220px;
+    --sr-logo-height: 52px;
+    --sr-logo-min-width: 140px;
+    --sr-navbar-min-width: var(--sr-logo-min-width);
     --sr-font-size-nav: 22px;
     --sr-font-size-logo: 32px;
     --sr-scale: 1.1;
@@ -472,8 +466,7 @@ textarea {
   :root {
     --sr-viewport-padding: max(40px, env(safe-area-inset-top), env(safe-area-inset-right));
     --sr-navbar-height: 47px;
-    --sr-logo-height: var(--sr-navbar-height);
-    --sr-logo-min-width: var(--sr-navbar-min-width);
+    --sr-logo-height: 47px;
     --sr-font-size-nav: 20px;
     --sr-font-size-logo: 30px;
     --sr-scale: 1;
