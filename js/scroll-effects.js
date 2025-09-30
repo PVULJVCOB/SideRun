@@ -46,6 +46,13 @@
 
     const els = document.querySelectorAll('[data-scroll]');
     els.forEach((el) => {
+      // Skip scroll effects for elements visually inside the hero bleed wrappers
+      // We detect the closest hero and ensure the target is not a pseudo element host
+      const inHero = el.closest && el.closest('#hero');
+      if (inHero && el.matches('.hero, .hero *')) {
+        // Allow scroll animations on content, but avoid triggering
+        // on the hero container itself or bleed overlays (none have data-scroll)
+      }
       // If element is a SideRun host or contains one, avoid opacity transitions (transform-only)
       const hasSRHost = el.classList.contains('sr-container') || !!el.querySelector('.sr-container');
       if (hasSRHost) {
@@ -93,6 +100,9 @@
       const els = document.querySelectorAll('[data-scroll*="parallax"]');
       els.forEach((el) => {
         const rect = el.getBoundingClientRect();
+        // Avoid reacting inside the non-scrollable hero bleed illusion near the very top/bottom.
+        // If the element is above the viewport top beyond an extended threshold or far below, skip.
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
         const elCenter = rect.top + rect.height / 2;
         const viewportCenter = window.innerHeight / 2;
         const distance = elCenter - viewportCenter;
@@ -115,7 +125,7 @@
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateParallax, { passive: true });
+  window.addEventListener('resize', updateParallax, { passive: true });
 
     // initial
     if (document.readyState === 'complete' || document.readyState === 'interactive') {

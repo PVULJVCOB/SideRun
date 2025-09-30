@@ -29,9 +29,25 @@ html {
 body {
   font-family: inherit;
   color: var(--content-fg);
-  background: linear-gradient(0deg, var(--page-bg-start), var(--page-bg-end)) no-repeat center / cover;
-  background-attachment: fixed;
+  background: transparent;
   overflow-x: hidden;
+}
+
+/* Fixed overscan background: 110% scale, no scrollbars, cover + no-repeat + fixed */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* behind all content */
+  pointer-events: none;
+  background-image: linear-gradient(0deg, var(--page-bg-start), var(--page-bg-end));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  --bg-overscan: 1.1;
+  transform: scale(var(--bg-overscan));
+  transform-origin: center center;
+  will-change: transform;
 }
 
 /* Keep content areas and code blocks constrained to the card's inner width */

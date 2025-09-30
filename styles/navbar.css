@@ -494,5 +494,5 @@ textarea {
 }
 
 main {
-  min-height: 140vh;
+  min-height: 120vh; /* allow hero bleed to visually fill on tall screens while keeping content long */
 }

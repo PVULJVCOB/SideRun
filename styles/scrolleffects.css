@@ -108,3 +108,9 @@
 .scroll-transform-only {
   transition: transform var(--scroll-duration) var(--scroll-ease);
 }
+
+/* Guard: Do not animate hero container itself (only its inner content uses data-scroll) */
+#hero[data-scroll],
+#hero .hero-parallax[data-scroll] {
+  transition: none !important;
+}

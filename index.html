@@ -13,11 +13,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind via CDN for utility classes used in mobile nav (kept minimal and scoped) -->
+  <script>
+    // Tailwind config must be defined before the CDN script executes
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      corePlugins: { preflight: false } // keep existing CSS untouched
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./styles/navbar.css" />
   <link rel="stylesheet" href="./styles/siderun.css" />
   <link rel="stylesheet" href="./styles/hero.css" />
   <link rel="stylesheet" href="./styles/scrolleffects.css" />
   <link rel="stylesheet" href="./styles/main.css" />
+  <!-- End Tailwind setup -->
   </head>
   <body>
 
@@ -136,7 +147,7 @@ SideRun.init(document.getElementById('siderun-follow'), {
           <div class="sr-grid two" data-scroll="fade-up" data-stagger-base="95">
             <div class="glass-card" data-scroll="fade-left" data-stagger-child data-stagger-base="80">
               <div class="sr-eyebrow" data-scroll="fade-up" data-stagger-child>SIDERUN</div>
-              <h2 class="sr-title" data-scroll="fade-up" data-stagger-child>A lightweight front-end runner effect</h2>
+              <h2 class="sr-title" data-scroll="fade-up" data-stagger-child>lightweight</h2>
               <p class="sr-subtitle" data-scroll="fade-up" data-stagger-child>A tiny JS runtime plus companion CSS that provides a running border and blurred backdrop. Designed for predictable visuals and easy theming.</p>
 
               <div class="sr-code" aria-label="Quickstart example" data-scroll="fade-up" data-stagger-child>
@@ -169,9 +180,10 @@ SideRun.init(document.getElementById('siderun'), {
                 <li data-scroll="fade-up" data-stagger-child><strong>CSS Token System:</strong> Full control through custom properties with responsive scaling.</li>
                 <li data-scroll="fade-up" data-stagger-child><strong>3-Layer Design:</strong> Separates blur effects, border animations, and interactive content.</li>
                 <li data-scroll="fade-up" data-stagger-child><strong>Touch Optimized:</strong> Automatic device detection with proper touch feedback and hover cleanup.</li>
-                <li data-scroll="fade-up" data-stagger-child><strong>Responsive Design:</strong> Seamless desktop-to-mobile transitions with safe-area support.</li>
+                <li data-scroll="fade-up" data-stagger-child><strong>Responsive Design:</strong> Seamless desktop-to-mobile transitions with safe-area support.></li>
               </ul>
-              <p class="sr-subtitle" data-scroll="fade-up" data-stagger-child>Accessibility: Full keyboard navigation, screen reader support, and respects reduced-motion preferences. GPU-accelerated for smooth performance.</p>
+              <br/>
+              <p class="sr-subtitle" data-scroll="fade-up" data-stagger-child >Accessibility: Full keyboard navigation, screen reader support, and respects reduced-motion preferences. GPU-accelerated for smooth performance.</p>
             </div>
           </div>
         </div>
@@ -181,7 +193,7 @@ SideRun.init(document.getElementById('siderun'), {
           <div class="sr-grid three" data-scroll="fade-up" data-stagger-base="70">
             <div class="glass-card" data-scroll="fade-up" data-stagger-child data-stagger-base="60">
               <h4 class="sr-title" style="font-size:22px" data-scroll="fade-up" data-stagger-child>Features</h4>
-              <p data-scroll="fade-up" data-stagger-child>Lightweight flying border effects, responsive design, touch optimization, CSS tokens, accessibility features, and GPU-accelerated animations. Perfect for interactive elements.</p>
+              <p data-scroll="fade-up" data-stagger-child>Lightweight flying border - responsive design, touch optimization, CSS tokens, accessibility features, and GPU-accelerated animations. Perfect for interactive elements.</p>
             </div>
             <div class="glass-card" data-scroll="fade-up" data-stagger-child data-stagger-base="60">
               <h4 class="sr-title" style="font-size:22px" data-scroll="fade-up" data-stagger-child>Quick Start</h4>
@@ -195,12 +207,22 @@ SideRun.init(document.getElementById('siderun'), {
         </div>
       </section>
 
+      <!-- React root for Mobile Navigation (mounted only on small screens via CSS) -->
+      <div id="mobile-nav-root" class="md:hidden"></div>
+
   <script defer src="./js/siderun.js"></script>
   <script defer src="./js/navbar.js"></script>
   <!-- Parallax for hero (isolated from SideRun logic) -->
   <script defer src="./js/hero-parallax.js"></script>
   <!-- Scroll/Parallax effects reused across sections -->
   <script defer src="./js/scroll-effects.js"></script>
+  <!-- Hero bleed/extension logic to avoid white bands on ultra-tall screens -->
+  <script defer src="./js/hero-extend.js"></script>
+  <!-- React + ReactDOM UMD for mobile nav (kept lightweight; no global state) -->
+  <script crossorigin defer src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin defer src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Our mobile nav implementation using React + Tailwind (loads after React UMD) -->
+  <script defer src="./js/mobile-nav.js"></script>
     <script>
   // Initialize SideRun on demo elements when DOM is ready
       window.addEventListener('DOMContentLoaded', () => {
