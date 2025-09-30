@@ -222,6 +222,18 @@ body::before {
   overflow: visible; 
 }
 
+/* Utility: replace inline demo margins previously present in HTML */
+.demo-margin { margin-top: 1.06rem; /* ~17px at the base font-size; fluid if base changes */ }
+
+/* Footer spacing: use safe-area insets and clamp for fluid spacing */
+.site-footer {
+  padding-top: clamp(16px, 2.2vw, 28px);
+  padding-bottom: calc(clamp(24px, 4.4vw, 40px) + env(safe-area-inset-bottom));
+  padding-inline: clamp(16px, 4vw, 48px);
+  text-align: center;
+  opacity: 0.88;
+}
+
 .sr-container .site-nav__stroke.siderun {
   position: absolute;
   inset: 0;

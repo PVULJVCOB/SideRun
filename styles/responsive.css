@@ -1,36 +1,53 @@
-/* Consolidated responsive rules extracted from component CSS files */
-/* Mobile-first breakpoints: min-width queries for larger devices */
+/* Consolidated responsive rules (mobile-first)
+	 - Mobile-first approach: base styles apply to phones, then scale up.
+	 - Uses modern units: svh/dvh, env(safe-area-inset-*), clamp().
+*/
 
-/* Global container constraints using clamp for fluidity */
+/* Container sizing token used throughout the site */
 :root {
 	--container-max: clamp(640px, 86vw, 1200px);
+	--site-gutter: clamp(16px, 4vw, 48px);
+}
 
+/* Small-screen safe-area adjustments (phones / small tablets) */
 @media (max-width: 768px) {
-	:root { --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right)); }
-	.sr-section, .hero { padding-inline: calc(16px + env(safe-area-inset-left)); padding-inline-end: calc(16px + env(safe-area-inset-right)); }
+	:root {
+		--sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left));
+	}
+	.sr-section, .hero {
+		padding-inline-start: calc(16px + env(safe-area-inset-left));
+		padding-inline-end: calc(16px + env(safe-area-inset-right));
+	}
 }
 
-/* === grid and container scaling (main.css) === */
+/* Grid and layout scaling for larger screens (tablet/desktop) */
 @media (min-width: 880px) {
-	.sr-grid.two {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 28px;
-	}
-	.sr-grid.three {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 24px;
-	}
+	.sr-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+	.sr-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 }
 
-/* Hide the mobile navbar for viewports smaller than 880px */
-@media (max-width: 879px) {
-    .site-nav.siderun {
-        display: none !important;
-    }
-}
+/* Responsive scale tuning (mirrors values used in main.css) */
+@media (max-width: 880px)  { .sr-container { --sr-scale: 0.9; } }
+@media (max-width: 600px)  { .sr-container { --sr-scale: 0.8; } }
+@media (max-width: 420px)  { .sr-container { --sr-scale: 0.7; } }
 
-@media (max-width: 880px) { .sr-container { --sr-scale: 0.9; } }
-@media (max-width: 600px) { .sr-container { --sr-scale: 0.8; } }
-@media (max-width: 420px) { .sr-container { --sr-scale: 0.7; } }
+/* Note: the primary navigation visibility is controlled by CSS + JS toggle.
+	 A previous rule that forcibly hid `.site-nav.siderun` on small viewports
+	 has been intentionally removed to allow a responsive mobile navigation.
+*/
 
+/* === Mobile-specific overrides: hide nav and force vertical-only scroll === */
+@media (max-width: 767px) {
+	/* Hide the site nav completely on phones */
+	.site-nav.siderun { display: none !important; visibility: hidden; pointer-events: none; }
+
+	/* Force vertical-only panning on touch devices to avoid horizontal scroll */
+	html, body {
+		overflow-x: hidden; /* ensure no horizontal scroll */
+		touch-action: pan-y; /* prefer vertical scroll gestures */
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Prevent any main/hero containers from causing horizontal overscroll */
+	.hero, main, .sr-section, .sr-container { overflow-x: hidden; }
 }

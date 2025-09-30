@@ -1,0 +1,11 @@
+{
+  "name": "siderun-playwright-tests",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test:visual": "playwright test visual.spec.ts --project=chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
