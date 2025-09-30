@@ -4,7 +4,14 @@ SideRun is a lightweight JavaScript + CSS effect that draws a "flying" animated 
 
 Live demo: open `index.html` locally or view the demo pages in this repo.
 
-Download: copy `js/siderun.js` and `styles/siderun.css` into your project — no build tools required for basic usage.
+Download / dist
+
+Pre-built distributable files are available in the `dist/` folder and can be downloaded directly from the repository or the live site (when published).
+
+- `dist/siderun.js` — runtime JavaScript (drop-in)
+- `dist/siderun.css` — companion stylesheet (drop-in)
+
+You can copy those files into your project or use the download links on the homepage.
 
 Current runtime/style version: 1.3.0
 
