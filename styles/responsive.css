@@ -14,7 +14,7 @@ html, body {
 }
 hero {
   width: 100vw;
-  padding-top: 50px;
+  padding-top: -50px;
   height: 100dvh;
   position: relative; /* oder absolute, falls nötig */
 }
