@@ -6,6 +6,7 @@
 	--container-max: clamp(640px, 86vw, 1200px);
 
 @media (max-width: 768px) {
+	html, body {max-hight: 120svh !important;}
 	:root { --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right)); }
 	.sr-section, .hero { padding-inline: calc(16px + env(safe-area-inset-left)); padding-inline-end: calc(16px + env(safe-area-inset-right)); }
 }
@@ -43,7 +44,6 @@
 	html, body {
 		overflow-x: hidden !important;
 		max-width: 100vw !important;
-		max-hight: 120svh !important;
 		touch-action: pan-y !important; /* only allow vertical panning */
 		overscroll-behavior-x: contain !important; /* avoid side swipe gestures */
 	}
