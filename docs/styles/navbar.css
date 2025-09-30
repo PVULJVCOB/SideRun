@@ -22,6 +22,8 @@
   /* === SIDERUN EFFECT CONFIGURATION === */
   /* Spacing and positioning tokens */
   --sr-viewport-padding: max(30px, env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left));
+  --sr-safe-left: max(30px, env(safe-area-inset-left));
+  --sr-safe-right: max(30px, env(safe-area-inset-right));
   --sr-component-margin: 11px;
   --sr-component-gap: 8px;
   
@@ -181,12 +183,14 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: 0; /* flush right edge */
+  right: var(--sr-safe-right);
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
+  box-sizing: border-box;
+  width: var(--sr-navbar-min-width);
   /* keep top/left/bottom gap but no right gap so it's flush */
   margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
@@ -234,7 +238,7 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: 0; /* flush right edge */
+  right: var(--sr-safe-right);
   display: flex;
   height: var(--sr-navbar-height);
   /* remove right margin for flush alignment */
@@ -353,7 +357,7 @@ textarea {
 .sr-logo {
   position: fixed;
   top: var(--sr-viewport-padding);
-  left: var(--sr-viewport-padding);
+  left: var(--sr-safe-left);
   display: grid;
   place-items: center;
   height: var(--sr-logo-height);
