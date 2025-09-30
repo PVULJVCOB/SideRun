@@ -168,15 +168,7 @@
   100% { transform: translateY(0); opacity: 0; }
 }
 
-/* Respect reduced motion: freeze parallax and disable animations */
-@media (prefers-reduced-motion: reduce) {
-  .hero-parallax__layer {
-    transform: none !important;
-  }
-  .hero__scroll-dot::after {
-    animation: none;
-  }
-}
+/* Reduced-motion rules moved to styles/responsive.css */
 
 /* Fullscreen section utility */
 .section-full {

@@ -84,19 +84,7 @@
 .location-info .info-block[data-scroll='fade-up']:nth-of-type(2) { transition-delay: 0.12s; }
 .location-info .info-block[data-scroll='fade-up']:nth-of-type(3) { transition-delay: 0.24s; }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .scroll-init {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-  [data-scroll*='parallax'] {
-    transform: none !important;
-    transition: none !important;
-    will-change: auto !important;
-  }
-}
+/* Reduced-motion rules consolidated in styles/responsive.css */
 
 /* SideRun host flicker fix (clean variant):
    Elements flagged by JS with .scroll-transform-only skip opacity transitions. */

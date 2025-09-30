@@ -1,0 +1,84 @@
+/* Consolidated responsive rules moved from other stylesheets
+   This file contains only @media queries so the base styles remain uncluttered.
+*/
+
+/* ===== navbar responsive rules ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 1399px) {
+  :root {
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
+    --sr-navbar-height: 52px;
+    --sr-logo-height: 52px;
+    --sr-logo-min-width: 220px;
+    --sr-font-size-nav: 22px;
+    --sr-font-size-logo: 32px;
+    --sr-scale: 1.1;
+  }
+}
+
+@media (max-width: 1399px) and (min-width: 1025px) {
+  :root {
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
+    --sr-navbar-height: 52px;
+    --sr-logo-height: 52px;
+    --sr-logo-min-width: 220px;
+    --sr-font-size-nav: 22px;
+    --sr-font-size-logo: 32px;
+    --sr-scale: 1.1;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: calc(768px + 1px)) {
+  :root {
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
+    --sr-navbar-height: 42px;
+    --sr-logo-height: 42px;
+    --sr-font-size-nav: 18px;
+    --sr-font-size-logo: 26px;
+    --sr-scale: 0.9;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-nav.siderun,
+  #logo.nav_button-left.siderun,
+  .sr-navbar,
+  .sr-logo,
+  .centered-mobile-nav {
+    display: none !important;
+  }
+}
+
+/* ===== main.css responsive rules ===== */
+@media (min-width: 880px) {
+  .sr-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .sr-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+}
+@media (max-width: 880px) { .sr-container { --sr-scale: 0.9; } }
+@media (max-width: 600px) { .sr-container { --sr-scale: 0.8; } }
+@media (max-width: 420px) { .sr-container { --sr-scale: 0.7; } }
+
+/* ===== siderun.css responsive rules ===== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .sr-container, .siderun { --sr-scale: .9 }
+}
+@media (max-width: 768px) {
+  .sr-container, .siderun { --sr-scale: .8 }
+}
+@media (prefers-reduced-motion: reduce) {
+  .siderun-border, .sr-backdrop, .sr-wrapper { transition: none; animation: none }
+}
+
+/* ===== scrolleffects / hero reduced-motion rules (kept minimal) ===== */
+@media (prefers-reduced-motion: reduce) {
+  /* scrolleffects and hero 'reduce' rules are consolidated here */
+  .sr-scroll, .hero-parallax__layer { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

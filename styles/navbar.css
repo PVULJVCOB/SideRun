@@ -28,9 +28,9 @@
   /* Component dimensions */
   --sr-navbar-height: 47px;
   --sr-logo-height: 47px;
-  --sr-logo-min-width: 120px;
-  /* Single source of truth: navbar collapsed width follows logo width */
-  --sr-navbar-min-width: var(--sr-logo-min-width);
+  --sr-logo-max-width: 120px;
+  --sr-navbar-max-width: 120px;
+  --sr-side-padding: max(20px, env(safe-area-inset-left),
   --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
@@ -45,13 +45,6 @@
   --sr-z-mobile-overlay: 10;
   --sr-z-mobile-menu: 11;
   --sr-z-nav: 100;
-  
-  /* Color tokens for mobile navbar */
-  --sr-bg-primary: rgba(255, 255, 255, 0.95);
-  --sr-border-color: rgba(8, 2, 50, 0.12);
-  --sr-border-width: 1px;
-  --sr-border-radius: 12px;
-  --sr-shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
   
   /* Typography */
   --sr-font-weight-nav: 700;
@@ -128,17 +121,7 @@ textarea {
   font: inherit;
 }
 
-/* Honor reduced motion preference for general transitions/animations */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* Honor reduced motion preference for general transitions/animations (moved to styles/responsive.css) */
 
 /* Visually hidden (screen-reader-only) utility */
 .sr-visually-hidden {
@@ -445,57 +428,7 @@ textarea {
   transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y));
 }
 
-  /* === RESPONSIVE DESIGN === */
-
-/* Large desktop - enhanced scaling for big screens */
-@media (min-width: 1399px) {
-  :root {
-    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
-    --sr-navbar-height: 52px;
-    --sr-logo-height: 52px;
-  --sr-logo-min-width: 220px;
-    --sr-font-size-nav: 22px;
-    --sr-font-size-logo: 32px;
-    --sr-scale: 1.1;
-  }
-}
-
-/* Medium desktop - content scales but maintains structure */
-@media (max-width: 1399px) and (min-width: 1025px) {
-  :root {
-    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
-    --sr-navbar-height: 52px;
-    --sr-logo-height: 52px;
-  --sr-logo-min-width: 220px;
-    --sr-font-size-nav: 22px;
-    --sr-font-size-logo: 32px;
-    --sr-scale: 1.1;
-  }
-}
-
-/* Small desktop */
-@media (max-width: 1024px) and (min-width: calc(768px + 1px)) {
-  :root {
-    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
-    --sr-navbar-height: 42px;
-    --sr-logo-height: 42px;
-    --sr-font-size-nav: 18px;
-    --sr-font-size-logo: 26px;
-    --sr-scale: 0.9;
-  }
-}
-
-/* Hide all navbar UI on small screens */
-@media (max-width: 768px) {
-  .site-nav.siderun,
-  #logo.nav_button-left.siderun,
-  .sr-navbar,
-  .sr-logo,
-  .centered-mobile-nav {
-    display: none !important;
-  }
-}
-
+/* Responsive rules were moved to styles/responsive.css to keep media queries centralized */
 main {
   min-height: 120vh; /* allow hero bleed to visually fill on tall screens while keeping content long */
 }

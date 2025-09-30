@@ -149,20 +149,7 @@
   overflow: visible;
 }
 
-/* === RESPONSIVE SCALING === */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .sr-container,
-  .siderun {
-    --sr-scale: 0.9;
-  }
-}
-
-@media (max-width: 768px) {
-  .sr-container,
-  .siderun {
-    --sr-scale: 0.8;
-  }
-}
+/* Responsive scaling moved to styles/responsive.css */
 
 /* === PERFORMANCE OPTIMIZATIONS === */
 .siderun-border,
@@ -172,12 +159,4 @@
   backface-visibility: hidden;
 }
 
-/* Honor reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .siderun-border,
-  .sr-backdrop,
-  .sr-wrapper {
-    transition: none;
-    animation: none;
-  }
-}
+/* Reduced-motion rules moved to styles/responsive.css */
