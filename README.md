@@ -1,44 +1,45 @@
 # SideRun — Flying Border Effect
 
-SideRun is a lightweight JS + CSS effect that draws a “flying” animated border around any host element and adds a soft blurred backdrop behind it. It’s perfect for navbars, logos, buttons, and cards. The new variant uses a robust 3-layer system, CSS tokens, and a single runtime with pointer-aware interactions.
+SideRun is a lightweight JavaScript + CSS effect that draws a "flying" animated border around a host element and adds a soft blurred backdrop behind it. It works great for navbars, logos, buttons, and cards. This repository contains the runtime and companion styles using a 3-layer approach and CSS custom properties.
 
-• Live demo: open `index.html` locally or visit https://pvuljvcob.github.io/SideRun/
+Live demo: open `index.html` locally or view the demo pages in this repo.
 
-• Download-Bundle ohne Build-Tool: siehe `SideRun-Effect/` (enthält `siderun.js`, `siderun.css` und minifizierte Varianten)
+Download: copy `js/siderun.js` and `styles/siderun.css` into your project — no build tools required for basic usage.
 
-• Änderungen/Versionen: siehe `CHANGELOG.md`
+Current runtime/style version: 1.3.0
 
 ## Features
 
-- Flying border animation that follows hover or pointer movement
-- Touch-optimized interactions and hover cleanup on mobile
-- CSS token system with responsive scaling and theming
-- Respects prefers-reduced-motion and maintains focus indicators
-- GPU-friendly rendering and a shared RAF for many instances
+- Animated flying border that follows hover or pointer input
+- Touch-optimized interactions and mobile-friendly hover cleanup
+- CSS token system (custom properties) for responsive scaling and theming
+- Respects `prefers-reduced-motion` and preserves keyboard focus indicators
+- GPU-friendly rendering with a shared RAF loop for multiple instances
 
 ## Quick Start
 
-### 1) Get the files
+### 1) Copy the files
+
+Copy the core files into your project (no build tools needed):
 
 ```bash
-# Copy the core files to your project (no build tools needed)
-curl -O https://pvuljvcob.github.io/SideRun/js/siderun.js
-curl -O https://pvuljvcob.github.io/SideRun/styles/siderun.css
+# from the repo root (example)
+cp js/siderun.js path/to/your/project/
+cp styles/siderun.css path/to/your/project/
 ```
 
-### 2) Add the host markup
+### 2) Host markup
 
-The host element needs a child stroke container where the effect injects its UI:
+Provide a host element with a child stroke container where SideRun injects its DOM:
 
 ```html
 <div class="sr-container">
   <div class="site-nav__stroke siderun"></div>
   <!-- your content -->
-  ...
 </div>
 ```
 
-Tip: Use `.sr-container` (or your own host class) for the host. Do not initialize the inner `.site-nav__stroke` itself.
+Do not initialize the inner stroke container directly — call SideRun on the host element.
 
 ### 3) Include and initialize
 
@@ -56,10 +57,10 @@ Tip: Use `.sr-container` (or your own host class) for the host. Do not initializ
       });
     });
   });
-  </script>
+</script>
 ```
 
-Pointer-follow variant:
+Pointer-follow example:
 
 ```js
 SideRun.init(document.getElementById('siderun-follow'), {
@@ -73,66 +74,27 @@ SideRun.init(document.getElementById('siderun-follow'), {
 
 ## Configuration (JS)
 
+Call `SideRun.init(hostEl, options?)` with the following options:
+
 ```js
 SideRun.init(hostElement, {
-  radius: 8,          // corner radius of the rounded rect
-  tail: 15,           // runner tail length
-  gap: 10,            // spacing between runner and inner/ghost strokes
+  radius: 8,          // corner radius in px
+  tail: 15,           // runner tail length in px
+  gap: 10,            // spacing between runner and inner/ghost strokes in px
   ease: 0.1,          // easing factor (0.01–0.3)
-  hoverAxis: 'x',     // 'x' -> react across width, 'y' -> react across height
-  isBottom: false,    // bias the default resting position to bottom side
-  isTop: false,       // bias the default resting position to top side
-  trackPointer: false,// direct pointer tracking (great for demos and cards)
+  hoverAxis: 'x',     // 'x' (react across width) or 'y' (react across height)
+  isBottom: false,    // true to bias resting position to bottom
+  isTop: false,       // true to bias resting position to top
+  trackPointer: false,// true to enable direct pointer tracking
   margin: 11          // extra space around the host for the effect
 });
 ```
 
 ## Theming (CSS tokens)
 
-All visual aspects can be tuned via CSS custom properties on the host (or globally):
+Tune visual aspects via CSS custom properties on the host (or globally). Example tokens used by SideRun are documented in `styles/siderun.css` and include `--sr-scale`, `--sr-color-*`, `--sr-stroke-width-*`, and blur-related tokens.
 
-```css
-.sr-container {
-  /* scale */
-  --sr-scale: 1; /* 0.8 mobile, 0.9 tablet, 1 desktop recommended */
-
-  /* stroke widths & style */
-  --sr-stroke-width-base: calc(var(--sr-scale) * 3px);
-  --sr-stroke-width-outer: var(--sr-stroke-width-base);
-  --sr-stroke-width-inner: var(--sr-stroke-width-base);
-  --sr-stroke-width-runner: var(--sr-stroke-width-base);
-  --sr-stroke-width-ghost: var(--sr-stroke-width-base);
-  --sr-stroke-linecap: round;
-
-  /* colors */
-  --sr-color-outer: var(--color-accent);
-  --sr-color-inner: #fff;
-  --sr-color-runner: var(--color-accent);
-  --sr-color-ghost: #fff;
-
-  /* opacities */
-  --sr-opacity-outer: 1;
-  --sr-opacity-inner: 1;
-  --sr-opacity-runner: 1;
-  --sr-opacity-ghost: 1;
-
-  /* backdrop layer */
-  --sr-blur-amount: calc(var(--sr-scale) * 10px);
-  --sr-blur-saturation: 140%;
-  --sr-blur-tint: rgba(255, 255, 255, 0.12);
-  --sr-blur-inset: calc(var(--sr-scale) * 1px);
-  --sr-blur-radius: calc(var(--sr-scale) * 6px);
-
-  /* animation defaults */
-  --sr-animation-radius: calc(var(--sr-scale) * 8px);
-  --sr-animation-tail: calc(var(--sr-scale) * 10px);
-  --sr-animation-gap: calc(var(--sr-scale) * 10px);
-  --sr-animation-ease: 0.1;
-  --sr-animation-margin: calc(var(--sr-scale) * 11px);
-}
-```
-
-Responsive scaling (optional):
+Responsive scaling example:
 
 ```css
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -145,33 +107,26 @@ Responsive scaling (optional):
 
 ## Host markup (required)
 
-```html
-<div class="sr-container">
-  <div class="site-nav__stroke siderun"></div>
-  <!-- content -->
-  ...
-</div>
-```
-
-The effect injects its DOM (blur layer + SVG) into the child `.site-nav__stroke.siderun` (legacy: `.nav_stroke.siderun`).
+The effect injects a blur layer and an SVG-based border into the child `.site-nav__stroke.siderun` (legacy selector: `.nav_stroke.siderun`). Keep your interactive content as children of the host element.
 
 ## API
 
-`init(hostEl, options?) -> cleanup()` — initializes the effect on a host element and returns a cleanup function. A companion `SideRun.update(host)` is available to force a geometry recalculation.
+init(hostEl, options?) -> cleanup()
+
+Initializes the effect on `hostEl` and returns a cleanup function. Use `SideRun.update(hostEl)` to force a geometry recalculation if the host changes size.
 
 ## Performance & Accessibility
 
-- Uses transform-friendly properties and a shared RAF loop
-- Honors `prefers-reduced-motion` and keeps content accessible (`aria-hidden` for injected UI)
-- Works well across modern browsers with CSS custom properties and backdrop-filter support
+- Uses transform-friendly properties and a shared RAF loop to minimize redraws
+- Honors `prefers-reduced-motion` and keeps injected UI `aria-hidden` when appropriate
+- Works in modern browsers that support CSS custom properties and backdrop filters
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/improvement`
-3. Follow the 3-layer architecture patterns
-4. Test across desktop and mobile devices
-5. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/your-change`
+3. Run and test changes across desktop and mobile
+4. Submit a pull request with a clear description
 
 ## License
 MIT — see `LICENSE` for details. © 2025 Cedric Seidel.
