@@ -13,7 +13,9 @@ html, body {
   height: 100dvh; /* Dynamische Höhe für den gesamten Bildschirm */
 }
 hero {
-	height: 100dvh;
+  width: 100vw;
+  height: 100dvh;
+  position: relative; /* oder absolute, falls nötig */
 }
 body{padding-top: 50px !important}
 
