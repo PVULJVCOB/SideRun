@@ -8,14 +8,118 @@
   --card-bg: rgba(255, 255, 255, 0.7);
   --card-border: rgba(8, 2, 50, 0.08);
   --card-shadow: 0 10px 24px rgba(8, 2, 50, 0.06);
-  --cta-bg: #cb690e;
+  --cta-bg: #df6502;
   --cta-bg-hover: #ee8b13;
   --cta-fg: #e5eeff;
+  --color-text: #080232;
+  --color-page-bg: #ffffff;
+  --color-accent: #df6502;
+  --color-cta: #ffffff00;
+  --color-cta-hover: #f4f4f400;
+  --color-glass: rgba(255, 255, 255, 0);
+  --color-glass-stroke: rgba(8, 2, 50, 0.12);
+
+  /* === SIDERUN EFFECT CONFIGURATION === */
+  /* Spacing and positioning tokens */
+  --sr-viewport-padding: max(30px, env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left));
+  --sr-component-margin: 11px;
+  --sr-component-gap: 8px;
+  
+  /* Component dimensions */
+  --sr-navbar-height: 47px;
+  --sr-navbar-expanded-width: 600px;
+  
+  /* Border radius */
+  --sr-radius-sm: 3px;
+  --sr-radius-md: 6px;
+  --sr-radius-lg: 12px;
+  
+  /* Z-index stacking order */
+  --sr-z-blur: 0;
+  --sr-z-border: 2;
+  --sr-z-content: 3;
+  --sr-z-mobile-overlay: 10;
+  --sr-z-mobile-menu: 11;
+  --sr-z-nav: 100;
+  
+  /* Color tokens for mobile navbar */
+  --sr-bg-primary: rgba(255, 255, 255, 0.95);
+  --sr-border-color: rgba(8, 2, 50, 0.12);
+  --sr-border-width: 1px;
+  --sr-border-radius: 12px;
+  --sr-shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+  /* Typography */
+  --sr-font-weight-nav: 700;
+  --sr-font-size-nav: 20px;
+  --sr-font-size-mobile: 34px;
+  
+  /* Transitions */
+  --sr-transition-fast: 0.25s ease-out;
+  --sr-transition-medium: 0.6s ease-out;
+  --sr-transition-slow: 0.3s ease;
+  
+  /* Content positioning offsets (for SideRun effect) */
+  --sr-text-shift-x: -10px;
+  --sr-text-shift-y: -10px;
+  
+  /* Breakpoints (used in media queries) */
+  --sr-breakpoint-tablet: 768px;
+  --sr-breakpoint-mobile: 480px;
+
+  /* Legacy mappings for compatibility */
+  --pad: var(--sr-viewport-padding);
+  --radius-sm: var(--sr-radius-sm);
+  --radius-md: var(--sr-radius-md);
+  --radius-lg: var(--sr-radius-lg);
+  --cta-color: var(--color-cta);
+  --cta-hover-color: var(--color-cta-hover);
+  --cta-text-color: var(--color-text);
+  --glass-color: var(--color-glass);
+  --glass-stroke-color: var(--color-glass-stroke);
+  --text-color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+html {
+  font-family:
+    'Host Grotesk',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 }
 
 /* Smooth scroll for in-page anchors */
 html {
   scroll-behavior: smooth;
+}
+
+/* Visually hidden (screen-reader-only) utility */
+.sr-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Center text and fine-tune content inside demo containers */
@@ -195,13 +299,3 @@ body::before {
   width: 100%;
   overflow: auto;
 }
-
-/* Navigation link/button utilities (moved from styles/navbar.css)
- * These are lightweight helpers for links and CTA buttons used in navs.
- */
-.site-nav__link.siderun:first-of-type { padding-left: 30px; }
-.site-nav__link.siderun:last-of-type { padding-right: 30px; }
-.site-nav__links.siderun:hover .site-nav__link.siderun { opacity: 0.6; }
-.site-nav__links.siderun:hover .site-nav__link.siderun:hover { opacity: 1; }
-.site-nav__button.siderun { display: flex; align-items: center; justify-content: center; padding: 0 30px; border-radius: 0 var(--sr-radius-sm) var(--sr-radius-sm) 0; color: var(--color-text); background: var(--color-cta); height: var(--sr-navbar-height); line-height: 1; cursor: pointer; border: none; font: inherit; transition: background-color var(--sr-transition-slow), color var(--sr-transition-slow); transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y)); }
-.site-nav__button.siderun:hover { background: var(--color-cta-hover); }

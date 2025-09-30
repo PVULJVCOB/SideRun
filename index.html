@@ -23,6 +23,7 @@
     };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./styles/navbar.css" />
   <link rel="stylesheet" href="./styles/siderun.css" />
   <link rel="stylesheet" href="./styles/hero.css" />
   <link rel="stylesheet" href="./styles/scrolleffects.css" />
@@ -32,7 +33,20 @@
   </head>
   <body>
 
-  <!-- Logo and desktop navigation removed: rebuilding from scratch planned. Demo hosts below remain for SideRun examples. -->
+  <!-- Desktop nav (hidden in mobile-focused mode) -->
+    <nav class="site-nav text-s-strong siderun" aria-label="Primary">
+      <div class="sr-navbar__blur"></div>
+      <div class="site-nav__stroke siderun"></div>
+  <div id="site-nav-links" class="site-nav__links siderun">
+        <a class="hero__eyebrow site-nav__link siderun">SideRun</a>
+        <a href="#hero" class="site-nav__link siderun">Home</a>
+        <a href="#siderun-demos" class="site-nav__link siderun">Demos</a>
+        <a href="#overview" class="site-nav__link siderun">Overview</a>
+        <a href="https://github.com/PVULJVCOB/SideRun" class="site-nav__link siderun" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <a class="site-nav__button siderun">Menu</a>
+      </button>
+    </nav>
 
   <!-- Hero: spacious, minimal introduction with parallax backdrop -->
   <header id="hero" class="hero" role="banner" aria-label="Intro">
@@ -63,8 +77,6 @@
 
   <main>
   <!-- Hero -->
-
-
       <!-- Condensed scroll section under the hero (tighter spacing, staggered pacing) -->
   <section id="siderun-demos" class="scroll-section" aria-label="SideRun Showcase">
         <!-- Block: Demos -->
@@ -195,6 +207,7 @@ SideRun.init(document.getElementById('siderun'), {
       <div id="mobile-nav-root" class="md:hidden"></div>
 
   <script defer src="./js/siderun.js"></script>
+  <script defer src="./js/navbar.js"></script>
   <!-- Parallax for hero (isolated from SideRun logic) -->
   <script defer src="./js/hero-parallax.js"></script>
   <!-- Scroll/Parallax effects reused across sections -->
@@ -207,11 +220,14 @@ SideRun.init(document.getElementById('siderun'), {
   <!-- Our mobile nav implementation using React + Tailwind (loads after React UMD) -->
   <script defer src="./js/mobile-nav.js"></script>
     <script>
-  // Initialize SideRun on demo elements when DOM is ready (logo and desktop nav removed)
+  // Initialize SideRun on demo elements when DOM is ready
       window.addEventListener('DOMContentLoaded', () => {
         if (!window.SideRun) return;
+  const logo = document.getElementById('logo');
+  // Match navbar behavior: reacts to hover on content/host
+        if (logo) SideRun.init(logo, { radius: 10, tail: 12, margin: 11 });
 
-  // Demo hosts (keep these so SideRun examples still work)
+  // Demos
   const demoSiderun = document.getElementById('siderun');
   const demoSiderunFollow = document.getElementById('siderun-follow');
   if (demoSiderun) SideRun.init(demoSiderun, { radius: 12, tail: 14, margin: 11 });
