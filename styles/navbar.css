@@ -54,140 +54,14 @@
 
   /* --- removed: navbar/logo styles (see styles/navbar.css.removed) --- */
 
-/* Link spacing */
-.site-nav__link.siderun:first-of-type {
-  padding-left: 30px;
-}
-.site-nav__link.siderun:last-of-type {
-  padding-right: 30px;
-}
+/* Link/button utilities moved to styles/main.css */
 
-/* Hover effects */
-.site-nav__links.siderun:hover .site-nav__link.siderun {
-  opacity: 0.6;
-}
-.site-nav__links.siderun:hover .site-nav__link.siderun:hover {
-  opacity: 1;
-}
-/* Navigation CTA button */
-.site-nav__button.siderun {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 30px;
-  border-radius: 0 var(--sr-radius-sm) var(--sr-radius-sm) 0;
-  color: var(--color-text);
-  background: var(--color-cta);
-  height: var(--sr-navbar-height);
-  line-height: 1;
-  cursor: pointer;
-  border: none;
-  font: inherit;
-  transition:
-    background-color var(--sr-transition-slow),
-    color var(--sr-transition-slow);
-  transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y));
-}
-
-.site-nav__button.siderun:hover {
-  background: var(--color-cta-hover);
-}
-
-/* === LOGO COMPONENT === */
-/* Main logo container (3-layer SideRun system) */
-.sr-logo {
-  position: fixed;
-  top: var(--sr-viewport-padding);
-  left: var(--sr-side-padding);
-  display: grid;
-  place-items: center;
-  height: var(--sr-logo-height);
-  min-width: var(--sr-logo-min-width);
-  margin: var(--sr-component-gap);
-  padding: 0 20px;
-  border-radius: var(--sr-radius-sm);
-  font-size: var(--sr-font-size-logo);
-  font-weight: 600;
-  color: var(--color-text);
-  background: var(--color-cta);
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color var(--sr-transition-slow);
-}
-
-.sr-logo:hover {
-  background: var(--color-cta-hover);
-}
+/* Logo styles have been moved to styles/siderun.css (3-layer system). */
 
 /* Layer 1: Blur container (z-index 0) */
-.sr-logo__blur {
-  position: absolute;
-  inset: calc(-1 * var(--sr-component-margin));
-  background: var(--color-glass);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border-radius: var(--sr-radius-sm);
-  pointer-events: none;
-  z-index: var(--sr-z-blur);
-}
-
-/* Layer 2: Border effect container */
-.sr-logo__stroke {
-  position: absolute;
-  inset: calc(-1 * var(--sr-component-margin));
-  pointer-events: none;
-  z-index: var(--sr-z-border);
-}
-
-/* Layer 3: Content */
-.sr-logo__content {
-  position: relative;
-  z-index: var(--sr-z-content);
-  transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y));
-}
-
-/* Legacy logo styling (maintains compatibility) */
-#logo.nav_button-left.siderun {
-  position: fixed;
-  top: var(--sr-viewport-padding);
-  left: var(--sr-viewport-padding);
-  font-size: var(--sr-font-size-logo);
-  font-weight: 600;
-  display: grid;
-  place-items: center;
-  height: var(--sr-logo-height);
-  margin: var(--sr-component-gap);
-  padding: 0 20px;
-  border-radius: var(--sr-radius-sm);
-  z-index: var(--sr-z-content);
-  color: var(--color-text);
-  background: var(--color-cta);
-  text-decoration: none;
-  transition: background-color var(--sr-transition-slow);
-}
-
-#logo.nav_button-left.siderun:hover {
-  background: var(--color-cta-hover);
-}
-
-/* Legacy stroke positioning */
-#logo.nav_button-left.siderun .site-nav__stroke.siderun {
-  position: absolute;
-  inset: calc(-1 * var(--sr-component-margin));
-  pointer-events: none;
-  z-index: var(--sr-z-border);
-}
-
-#logo.nav_button-left.siderun > :not(.site-nav__stroke) {
-  position: relative;
-  z-index: var(--sr-z-content);
-}
-
-#logo.nav_button-left.siderun .label {
-  position: relative;
-  z-index: var(--sr-z-content);
-  transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y));
-}
+/* Logo layer classes moved to styles/siderun.css (3-layer effect system)
+ * Legacy #logo rules saved in styles/navbar.css.removed for reference.
+ */
 
   /* responsive rules moved to styles/responsive.css */
 

@@ -166,3 +166,27 @@
     animation: none;
   }
 }
+
+/* === Optional logo host helpers (3-layer architecture) === */
+.sr-logo {
+  display: grid;
+  place-items: center;
+  height: var(--sr-logo-height);
+  min-width: var(--sr-logo-min-width);
+  margin: var(--sr-component-gap);
+  padding: 0 20px;
+  border-radius: var(--sr-radius-sm);
+  font-size: var(--sr-font-size-logo);
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-cta);
+  text-decoration: none;
+}
+
+.sr-logo:hover { background: var(--color-cta-hover); }
+
+.sr-logo__blur { position: absolute; inset: calc(-1 * var(--sr-component-margin)); background: var(--color-glass); backdrop-filter: blur(var(--sr-blur-amount)) saturate(var(--sr-blur-saturation)); -webkit-backdrop-filter: blur(var(--sr-blur-amount)) saturate(var(--sr-blur-saturation)); border-radius: var(--sr-radius-sm); pointer-events: none; z-index: var(--sr-z-blur); }
+
+.sr-logo__stroke { position: absolute; inset: calc(-1 * var(--sr-component-margin)); pointer-events: none; z-index: var(--sr-z-border); }
+
+.sr-logo__content { position: relative; z-index: var(--sr-z-content); transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y)); }

@@ -195,3 +195,13 @@ body::before {
   width: 100%;
   overflow: auto;
 }
+
+/* Navigation link/button utilities (moved from styles/navbar.css)
+ * These are lightweight helpers for links and CTA buttons used in navs.
+ */
+.site-nav__link.siderun:first-of-type { padding-left: 30px; }
+.site-nav__link.siderun:last-of-type { padding-right: 30px; }
+.site-nav__links.siderun:hover .site-nav__link.siderun { opacity: 0.6; }
+.site-nav__links.siderun:hover .site-nav__link.siderun:hover { opacity: 1; }
+.site-nav__button.siderun { display: flex; align-items: center; justify-content: center; padding: 0 30px; border-radius: 0 var(--sr-radius-sm) var(--sr-radius-sm) 0; color: var(--color-text); background: var(--color-cta); height: var(--sr-navbar-height); line-height: 1; cursor: pointer; border: none; font: inherit; transition: background-color var(--sr-transition-slow), color var(--sr-transition-slow); transform: translate(var(--sr-text-shift-x), var(--sr-text-shift-y)); }
+.site-nav__button.siderun:hover { background: var(--color-cta-hover); }
