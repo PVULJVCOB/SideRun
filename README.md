@@ -4,6 +4,10 @@ SideRun is a lightweight JS + CSS effect that draws a “flying” animated bord
 
 • Live demo: open `index.html` locally or visit https://pvuljvcob.github.io/SideRun/
 
+• Download-Bundle ohne Build-Tool: siehe `SideRun-Effect/` (enthält `siderun.js`, `siderun.css` und minifizierte Varianten)
+
+• Änderungen/Versionen: siehe `CHANGELOG.md`
+
 ## Features
 
 - Flying border animation that follows hover or pointer movement

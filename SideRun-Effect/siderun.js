@@ -1,4 +1,11 @@
-/* Synced runtime from ../js/siderun.js */
+/*!
+ * SideRun Runtime (Drop-in Bundle)
+ * @version 1.3.0
+ * @license MIT (see LICENSE)
+ * @source https://github.com/PVULJVCOB/SideRun
+ *
+ * This file is kept in sync with ../js/siderun.js
+ */
 (function () {
   // SideRun: animated running border with inner blur backdrop
   // Public API:

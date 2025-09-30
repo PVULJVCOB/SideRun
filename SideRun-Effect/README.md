@@ -4,6 +4,7 @@ This folder is the ready-to-use download for integrating SideRun without a build
 
 - `siderun.js` — runtime (JS)
 - `siderun.css` — styles (CSS)
+- `siderun.min.js` / `siderun.min.css` — optional minified variants
 - `index.html` — tiny demo (open directly in your browser)
 
 ## Quickstart
@@ -19,7 +20,7 @@ This folder is the ready-to-use download for integrating SideRun without a build
   </div>
 ```
 
-3) Include the files and initialize SideRun:
+3) Include die Dateien und initialisiere SideRun (alternativ die .min-Dateien verwenden):
 
 ```html
 <link rel="stylesheet" href="./siderun.css">
@@ -64,8 +65,31 @@ Use CSS variables to tune the visuals, for example:
 
 See `siderun.css` for the full list of variables.
 
+## API Options
+
+Initialize with `SideRun.init(host, options)`.
+
+| Option         | Type    | Default | Description |
+|----------------|---------|---------|-------------|
+| radius         | number  | 8       | Corner radius of the animated rounded rect. |
+| tail           | number  | 10      | Length of the runner’s trailing/leading segment used to compute dash lengths. |
+| gap            | number  | 10      | Gap between runner and inner/ghost segments. |
+| ease           | number  | 0.1     | Easing factor per frame (0..1) for smooth motion. Lower = smoother. |
+| hoverAxis      | 'x'|'y' | 'x'     | Axis used to map hover progress (x = horizontal, y = vertical). |
+| isBottom       | boolean | false   | Positions default runner towards the bottom side (visual variant). |
+| isTop          | boolean | false   | Positions default runner towards the top side (visual variant). |
+| trackPointer   | boolean | false   | Enable direct pointer tracking instead of link/host hover. |
+| margin         | number  | 11      | Extra space around the host (wrapper inset) for the effect. |
+| scale          | number  | 1       | Read from CSS `--sr-scale`; used for responsive token scaling. |
+
+In addition, the runtime reads CSS tokens from computed styles (see `siderun.css`) to set sensible defaults without code.
+
 ## Notes
 
 - The injected blur/backdrop and border SVG live inside your `.site-nav__stroke.siderun` container.
 - The runtime reads sensible defaults from CSS custom properties; override them per host as needed.
 - For pointer-tracking behavior, pass `trackPointer: true` in `SideRun.init(...)`.
+
+## Changelog
+
+Siehe die Datei `../CHANGELOG.md` im Repository.
