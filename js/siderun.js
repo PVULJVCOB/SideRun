@@ -1,6 +1,6 @@
 /*!
  * SideRun Runtime
- * @version 1.3.0
+ * @version 2.0.0
  * @license MIT (see LICENSE)
  * @source https://github.com/PVULJVCOB/SideRun
  * Copyright (c) 2025 Cedric Seidel

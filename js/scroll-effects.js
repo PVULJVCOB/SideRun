@@ -10,8 +10,7 @@
 
   function initObserver() {
     if (prefersReducedMotion) return;
-    // Trigger slightly before elements hit the center; allow re-hide when leaving viewport
-  const options = { threshold: [0, 0.1], rootMargin: '0px 0px -100px 0px' };
+  const options = { threshold: [0, 0.05, 0.1], rootMargin: '0px 0px 240px 0px' };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const el = entry.target;
@@ -20,7 +19,6 @@
           el.classList.add('visible');
           el.classList.remove('scroll-init');
           if (type) el.classList.add(`scroll-${type}`);
-          // Stagger support for children: adds incremental transition-delay
           const staggerChildren = el.querySelectorAll('[data-stagger-child]');
           if (staggerChildren.length) {
             const base = parseFloat(el.getAttribute('data-stagger-base') || '80'); // ms
@@ -30,30 +28,28 @@
           }
           if (el.hasAttribute('data-scroll-once')) observer.unobserve(el);
         } else if (!el.hasAttribute('data-scroll-once')) {
-          el.classList.remove('visible');
-          el.classList.add('scroll-init');
-          if (type) el.classList.remove(`scroll-${type}`);
-          if (type && type.indexOf('parallax') !== -1) {
-            el.style.transform = '';
+          const exitBuffer = 80; 
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -exitBuffer || r.top > window.innerHeight + exitBuffer) {
+            el.classList.remove('visible');
+            el.classList.add('scroll-init');
+            if (type) el.classList.remove(`scroll-${type}`);
+            if (type && type.indexOf('parallax') !== -1) {
+              el.style.transform = '';
+            }
+            el.querySelectorAll('[data-stagger-child]').forEach((child) => {
+              child.style.transitionDelay = '';
+            });
           }
-          // Reset child delays when leaving view
-          el.querySelectorAll('[data-stagger-child]').forEach((child) => {
-            child.style.transitionDelay = '';
-          });
         }
       });
     }, options);
 
     const els = document.querySelectorAll('[data-scroll]');
     els.forEach((el) => {
-      // Skip scroll effects for elements visually inside the hero bleed wrappers
-      // We detect the closest hero and ensure the target is not a pseudo element host
       const inHero = el.closest && el.closest('#hero');
       if (inHero && el.matches('.hero, .hero *')) {
-        // Allow scroll animations on content, but avoid triggering
-        // on the hero container itself or bleed overlays (none have data-scroll)
       }
-      // If element is a SideRun host or contains one, avoid opacity transitions (transform-only)
       const hasSRHost = el.classList.contains('sr-container') || !!el.querySelector('.sr-container');
       if (hasSRHost) {
         el.classList.add('scroll-transform-only');
@@ -61,12 +57,10 @@
       observer.observe(el);
       el.classList.add('scroll-init');
     });
-
-    // Initial reveal pass: if element is already in the viewport, mark as visible now.
-    // This guards against cases near the bottom/top where rootMargin prevents initial intersect.
     function isInViewport(el) {
       const rect = el.getBoundingClientRect();
-      return rect.bottom > 0 && rect.top < window.innerHeight;
+      const buffer = 240;
+      return rect.bottom > -buffer && rect.top < window.innerHeight + buffer;
     }
     els.forEach((el) => {
       if (isInViewport(el)) {
@@ -100,16 +94,13 @@
       const els = document.querySelectorAll('[data-scroll*="parallax"]');
       els.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        // Avoid reacting inside the non-scrollable hero bleed illusion near the very top/bottom.
-        // If the element is above the viewport top beyond an extended threshold or far below, skip.
-        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+  const buffer = 240;
+  if (rect.bottom <= -buffer || rect.top >= window.innerHeight + buffer) return;
         const elCenter = rect.top + rect.height / 2;
         const viewportCenter = window.innerHeight / 2;
         const distance = elCenter - viewportCenter;
         const type = el.getAttribute('data-scroll');
-
-        // Skip if far off-screen to save work
-        if (rect.bottom < -240 || rect.top > window.innerHeight + 240) return;
+  if (rect.bottom < -buffer || rect.top > window.innerHeight + buffer) return;
 
         const rate = computeRate(type, distance);
         el.style.transform = `translate3d(0, ${rate}px, 0)`;
@@ -134,8 +125,6 @@
       document.addEventListener('DOMContentLoaded', updateParallax, { once: true });
     }
   }
-
-  // Bootstrap on DOM ready
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     initObserver();
     initParallax();

@@ -22,6 +22,13 @@
 	}
 }
 
+/* Hide the mobile navbar for viewports smaller than 880px */
+@media (max-width: 879px) {
+    .site-nav.siderun {
+        display: none !important;
+    }
+}
+
 @media (max-width: 880px) { .sr-container { --sr-scale: 0.9; } }
 @media (max-width: 600px) { .sr-container { --sr-scale: 0.8; } }
 @media (max-width: 420px) { .sr-container { --sr-scale: 0.7; } }

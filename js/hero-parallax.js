@@ -19,21 +19,6 @@
   const root = document.querySelector('.hero');
   if (!root) return; // no hero on page
 
-  // Ensure the decorative parallax grid exists. The CSS provides
-  // the visual grid styles (`.hero-parallax__grid`). Create a
-  // DOM node if the markup doesn't include one so the grid always
-  // appears when the script runs.
-  const parallaxRoot = root.querySelector('.hero-parallax');
-  if (parallaxRoot) {
-    let grid = parallaxRoot.querySelector('.hero-parallax__grid');
-    if (!grid) {
-      grid = document.createElement('div');
-      grid.className = 'hero-parallax__grid';
-      grid.setAttribute('aria-hidden', 'true');
-      parallaxRoot.appendChild(grid);
-    }
-  }
-
   const layers = Array.from(root.querySelectorAll('.hero-parallax__layer')).map((el) => {
     const depth = parseFloat(el.getAttribute('data-depth') || '0.1');
     return { el, depth };
