@@ -12,6 +12,9 @@ html, body {
   width: 100vw;
   height: 100dvh; /* Dynamische Höhe für den gesamten Bildschirm */
 }
+hero {
+	height: 100dvh;
+}
 
 /* === grid and container scaling (main.css) === */
 @media (min-width: 880px) {
