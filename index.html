@@ -75,15 +75,9 @@
   <p class="hero__subtitle" data-scroll="fade-up">Lightweight JavaScript library for animated hover borders that follow mouse movement. Add interactive flying border effects to any element with smooth animations and performance optimization.</p>
       <div class="hero__actions" data-scroll="fade-up">
         <a class="hero__cta" href="#siderun-demos">View Features</a>
-        <!-- Download dropdown: single CTA that reveals options for zip/css/js -->
-        <div class="hero__cta download-dropdown" id="download-dropdown" data-dropdown>
-          <button class="download-dropdown__toggle" aria-haspopup="true" aria-expanded="false" id="downloadToggle">Download SideRun ▾</button>
-          <ul class="download-dropdown__menu" role="menu" aria-labelledby="downloadToggle" hidden>
-            <li role="none"><a role="menuitem" href="https://github.com/PVULJVCOB/SideRun/archive/refs/heads/main.zip" class="download-dropdown__item" target="_blank" rel="noopener">Download ZIP</a></li>
-            <li role="none"><a role="menuitem" href="./dist/siderun.css" class="download-dropdown__item" download>Download siderun.css</a></li>
-            <li role="none"><a role="menuitem" href="./dist/siderun.js" class="download-dropdown__item" download>Download siderun.js</a></li>
-          </ul>
-        </div>
+        <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun/archive/refs/heads/main.zip">Download SideRun (zip)</a>
+        <a class="hero__cta" href="./dist/siderun.css" download>Download siderun.css</a>
+        <a class="hero__cta" href="./dist/siderun.js" download>Download siderun.js</a>
         <a class="hero__cta" href="https://github.com/PVULJVCOB/SideRun" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -239,7 +233,6 @@ SideRun.init(document.getElementById('siderun'), {
   <script crossorigin defer src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <!-- Our mobile nav implementation using React + Tailwind (loads after React UMD) -->
   <script defer src="./js/mobile-nav.js"></script>
-  <script defer src="./js/download-dropdown.js"></script>
     <script>
   // Initialize SideRun on demo elements when DOM is ready
       window.addEventListener('DOMContentLoaded', () => {
