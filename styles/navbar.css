@@ -46,7 +46,7 @@ textarea {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-/* Typography tokens (kebab-case) */
+/* Typography tokens */
 .text-s-strong {
   font-size: 15px;
   line-height: 2em;
@@ -62,8 +62,6 @@ textarea {
   line-height: 1.2em;
   font-weight: 400;
 }
-
-
 
 /* Legacy class mapping for existing HTML */
 .site-nav.siderun {

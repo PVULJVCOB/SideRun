@@ -49,3 +49,99 @@
     initDesktopNav();
   }
 })();
+// Toggle button behaviour for <=1200px: supports touch and keyboard
+(function () {
+  'use strict';
+  const TOGGLE_BREAKPOINT = 1200;
+  const toggle = document.querySelector('.site-nav-toggle');
+  const nav = document.querySelector('.site-nav.siderun');
+  if (!toggle || !nav) return;
+
+  let outsideListener = null;
+  let hoverCloseTimer = null;
+
+  const setExpanded = (expanded) => {
+    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (expanded) nav.classList.add('is-shown-by-toggle'); else nav.classList.remove('is-shown-by-toggle');
+  };
+
+  const closeNav = () => {
+    setExpanded(false);
+    if (outsideListener) { document.removeEventListener('pointerdown', outsideListener); outsideListener = null; }
+    if (hoverCloseTimer) { clearTimeout(hoverCloseTimer); hoverCloseTimer = null; }
+  };
+
+  const openNav = () => {
+    setExpanded(true);
+    // close when clicking/tapping outside
+    outsideListener = (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) closeNav();
+    };
+    document.addEventListener('pointerdown', outsideListener);
+  };
+
+  // pointer hover: when pointer enters the toggle, hide the toggle and show nav (desktop hover behavior)
+  const onTogglePointerEnter = (e) => {
+    // only activate for pointer (not touch) and when within breakpoint
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+      // cancel any pending close
+      if (hoverCloseTimer) { clearTimeout(hoverCloseTimer); hoverCloseTimer = null; }
+      toggle.classList.add('is-hidden-by-hover');
+      openNav();
+    }
+  };
+
+  const onNavPointerLeave = (e) => {
+    // when pointer leaves the nav entirely, restore toggle and close nav
+    // use relatedTarget to ensure we didn't move into the toggle
+    const rt = e.relatedTarget;
+    if (!nav.contains(rt) && !toggle.contains(rt)) {
+      // schedule a short delay before closing so brief pointer exits don't immediately hide the nav
+      if (hoverCloseTimer) clearTimeout(hoverCloseTimer);
+      hoverCloseTimer = setTimeout(() => {
+        toggle.classList.remove('is-hidden-by-hover');
+        closeNav();
+        hoverCloseTimer = null;
+      }, 180);
+    }
+  };
+
+  // if pointer re-enters the nav, cancel any scheduled close
+  const onNavPointerEnter = () => {
+    if (hoverCloseTimer) { clearTimeout(hoverCloseTimer); hoverCloseTimer = null; }
+  };
+
+  nav.addEventListener('pointerenter', onNavPointerEnter);
+
+  toggle.addEventListener('pointerenter', onTogglePointerEnter);
+  nav.addEventListener('pointerleave', onNavPointerLeave);
+
+  // toggle on click/pointerdown
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    if (expanded) closeNav(); else openNav();
+  });
+
+  // keyboard: Space or Enter activates the button
+  toggle.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      toggle.click();
+    } else if (e.key === 'Escape') {
+      closeNav();
+      toggle.focus();
+    }
+  });
+
+  // close on Escape when nav has focus
+  nav.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeNav(); toggle.focus(); }
+  });
+
+  // ensure nav is hidden when resized above breakpoint
+  const onResize = () => {
+    if (window.innerWidth > TOGGLE_BREAKPOINT) { closeNav(); }
+  };
+  window.addEventListener('resize', onResize);
+})();

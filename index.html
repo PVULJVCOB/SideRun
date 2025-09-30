@@ -34,6 +34,18 @@
   <body>
 
   <!-- Desktop nav (hidden in mobile-focused mode) -->
+    <!-- Toggle button shown at smaller widths (<=1200px). Click / touch to reveal the desktop-style navbar. -->
+    <button class="site-nav-toggle" aria-controls="site-nav-links" aria-expanded="false" aria-label="Open navigation">
+      <!-- Edge-aligned tab/hamburger icon: visually flush to the right edge -->
+      <svg width="28" height="40" viewBox="0 0 28 40" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <!-- small rounded tab background (transparent, but keeps shape) -->
+        <rect x="0" y="6" width="28" height="28" rx="6" fill="none" />
+        <!-- three lines, aligned to the left inside the tab so that the icon reads as edge-nav -->
+        <rect x="6" y="12" width="12" height="2" rx="1" fill="currentColor" />
+        <rect x="6" y="18" width="12" height="2" rx="1" fill="currentColor" />
+        <rect x="6" y="24" width="8" height="2" rx="1" fill="currentColor" />
+      </svg>
+    </button>
     <nav class="site-nav text-s-strong siderun" aria-label="Primary">
       <div class="sr-navbar__blur"></div>
       <div class="site-nav__stroke siderun"></div>
