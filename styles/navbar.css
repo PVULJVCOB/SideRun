@@ -27,8 +27,8 @@
   
   /* Component dimensions */
   --sr-navbar-height: 47px;
-  --sr-logo-height: 47px;
-  --sr-logo-min-width: 120px;
+  --sr-logo-height: var(--sr-navbar-height);
+  --sr-logo-min-width: var(--sr-navbar-min-width);
   --sr-navbar-min-width: 200px;
   --sr-navbar-expanded-width: 600px;
   
@@ -70,25 +70,6 @@
   /* Breakpoints (used in media queries) */
   --sr-breakpoint-tablet: 768px;
   --sr-breakpoint-mobile: 480px;
-
-  /* Optional scrollbar compensation for right offset (typically 0 because scrollbars are hidden) */
-  --sr-scrollbar-comp: 0px;
-
-  /* Safe side paddings so content never sits under logo (left) or navbar (right) */
-  --sr-safe-left: calc(
-    var(--sr-viewport-padding) +
-    var(--sr-component-gap) +
-    var(--sr-logo-min-width) +
-    40px + /* logo horizontal padding (0 20px) */
-    var(--sr-component-margin)
-  );
-  --sr-safe-right: calc(
-    var(--sr-viewport-padding) +
-    var(--sr-component-gap) +
-    var(--sr-navbar-min-width) +
-    var(--sr-component-margin) -
-    var(--sr-scrollbar-comp)
-  );
 
   /* Legacy mappings for compatibility */
   --pad: var(--sr-viewport-padding);
@@ -200,14 +181,14 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: calc(var(--sr-viewport-padding) - var(--sr-scrollbar-comp));
+  right: 6px; 
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
-  /* uniform component gap on all sides */
-  margin: var(--sr-component-gap);
+  /* keep top/left/bottom gap but no right gap so it's flush */
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   font-size: var(--sr-font-size-nav);
   font-weight: var(--sr-font-weight-nav);
@@ -253,10 +234,11 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: calc(var(--sr-viewport-padding) - var(--sr-scrollbar-comp));
+  right: 6px;
   display: flex;
   height: var(--sr-navbar-height);
-  margin: var(--sr-component-gap);
+  /* remove right margin for flush alignment */
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   z-index: var(--sr-z-content);
   font-size: var(--sr-font-size-nav);
@@ -376,6 +358,9 @@ textarea {
   place-items: center;
   height: var(--sr-logo-height);
   min-width: var(--sr-logo-min-width);
+  /* force exact visual width to equal navbar (include padding in width calculation) */
+  box-sizing: border-box;
+  width: var(--sr-logo-min-width);
   margin: var(--sr-component-gap);
   padding: 0 20px;
   border-radius: var(--sr-radius-sm);
@@ -465,12 +450,12 @@ textarea {
   /* === RESPONSIVE DESIGN === */
 
 /* Large desktop - enhanced scaling for big screens */
-@media (min-width: 1400px) {
+@media (min-width: 1399px) {
   :root {
-    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
     --sr-navbar-height: 52px;
-    --sr-logo-height: 52px;
-    --sr-logo-min-width: 140px;
+    --sr-logo-height: var(--sr-navbar-height);
+    --sr-logo-min-width: var(--sr-navbar-min-width);
     --sr-navbar-min-width: 220px;
     --sr-font-size-nav: 22px;
     --sr-font-size-logo: 32px;
@@ -481,19 +466,21 @@ textarea {
 /* Medium desktop - content scales but maintains structure */
 @media (max-width: 1399px) and (min-width: 1025px) {
   :root {
-    --sr-viewport-padding: max(40px, env(safe-area-inset-top), env(safe-area-inset-right));
-    --sr-navbar-height: 47px;
-    --sr-logo-height: 47px;
-    --sr-font-size-nav: 20px;
-    --sr-font-size-logo: 30px;
-    --sr-scale: 1;
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top));
+    --sr-navbar-height: 52px;
+    --sr-logo-height: var(--sr-navbar-height);
+    --sr-logo-min-width: var(--sr-navbar-min-width);
+    --sr-navbar-min-width: 220px;
+    --sr-font-size-nav: 22px;
+    --sr-font-size-logo: 32px;
+    --sr-scale: 1.1;
   }
 }
 
 /* Small desktop */
 @media (max-width: 1024px) and (min-width: calc(768px + 1px)) {
   :root {
-    --sr-viewport-padding: max(30px, env(safe-area-inset-top), env(safe-area-inset-right));
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
     --sr-navbar-height: 42px;
     --sr-logo-height: 42px;
     --sr-font-size-nav: 18px;
