@@ -4,6 +4,23 @@
     <meta charset="utf-8" />
   <!-- Mobile-first viewport + allow content to extend under iOS browser chrome (for background bleed) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Ensure a stable --vh CSS variable early to avoid white bars on mobile when the browser chrome changes -->
+  <script>
+    (function(){
+      function setVh(){
+        try{
+          var vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', vh + 'px');
+        }catch(e){}
+      }
+      setVh();
+      if (window.visualViewport) {
+        visualViewport.addEventListener('resize', setVh);
+      }
+      window.addEventListener('resize', setVh);
+      window.addEventListener('orientationchange', setVh);
+    })();
+  </script>
     <title>SideRun Animation System</title>
   <meta name="description" content="SideRun — a lightweight JavaScript + CSS flying-border 'runner' effect with an animated stroke and blurred backdrop that follows hover or pointer input." />
   <meta property="og:title" content="SideRun — flying border runner (JS + CSS)" />
