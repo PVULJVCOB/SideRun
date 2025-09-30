@@ -1,35 +1,47 @@
-/* Consolidated responsive rules extracted from component CSS files */
-/* Mobile-first breakpoints: min-width queries for larger devices */
-
-/* Global container constraints using clamp for fluidity */
+/* Global container constraints */
 :root {
 	--container-max: clamp(640px, 86vw, 1200px);
 }
 
-/* === Mobile: iPhone/kleine Viewports === */
+/* === iPhone / kleine Viewports === */
 @media (max-width: 768px) {
 	html,
 	body {
-		height: 120svh !important;      /* volle Höhe inkl. Safari-Leisten */
-		min-height: 120svh !important;
+		/* nutze die volle Displayhöhe inkl. Leisten */
+		height: 120lvh !important;
+		min-height: 120lvh !important;
 		overflow-x: hidden !important;
 		max-width: 100vw !important;
-		touch-action: pan-y !important;          /* nur vertikales Scrollen */
-		overscroll-behavior-x: contain !important; /* keine Seitwärtsgesten */
+		touch-action: pan-y !important;
+		overscroll-behavior-x: contain !important;
 	}
 
 	:root {
 		--sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
 	}
 
-	.sr-section,
-	.hero {
+	.sr-section {
 		padding-inline: calc(16px + env(safe-area-inset-left));
 		padding-inline-end: calc(16px + env(safe-area-inset-right));
+		padding-bottom: calc(20px + env(safe-area-inset-bottom));
 	}
 }
 
-/* === grid and container scaling (main.css) === */
+/* === Hero-Bereich === */
+.hero {
+	position: relative;
+	height: 100lvh;               /* Hero streckt sich hinter Safari-Leiste */
+	margin-top: -env(safe-area-inset-top); /* zieht nach oben in die Leiste */
+	padding-top: env(safe-area-inset-top); /* Content sicher sichtbar */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: white;
+	background: url('hero.webp') no-repeat center/cover; /* Beispiel */
+}
+
+/* === Grid scaling === */
 @media (min-width: 880px) {
 	.sr-grid.two {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -41,10 +53,10 @@
 	}
 }
 
-/* Hide the mobile navbar for viewports smaller than 880px */
+/* Navbar auf Mobile ausgeblendet */
 @media (max-width: 879px) {
 	.site-nav.siderun {
-		display: none !important; /* Navbar auf Handy ausgeblendet */
+		display: none !important;
 	}
 }
 
@@ -53,7 +65,7 @@
 @media (max-width: 600px) { .sr-container { --sr-scale: 0.8; } }
 @media (max-width: 420px) { .sr-container { --sr-scale: 0.7; } }
 
-/* Mobile safety: prevent any horizontal/out-of-bounds scrolling */
+/* Mobile safety */
 @media (max-width: 879px) {
 	body > * {
 		min-width: 0 !important;
@@ -61,14 +73,8 @@
 	}
 }
 
-/* === Hintergrund hinter Safari-Leisten sichtbar machen === */
+/* Hintergrund über volle Fläche */
 body {
-	background: linear-gradient(#111, #333); /* Beispiel-Hintergrund */
-	background-attachment: fixed;            /* fixiert, läuft hinter Leisten */
-
-	/* Hintergrund nach oben/unten hinter Safari-Bar ziehen */
-	padding-top: env(safe-area-inset-top);
-	padding-bottom: env(safe-area-inset-bottom);
-	margin-top: -env(safe-area-inset-top);
-	margin-bottom: -env(safe-area-inset-bottom);
+	background: linear-gradient(#111, #333);
+	background-attachment: fixed;
 }
