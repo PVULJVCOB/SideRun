@@ -21,6 +21,36 @@
       window.addEventListener('orientationchange', setVh);
     })();
   </script>
+  <!-- DEBUG TOOL: outlines elements wider than viewport to identify overflow issues on mobile -->
+  <script>
+    (function(){
+      function findWideElements(){
+        try{
+          const vw = document.documentElement.clientWidth || window.innerWidth;
+          const all = Array.from(document.querySelectorAll('body *'));
+          const wide = all.filter(el => {
+            try{
+              const rect = el.getBoundingClientRect();
+              // only visible elements
+              if (rect.width === 0 || rect.height === 0) return false;
+              return rect.left < 0 || rect.right > vw;
+            }catch(e){return false}
+          });
+          if (wide.length) console.warn('Wide elements detected:', wide);
+          wide.forEach((el)=>{
+            el.style.outline = '3px solid rgba(255,0,0,0.85)';
+            el.style.zIndex = '9999';
+          });
+          return wide;
+        }catch(e){ console.error(e); return [] }
+      }
+      // run after a short delay to allow layout to settle
+      setTimeout(findWideElements, 350);
+      // re-run when orientation/resize
+      window.addEventListener('resize', () => setTimeout(findWideElements, 200));
+      window.addEventListener('orientationchange', () => setTimeout(findWideElements, 200));
+    })();
+  </script>
     <title>SideRun Animation System</title>
   <meta name="description" content="SideRun — a lightweight JavaScript + CSS flying-border 'runner' effect with an animated stroke and blurred backdrop that follows hover or pointer input." />
   <meta property="og:title" content="SideRun — flying border runner (JS + CSS)" />
