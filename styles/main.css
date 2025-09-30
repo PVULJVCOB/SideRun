@@ -119,7 +119,27 @@ body::before {
   min-width: 0; 
 }
 
-/* Responsive rules moved to styles/responsive.css */
+@media (min-width: 880px) {
+  .sr-grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .sr-grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Responsive scale tuning so the SideRun visuals scale as a group */
+@media (max-width: 880px) {
+  .sr-container { --sr-scale: 0.9; }
+}
+@media (max-width: 600px) {
+  .sr-container { --sr-scale: 0.8; }
+}
+@media (max-width: 420px) {
+  .sr-container { --sr-scale: 0.7; }
+}
 
 .glass-card {
   border-radius: 12px;
