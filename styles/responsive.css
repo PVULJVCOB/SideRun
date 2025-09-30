@@ -8,7 +8,7 @@
 @media (max-width: 768px) {
 html, body {
   margin: 0;
-  padding: 0;
+  padding-top: 30px;
   width: 100vw;
   height: 100dvh; /* Dynamische Höhe für den gesamten Bildschirm */
 }
