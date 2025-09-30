@@ -7,9 +7,10 @@
 @media (max-width: 768px) {
 	html,
 	body {
+		margin: 0;
+		padding: 0;
 		/* nutze die volle Displayhöhe inkl. Leisten */
-		height: 120lvh !important;
-		min-height: 120lvh !important;
+		height: 100dvh !important;
 		overflow-x: hidden !important;
 		max-width: 100vw !important;
 		touch-action: pan-y !important;
@@ -30,7 +31,7 @@
 /* === Hero-Bereich === */
 .hero {
 	position: relative;
-	height: 100lvh;               /* Hero streckt sich hinter Safari-Leiste */
+	height: 100dvh;               /* Hero streckt sich hinter Safari-Leiste */
 	margin-top: -env(safe-area-inset-top); /* zieht nach oben in die Leiste */
 	padding-top: env(safe-area-inset-top); /* Content sicher sichtbar */
 	display: flex;
@@ -38,7 +39,6 @@
 	justify-content: center;
 	text-align: center;
 	color: white;
-	background: url('hero.webp') no-repeat center/cover; /* Beispiel */
 }
 
 /* === Grid scaling === */
@@ -71,10 +71,3 @@
 		min-width: 0 !important;
 		box-sizing: border-box;
 	}
-}
-
-/* Hintergrund über volle Fläche */
-body {
-	background: linear-gradient(#111, #333);
-	background-attachment: fixed;
-}
