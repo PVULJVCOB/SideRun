@@ -34,3 +34,25 @@
 @media (max-width: 420px) { .sr-container { --sr-scale: 0.7; } }
 
 }
+
+/* Mobile safety: prevent any horizontal/out-of-bounds scrolling on small viewports.
+   These rules apply for typical phone widths and enforce that the viewport
+   cannot be scrolled left/right. They also improve touch behavior. */
+@media (max-width: 879px) {
+	/* Ensure body can't be scrolled horizontally */
+	html, body {
+		overflow-x: hidden !important;
+		max-width: 100vw !important;
+		touch-action: pan-y !important; /* only allow vertical panning */
+		overscroll-behavior-x: contain !important; /* avoid side swipe gestures */
+	}
+
+	/* If any element is accidentally wider than the viewport, clip it visually */
+	body > * {
+		min-width: 0 !important;
+		box-sizing: border-box;
+	}
+
+	/* Keep the navbar hidden on phones (reinforce component-level rule) */
+	.site-nav.siderun { display: none !important; }
+}
