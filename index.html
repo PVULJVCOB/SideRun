@@ -4,16 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SIDERUN</title>
-    <meta name="description" content="SIDERUN — a lightweight JS+CSS flying-border 'runner' effect. Animated stroke and blurred backdrop that follows hover or pointer input." />
-    <meta property="og:title" content="SIDERUN — flying border runner (JS + CSS)" />
-    <meta property="og:description" content="A tiny front-end effect that draws an animated border and blurred backdrop. Easy to drop into navs, logos and content cards." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://example.com/siderun" />
-    <meta property="og:image" content="https://example.com/og-siderun.png" />
+  <meta name="description" content="SIDERUN — a lightweight JS+CSS flying-border 'runner' effect. Animated stroke and blurred backdrop that follows hover or pointer input." />
+  <meta property="og:title" content="SIDERUN — flying border runner (JS + CSS)" />
+  <meta property="og:description" content="A tiny front-end effect that draws an animated border and blurred backdrop. Easy to drop into navs, logos and content cards." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com/siderun" />
+  <meta property="og:image" content="https://example.com/og-siderun.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <!-- Tailwind via CDN for utility classes used in mobile nav (kept minimal and scoped) -->
+  <script>
+    // Tailwind config must be defined before the CDN script executes
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      corePlugins: { preflight: false } // keep existing CSS untouched
+    };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./styles/navbar.css" />
   <link rel="stylesheet" href="./styles/siderun.css" />

@@ -28,9 +28,9 @@
   /* Component dimensions */
   --sr-navbar-height: 47px;
   --sr-logo-height: 47px;
-  /* Width tokens removed: navbar and logo widths are intentionally uncontrolled here
-    to avoid conflicting overrides. Use content-driven sizing or set explicit
-    widths on the component instances if required. */
+  --sr-logo-min-width: 120px;
+  --sr-navbar-min-width: 200px;
+  --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
   --sr-radius-sm: 3px;
@@ -93,10 +93,11 @@ html,
 body {
   height: 100%;
   margin: 0;
-    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
-    --sr-navbar-height: 52px;
-    --sr-logo-height: 52px;
-  /* Removed explicit collapsed width overrides for large screens. */
+}
+html {
+  font-family:
+    'Host Grotesk',
+    -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
@@ -185,6 +186,7 @@ textarea {
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
+  min-width: var(--sr-navbar-min-width);
   /* keep top/left/bottom gap but no right gap so it's flush */
   margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
@@ -355,6 +357,7 @@ textarea {
   display: grid;
   place-items: center;
   height: var(--sr-logo-height);
+  min-width: var(--sr-logo-min-width);
   margin: var(--sr-component-gap);
   padding: 0 20px;
   border-radius: var(--sr-radius-sm);
