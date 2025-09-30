@@ -6,12 +6,13 @@
 	--container-max: clamp(640px, 86vw, 1200px);
 
 @media (max-width: 768px) {
-	html, body {
-	margin: 0;
-	padding: 0;
-	width: 100vw;
-	height: 100lvh;
-	}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100dvh; /* Dynamische Höhe für den gesamten Bildschirm */
+  overflow: hidden; /* Verhindert Scrollprobleme */
+}
 
 /* === grid and container scaling (main.css) === */
 @media (min-width: 880px) {
