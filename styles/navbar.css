@@ -71,6 +71,25 @@
   --sr-breakpoint-tablet: 768px;
   --sr-breakpoint-mobile: 480px;
 
+  /* Optional scrollbar compensation for right offset (typically 0 because scrollbars are hidden) */
+  --sr-scrollbar-comp: 0px;
+
+  /* Safe side paddings so content never sits under logo (left) or navbar (right) */
+  --sr-safe-left: calc(
+    var(--sr-viewport-padding) +
+    var(--sr-component-gap) +
+    var(--sr-logo-min-width) +
+    40px + /* logo horizontal padding (0 20px) */
+    var(--sr-component-margin)
+  );
+  --sr-safe-right: calc(
+    var(--sr-viewport-padding) +
+    var(--sr-component-gap) +
+    var(--sr-navbar-min-width) +
+    var(--sr-component-margin) -
+    var(--sr-scrollbar-comp)
+  );
+
   /* Legacy mappings for compatibility */
   --pad: var(--sr-viewport-padding);
   --radius-sm: var(--sr-radius-sm);
@@ -181,14 +200,14 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: 0; /* flush right edge */
+  right: calc(var(--sr-viewport-padding) - var(--sr-scrollbar-comp));
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
-  /* keep top/left/bottom gap but no right gap so it's flush */
-  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
+  /* uniform component gap on all sides */
+  margin: var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   font-size: var(--sr-font-size-nav);
   font-weight: var(--sr-font-weight-nav);
@@ -234,11 +253,10 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: 0; /* flush right edge */
+  right: calc(var(--sr-viewport-padding) - var(--sr-scrollbar-comp));
   display: flex;
   height: var(--sr-navbar-height);
-  /* remove right margin for flush alignment */
-  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
+  margin: var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   z-index: var(--sr-z-content);
   font-size: var(--sr-font-size-nav);

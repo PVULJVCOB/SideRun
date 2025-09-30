@@ -31,6 +31,9 @@ body {
   color: var(--content-fg);
   background: transparent;
   overflow-x: hidden;
+  /* Keep content away from fixed logo (left) and navbar (right) */
+  padding-left: var(--sr-safe-left, 0);
+  padding-right: var(--sr-safe-right, 0);
 }
 
 /* Always hide scrollbars (preserve scrolling) */
@@ -194,4 +197,9 @@ body::before {
   min-height: 320px;
   width: 100%;
   overflow: auto;
+}
+
+/* On small screens we hide the fixed logo/nav, so we can release side paddings */
+@media (max-width: 768px) {
+  body { padding-left: 0; padding-right: 0; }
 }
