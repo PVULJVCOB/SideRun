@@ -1,0 +1,8 @@
+/* Removed navbar and logo styles (audit snapshot)
+   This file contains the previously active rules for .sr-navbar, .site-nav,
+   and .sr-logo. It's kept as a non-active reference to make the rebuild easier.
+
+   If you decide to permanently delete these, remove this file too.
+*/
+
+/* (content omitted — original rules removed and saved here for reference) */
