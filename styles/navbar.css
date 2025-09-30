@@ -121,20 +121,18 @@ textarea {
   opacity: 0;
   white-space: nowrap;
   flex: 0 0 auto;
-  will-change: opacity, transform;
-  transition: opacity var(--sr-transition-fast), transform var(--sr-transition-medium);
+  will-change: max-width, opacity;
+  transition:
+    max-width var(--sr-transition-medium),
+    opacity var(--sr-transition-fast);
   height: var(--sr-navbar-height);
-  transform-origin: left center;
-  transform: scaleX(0);
 }
 
 /* Expanded state */
 .site-nav.siderun.is-expanded .site-nav__links.siderun,
 .site-nav.siderun:hover .site-nav__links.siderun {
-  /* Desktop: expand via max-width remains, but prefer transform where possible */
   max-width: var(--sr-navbar-expanded-width);
   opacity: 1;
-  transform: scaleX(1);
 }
 
 /* Layout adjustments when expanded */
@@ -159,12 +157,8 @@ textarea {
 .site-nav__links.siderun:hover .site-nav__link.siderun {
   opacity: 0.6;
 }
-.site-nav__links.siderun:hover .site-nav__link.siderun:hover,
-.site-nav.siderun.is-shown-by-toggle .site-nav__link.siderun,
-.site-nav.siderun.is-shown-by-toggle .site-nav__links.siderun .site-nav__link.siderun:focus {
-  /* When nav is shown via toggle (touch) or hovered (pointer), links must be fully opaque and interactive */
+.site-nav__links.siderun:hover .site-nav__link.siderun:hover {
   opacity: 1;
-  cursor: pointer;
 }
 /* Navigation CTA button */
 .site-nav__button.siderun {

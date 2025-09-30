@@ -27,8 +27,15 @@ jobs:
 
       - name: Start static server
         run: |
-          # start a lightweight HTTP server (background)
-          npx http-server ./ -p 8000 --silent &
+          # build dist and serve it with immutable caching headers
+          npm run build || true
+          # use http-server to serve dist/ if exists, otherwise repo root
+          if [ -d dist ]; then
+            # serve dist with long cache TTL (1 year) for immutable assets
+            npx http-server dist -p 8000 --silent --cors --gzip -c 31536000 &
+          else
+            npx http-server ./ -p 8000 --silent --cors --gzip -c 31536000 &
+          fi
           echo $! > server.pid
 
       - name: Wait for server
