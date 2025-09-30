@@ -33,6 +33,24 @@ body {
   overflow-x: hidden;
 }
 
+/* Always hide scrollbars (preserve scrolling) */
+html,
+body {
+  /* Firefox */
+  scrollbar-width: none;
+  /* IE/Edge legacy */
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 /* Fixed overscan background: 110% scale, no scrollbars, cover + no-repeat + fixed */
 body::before {
   content: "";

@@ -181,13 +181,14 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-viewport-padding);
+  right: 0; /* flush right edge */
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
-  margin: var(--sr-component-gap);
+  /* keep top/left/bottom gap but no right gap so it's flush */
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   font-size: var(--sr-font-size-nav);
   font-weight: var(--sr-font-weight-nav);
@@ -233,10 +234,11 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-viewport-padding);
+  right: 0; /* flush right edge */
   display: flex;
   height: var(--sr-navbar-height);
-  margin: var(--sr-component-gap);
+  /* remove right margin for flush alignment */
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   z-index: var(--sr-z-content);
   font-size: var(--sr-font-size-nav);
@@ -447,7 +449,7 @@ textarea {
 /* Large desktop - enhanced scaling for big screens */
 @media (min-width: 1400px) {
   :root {
-    --sr-viewport-padding: max(50px, env(safe-area-inset-top), env(safe-area-inset-right));
+    --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
     --sr-navbar-height: 52px;
     --sr-logo-height: 52px;
     --sr-logo-min-width: 140px;

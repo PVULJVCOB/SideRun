@@ -181,13 +181,13 @@ textarea {
 .sr-navbar {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-viewport-padding)-20px;
+  right: 0; /* flush right edge */
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--sr-navbar-height);
   min-width: var(--sr-navbar-min-width);
-  margin: var(--sr-component-gap);
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   font-size: var(--sr-font-size-nav);
   font-weight: var(--sr-font-weight-nav);
@@ -233,10 +233,10 @@ textarea {
 .site-nav.siderun {
   position: fixed;
   top: var(--sr-viewport-padding);
-  right: var(--sr-viewport-padding);
+  right: 0; /* flush right edge */
   display: flex;
   height: var(--sr-navbar-height);
-  margin: var(--sr-component-gap);
+  margin: var(--sr-component-gap) 0 var(--sr-component-gap) var(--sr-component-gap);
   border-radius: var(--sr-radius-sm);
   z-index: var(--sr-z-content);
   font-size: var(--sr-font-size-nav);
