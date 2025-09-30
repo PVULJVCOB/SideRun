@@ -43,6 +43,7 @@
 	html, body {
 		overflow-x: hidden !important;
 		max-width: 100vw !important;
+		max-hight: 120svh !important;
 		touch-action: pan-y !important; /* only allow vertical panning */
 		overscroll-behavior-x: contain !important; /* avoid side swipe gestures */
 	}
