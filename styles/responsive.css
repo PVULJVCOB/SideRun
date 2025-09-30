@@ -17,7 +17,7 @@ hero {
   height: 100dvh;
   position: relative; /* oder absolute, falls nötig */
 }
-body{padding-top: 50px !important}
+body{padding-top: -70px !important}
 
 /* === grid and container scaling (main.css) === */
 @media (min-width: 880px) {
