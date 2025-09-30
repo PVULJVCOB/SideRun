@@ -2,16 +2,17 @@
 
 :root {
   /* Global tokens for demo/content sections */
-  --page-bg-start: #b2a99f;
-  --page-bg-end: #d2ceca;
+  /* lightened page background colors */
+  --page-bg-start: #d8d0c6;
+  --page-bg-end: #e2d3c4;
   --content-fg: #080232;
   --card-bg: rgba(255, 255, 255, 0.7);
-  --card-border: rgba(8, 2, 50, 0.08);
+  --card-border: rgba(50, 29, 2, 0.08);
   --card-shadow: 0 10px 24px rgba(8, 2, 50, 0.06);
   --cta-bg: #df6502;
   --cta-bg-hover: #ee8b13;
   --cta-fg: #e5eeff;
-  --color-text: #080232;
+  --color-text: #373737;
   --color-page-bg: #ffffff;
   --color-accent: #df6502;
   --color-cta: #ffffff00;
@@ -92,7 +93,6 @@
   --glass-stroke-color: var(--color-glass-stroke);
   --text-color: var(--color-text);
 }
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -159,16 +159,16 @@ html {
 body {
   font-family: inherit;
   color: var(--content-fg);
-  background: transparent;
-  overflow-x: hidden;
+  background-color: var(--page-bg-start, var(--color-page-bg));
+  background-image: linear-gradient(0deg, var(--page-bg-start), var(--page-bg-end));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  overflow-x: hidden; 
 }
-
-/* Always hide scrollbars (preserve scrolling) */
 html,
 body {
-  /* Firefox */
   scrollbar-width: none;
-  /* IE/Edge legacy */
   -ms-overflow-style: none;
 }
 html::-webkit-scrollbar,
@@ -179,23 +179,6 @@ body::-webkit-scrollbar {
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
   background: transparent;
-}
-
-/* Fixed overscan background: 110% scale, no scrollbars, cover + no-repeat + fixed */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1; /* behind all content */
-  pointer-events: none;
-  background-image: linear-gradient(0deg, var(--page-bg-start), var(--page-bg-end));
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  --bg-overscan: 1.1;
-  transform: scale(var(--bg-overscan));
-  transform-origin: center center;
-  will-change: transform;
 }
 
 /* Keep content areas and code blocks constrained to the card's inner width */

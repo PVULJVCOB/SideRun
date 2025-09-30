@@ -102,34 +102,3 @@
 #hero .hero-parallax[data-scroll] {
   transition: none !important;
 }
-
-/* Mobile-only overrides: reduce motion and prefer horizontal fades for demo containers */
-@media (max-width: 879px) {
-  :root {
-    --scroll-duration: 0.55s; /* faster on mobile */
-  }
-
-  /* Reduce initial translate distances for a subtler effect */
-  .scroll-init { transform: translateY(18px); }
-
-  .scroll-init[data-scroll='fade-left'] { transform: translateX(-28px); }
-  .scroll-init[data-scroll='fade-right'] { transform: translateX(28px); }
-  .scroll-init[data-scroll='fade-up'] { transform: translateY(18px); }
-
-  /* For demo containers (.glass-card) we want horizontal motion instead of vertical.
-     If developers used data-scroll="fade-up" on .glass-card children, silently prefer
-     left/right variants to create a left/right entrance flow on mobile. */
-  .glass-card [data-scroll='fade-up'] { /* transform into fade-left by default on phones */
-    transform: translateX(-28px) !important;
-    transition:
-      opacity var(--scroll-duration) var(--scroll-ease),
-      transform var(--scroll-duration) var(--scroll-ease) !important;
-  }
-  /* For alternating cards we can nudge the opposite direction when marked */
-  .glass-card:nth-child(even) [data-scroll='fade-up'] {
-    transform: translateX(28px) !important;
-  }
-
-  /* Slightly tighter timing on stagger children for mobile */
-  [data-stagger-child] { transition-delay: 0s; }
-}
