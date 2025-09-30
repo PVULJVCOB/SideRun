@@ -28,9 +28,10 @@
   /* Component dimensions */
   --sr-navbar-height: 47px;
   --sr-logo-height: 47px;
-  --sr-logo-min-width: 120px;
-  /* Unify collapsed widths: default navbar min width derives from logo min width for consistent visuals */
-  --sr-navbar-min-width: var(--sr-logo-min-width);
+  /* Single source for collapsed (closed) component width so logo and navbar match visually */
+  --sr-collapsed-width: 200px;
+  --sr-logo-min-width: var(--sr-collapsed-width);
+  --sr-navbar-min-width: var(--sr-collapsed-width);
   --sr-navbar-expanded-width: 600px;
   
   /* Border radius */
@@ -97,8 +98,10 @@ body {
     --sr-viewport-padding: max(20px, env(safe-area-inset-top), env(safe-area-inset-right));
     --sr-navbar-height: 52px;
     --sr-logo-height: 52px;
-    --sr-logo-min-width: 220px;
-    --sr-navbar-min-width: var(--sr-logo-min-width);
+  /* Increase collapsed width on very large screens */
+  --sr-collapsed-width: 220px;
+  --sr-logo-min-width: var(--sr-collapsed-width);
+  --sr-navbar-min-width: var(--sr-collapsed-width);
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
